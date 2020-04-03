@@ -1,3 +1,3 @@
 public class Pokemon {
-    // ad faasdasd
+    // ad faas
 }
