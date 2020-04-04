@@ -4,6 +4,7 @@ public class Pokemon {
 
     public Pokemon (String line){
         String [] stats = line.split(" ");
+        System.out.println(stats[0]);
         name = stats[1];
         type = stats [2];
         hp = Integer.parseInt(stats[3]);

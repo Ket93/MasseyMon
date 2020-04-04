@@ -4,18 +4,22 @@ import java.awt.*;
 
 public class PokemonBattle {
 
-    int numLoad;
+    private static int numLoad;
 
-    private HashTable <Pokemon> pokemon = new HashTable<>();
+    private static  HashTable <Pokemon> pokemon = new HashTable<>();
 
-    public void load() throws FileNotFoundException {
-        Scanner inFile = new Scanner (new BufferedReader( new FileReader("Pokemon.txt")));
-        numLoad = inFile.nextInt();
+    public static void main(String[] arguments) throws IOException {
+        load();
+    }
+
+    public static void load() throws FileNotFoundException {
+        Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/Pokemon")));
         inFile.nextLine();
-        for (int i =0; i<numLoad;i++){
+        while (inFile.hasNextLine()){
             pokemon.add(new Pokemon(inFile.nextLine()));
         }
         inFile.close();
+        System.out.println(pokemon.toString());
     }
 }
 

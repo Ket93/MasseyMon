@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class PokemonMap extends JFrame {
     Timer myTimer;
@@ -18,6 +19,10 @@ public class PokemonMap extends JFrame {
         add(game);
         setVisible(true);
         start(); // starting timer
+    }
+
+    public static void main(String[] arguments) throws IOException {
+        PokemonMap frame = new PokemonMap();
     }
 
     class TickListener implements ActionListener { // implementing action listener and tick listener
@@ -36,7 +41,7 @@ class GamePanel extends JPanel {
     private Image PalletTown;
 
     public GamePanel(PokemonMap m){
-        PalletTown = new ImageIcon ("windsor.PNG").getImage(); // getting the Pallet Town image
+        PalletTown = new ImageIcon ("Images/FSE - Pallet Town.png").getImage(); // getting the Pallet Town image
     }
 
     public void addNotify() {
