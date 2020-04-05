@@ -4,8 +4,6 @@ import java.awt.*;
 
 public class PokemonBattle {
 
-    private static int numLoad;
-
     private static  HashTable <Pokemon> pokemon = new HashTable<>();
 
     public static void main(String[] arguments) throws IOException {
