@@ -52,5 +52,6 @@ class GamePanel extends JPanel {
 
     public void paintComponent (Graphics g){
         g.drawImage(PalletTown,0,0,null); // drawing the map of windsor
+        PokeCharacter.draw(g);
     }
 }
