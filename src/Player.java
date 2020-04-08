@@ -6,92 +6,89 @@ import java.io.*;
 import javax.imageio.*;
 import java.util.*;
 
-public class Player{
+public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
-	private int px,py,frame,dir,extra,wait,delay;
+	private int px, py, frame, dir, extra, wait, delay;
 	private Image[] sprites;
-	public Player(int gen){
+
+	public Player(int gen) {
 		px = 100;
 		py = 200;
 		frame = 0;
 		extra = 0;
 		wait = 0;
 		delay = 30;
-		if (gen == BOY){
+		if (gen == BOY) {
 			load(BOY);
-		}
-		else{
+		} else {
 			load(GIRL);
 		}
 	}
-	public void load(int gen){
+
+	public void load(int gen) {
 		sprites = new Image[12];
-		for (int i = 0; i < 12; i++){
-			String path = String.format("%s/%s/%s%d.png","Sprites","TrainerSprites","Trainer",i+1);
-			if (gen == GIRL){
+		for (int i = 0; i < 12; i++) {
+			String path = String.format("%s/%s/%s%d.png", "Sprites", "TrainerSprites", "Trainer", i + 1);
+			if (gen == GIRL) {
 				path += "G";
 			}
-			try{
+			try {
 				Image pic = ImageIO.read(new File(path));
-				pic = pic.getScaledInstance(30,25,Image.SCALE_SMOOTH);
+				pic = pic.getScaledInstance(30, 25, Image.SCALE_SMOOTH);
 				sprites[i] = pic;
+			} catch (IOException e) {
 			}
-			catch (IOException e) {}
 		}
 	}
-	public void draw(Graphics g){
-		g.drawImage(sprites[frame],px,py,null);
+
+	public void draw(Graphics g) {
+		g.drawImage(sprites[frame], px, py, null);
 	}
-	public void move(int dir){
-		if (dir == UP){
+
+	public void move(int dir) {
+		if (dir == UP) {
 			py -= 1;
 			dir = UP;
-		}
-		else if(dir == RIGHT){
+		} else if (dir == RIGHT) {
 			px += 1;
 			dir = RIGHT;
-		}
-		else if(dir == DOWN){
+		} else if (dir == DOWN) {
 			py += 1;
 			dir = DOWN;
-		}
-		else if(dir == LEFT){
+		} else if (dir == LEFT) {
 			px -= 1;
 			dir = LEFT;
 		}
 
-			updateFrame();
-			frame = dir + extra;
-			wait++;
+		updateFrame();
+		frame = dir + extra;
+		wait++;
 	}
 
-	public void idle(int direction){
-		if (direction == UP){
+	public void idle(int direction) {
+		if (direction == UP) {
 			frame = 0;
-		}
-		else if(direction == RIGHT){
+		} else if (direction == RIGHT) {
 			frame = 3;
-		}
-		else if(direction == DOWN){
+		} else if (direction == DOWN) {
 			System.out.println(extra);
 			frame = 6;
-		}
-		else if(direction == LEFT){
+		} else if (direction == LEFT) {
 			frame = 9;
 		}
 	}
 
-	public void updateFrame(){
-		if (wait % delay == 0){
+	public void updateFrame() {
+		if (wait % delay == 0) {
 			extra++;
-			if (extra > 1){
+			if (extra > 1) {
 				extra = 0;
 			}
 		}
 	}
 
-	public void resetExtra(){
+	public void resetExtra() {
 		extra = 0;
 	}
-	
 }
+	
