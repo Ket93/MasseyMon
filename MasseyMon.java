@@ -41,7 +41,7 @@ class GamePanel extends JPanel{
 	private int mx,my;
 	private boolean[] keys;
 	Player myGuy;
-	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
+	public static final int IDLE = -1, UP = 0, RIGHT = 3, DOWN = 6, LEFT = 9;
 	public GamePanel(){
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		myGuy = new Player(0);
@@ -91,9 +91,6 @@ class GamePanel extends JPanel{
     	}
     	else if(keys[KeyEvent.VK_LEFT]){
     		myGuy.move(LEFT);
-    	}
-    	else{
-    		myGuy.resetExtra();
     	}
     }
 }

@@ -7,7 +7,7 @@ import javax.imageio.*;
 import java.util.*;
 
 public class Player{
-	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
+	public static final int BOY = 0, GIRL = 1, UP = 0, RIGHT = 3, DOWN = 6, LEFT = 9, IDLE = -1;
 	private int px,py,frame,dir,extra,wait,delay;
 	private Image[] sprites;
 	public Player(int gen){
@@ -66,11 +66,9 @@ public class Player{
 	public void updateFrame(){
 		if (wait % delay == 0){
 			extra++;
-			if (extra > 1){
-				extra = 0;
+			if (extra > 2){
+				extra = 1;
 			}
 		}
 	}
-	public void resetExtra(){extra = 0;}
-	
 }
