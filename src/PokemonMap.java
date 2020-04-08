@@ -37,6 +37,7 @@ public class PokemonMap extends JFrame {
 
 class GamePanel extends JPanel {
 
+    private PokeCharacter character = new PokeCharacter();
     private boolean ready = true;
     private Image PalletTown;
 

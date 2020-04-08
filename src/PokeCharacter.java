@@ -9,8 +9,8 @@ public class PokeCharacter {
 
     public PokeCharacter () {
         Trainer = new ImageIcon("Sprites/TrainerStanding.png").getImage();
-        positionX = 400;
-        positionY = 400;
+        positionX = 187;
+        positionY = 255;
     }
 
     public void move () {
