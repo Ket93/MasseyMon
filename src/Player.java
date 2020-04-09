@@ -12,9 +12,9 @@ public class Player {
 	private Image[] sprites;
 
 	public Player(int gen) {
-		px = 100;
-		py = 200;
-		frame = 0;
+		px = 285;
+		py = 280;
+		frame = 6;
 		extra = 0;
 		wait = 0;
 		delay = 30;
@@ -68,12 +68,14 @@ public class Player {
 	public void idle(int direction) {
 		if (direction == UP) {
 			frame = 0;
-		} else if (direction == RIGHT) {
+		}
+		else if (direction == RIGHT) {
 			frame = 3;
-		} else if (direction == DOWN) {
-			System.out.println(extra);
+		}
+		else if (direction == DOWN) {
 			frame = 6;
-		} else if (direction == LEFT) {
+		}
+		else if (direction == LEFT) {
 			frame = 9;
 		}
 	}
