@@ -9,7 +9,7 @@ import java.util.*;//imports
 public class MasseyMon extends JFrame {
 	GamePanel game;
 	javax.swing.Timer myTimer;
-    public MasseyMon(){
+    public MasseyMon() throws IOException {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
@@ -41,14 +41,15 @@ class GamePanel extends JPanel{
 	private int direction;
 	public boolean ready = true;
 	private Image back;
-	private int mx,my;
 	private boolean[] keys;
+	Menu myMenu;
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
-	public GamePanel(){
+	public GamePanel() throws IOException {
 		menu = false;
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		myGuy = new Player(0);
+		myMenu = new Menu();
         try {
     		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
 		} 
@@ -83,6 +84,17 @@ class GamePanel extends JPanel{
 	    public void keyPressed(KeyEvent e) {
     		if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false){
     			menu = !menu;
+			}
+    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu){
+    			Menu.setPosY(40);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu){
+				Menu.setPosY(-40);
+			}
+
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266){
+				menu = false;
 			}
 	    	keys[e.getKeyCode()] = true;
 		}
