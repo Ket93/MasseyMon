@@ -1,10 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.awt.image.*; 
 import java.io.*; 
 import javax.imageio.*;
-import java.util.*;//imports
 
 public class MasseyMon extends JFrame {
 	GamePanel game;
@@ -37,19 +35,23 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel{
+	private boolean bag;
 	private boolean menu;
 	private int direction;
 	public boolean ready = true;
 	private Image back;
 	private boolean[] keys;
+	Items myItem;
 	Menu myMenu;
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
+		bag = false;
 		menu = false;
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		myGuy = new Player(0);
 		myMenu = new Menu();
+		myItem = new Items();
         try {
     		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
 		} 
@@ -68,6 +70,9 @@ class GamePanel extends JPanel{
     	myGuy.draw(g);
 		if (menu) {
 			Menu.display(g);
+			if (bag){
+				Items.display(g);
+			}
 		}
 	}
 
@@ -91,11 +96,30 @@ class GamePanel extends JPanel{
 			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu){
 				Menu.setPosY(-40);
 			}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && bag){
+				Items.setPosY(40);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && bag){
+				Items.setPosY(-40);
+			}
 
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226){
+				Items.resetPosY();
+				bag = true;
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag){
+				Menu.resetPosY();
 				menu = false;
 			}
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag){
+				Menu.resetPosY();
+				bag = false;
+			}
+
+
 	    	keys[e.getKeyCode()] = true;
 		}
 		public void keyReleased(KeyEvent e){

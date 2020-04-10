@@ -38,6 +38,11 @@ public class Menu {
 
     public static int getPosY(){return posY;}
 
+    public static int resetPosY(){
+        posY = 186;
+        return posY;
+    }
+
     public static void setPosY(int val){
         if (posY + val >= 186 && posY + val <= 266) {
             posY += val;
