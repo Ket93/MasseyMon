@@ -37,6 +37,7 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel{
+	private boolean menu;
 	private int direction;
 	public boolean ready = true;
 	private Image back;
@@ -45,6 +46,7 @@ class GamePanel extends JPanel{
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel(){
+		menu = false;
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		myGuy = new Player(0);
         try {
@@ -63,7 +65,11 @@ class GamePanel extends JPanel{
     public void paintComponent(Graphics g){    	
     	g.drawImage(back,0,0,this);
     	myGuy.draw(g);
-    }
+		if (menu) {
+			Menu.display(g);
+		}
+	}
+
     class clickListener implements MouseListener{
         public void mouseEntered(MouseEvent e) {}
         public void mouseExited(MouseEvent e) {}
@@ -75,32 +81,34 @@ class GamePanel extends JPanel{
     	public void keyTyped(KeyEvent e) {
     	}
 	    public void keyPressed(KeyEvent e) {
+    		if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false){
+    			menu = !menu;
+			}
 	    	keys[e.getKeyCode()] = true;
 		}
 		public void keyReleased(KeyEvent e){
 			keys[e.getKeyCode()] =  false;
 		}
     }
-    public void move(){
-    	if (keys[KeyEvent.VK_UP]){
-    		direction = UP;
-    		myGuy.move(direction);
-    	}
-    	else if(keys[KeyEvent.VK_DOWN]){
-			direction = DOWN;
-			myGuy.move(direction);
-    	}
-    	else if(keys[KeyEvent.VK_RIGHT]){
-    		direction = RIGHT;
-			myGuy.move(direction);
-    	}
-    	else if(keys[KeyEvent.VK_LEFT]){
-			direction = LEFT;
-			myGuy.move(direction);
-    	}
-    	else{
-    		myGuy.resetExtra();
-    		myGuy.idle(direction);
-    	}
-    }
+    public void move() {
+		if (!menu) {
+			if (keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) {
+				direction = UP;
+				myGuy.move(direction);
+			} else if (keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) {
+				direction = DOWN;
+				myGuy.move(direction);
+			} else if (keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) {
+				direction = RIGHT;
+				myGuy.move(direction);
+			} else if (keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) {
+				direction = LEFT;
+				myGuy.move(direction);
+			} else {
+				myGuy.resetExtra();
+				myGuy.idle(direction);
+			}
+		}
+	}
+	public boolean getMenu(){return menu;}
 }

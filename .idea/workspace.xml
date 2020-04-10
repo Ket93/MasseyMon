@@ -1,309 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cf2e9839-8bcb-4913-8b3a-4032c8ea4138" name="Default Changelist" comment="fixed conflict">
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P100.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P100M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P101.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P101M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P102.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P102M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P103.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P103M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P104.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P104M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P105.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P105M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P106.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P106M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P107.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P107M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P108.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P108M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P109.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P109M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P10M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P110.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P110M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P111.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P111M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P112.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P112M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P113.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P113M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P114.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P114M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P115.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P115M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P116.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P116M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P117.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P117M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P118.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P118M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P119.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P119M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P11M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P120.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P120M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P121.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P121M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P122.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P122M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P123.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P123M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P124.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P124M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P125.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P125M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P126.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P126M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P127.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P127M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P128.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P128M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P129.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P129M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P12M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P130.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P130M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P131.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P131M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P132.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P132M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P133.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P133M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P134.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P134M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P135.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P135M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P136.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P136M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P137.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P137M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P138.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P138M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P139.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P139M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P13M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P140.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P140M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P141.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P141M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P142.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P142M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P143.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P143M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P144.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P144M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P145.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P145M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P146.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P146M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P147.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P147M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P148.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P148M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P149.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P149M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P14M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P150.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P150M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P151.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P151M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P15M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P16M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P17M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P18M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P19M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P1M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P20M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P21M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P22M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P23M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P24M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P25M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P26M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P27.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P27M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P28M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P29M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P2M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P30M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P31M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P32M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P33M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P34.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P34M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P35.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P35M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P36.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P36M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P37.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P37M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P38.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P38M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P39.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P39M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P3M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P40.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P40M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P41.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P41M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P42.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P42M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P43.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P43M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P44.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P44M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P45.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P45M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P46.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P46M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P47.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P47M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P48.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P48M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P49.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P49M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P4M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P50.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P50M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P51.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P51M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P52.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P52M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P53.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P53M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P54.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P54M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P56.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P56M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P57.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P57M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P58.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P58M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P59M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P5M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P60.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P60M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P61.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P61M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P62.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P62M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P63.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P63M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P64.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P64M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P65.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P65M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P66.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P66M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P67.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P67M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P68.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P68M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P69.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P69M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P6M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P70.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P70M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P71.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P71M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P72.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P72M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P73.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P73M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P74.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P74M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P75.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P75M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P76.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P76M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P77.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P77M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P78.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P78M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P79.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P79M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P7M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P80.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P80M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P81.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P81M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P82.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P82M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P83.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P83M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P84.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P84M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P85.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P85M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P86.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P86M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P87.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P87M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P88.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P88M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P89.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P89M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P8M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P90.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P90M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P91.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P91M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P92.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P92M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P93.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P93M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P94.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P94M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P95.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P95M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P96.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P96M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P97.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P97M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P98.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P98M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P99.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P99M.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Sprites/Pokemon/P9M.png" afterDir="false" />
+    <list default="true" id="cf2e9839-8bcb-4913-8b3a-4032c8ea4138" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,7 +104,7 @@
       <workItem from="1586198184544" duration="1177000" />
       <workItem from="1586199920296" duration="6475000" />
       <workItem from="1586220100700" duration="119000" />
-      <workItem from="1586220239463" duration="12554000" />
+      <workItem from="1586220239463" duration="29632000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1585949540707</created>
@@ -496,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586357493755</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Added Pokemon sprites">
+      <created>1586400216621</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1586400216621</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -515,7 +223,8 @@
     <MESSAGE value="added trainer" />
     <MESSAGE value="fixed sprites" />
     <MESSAGE value="fixed conflict" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed conflict" />
+    <MESSAGE value="Added Pokemon sprites" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Pokemon sprites" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586220537802">
@@ -538,46 +247,46 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586358753845">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586400215551">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586358753845" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586400215551" />
     <state x="577" y="167" key="FileChooserDialogImpl" timestamp="1586198998779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586361231637">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586486362372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586361231637" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586361231637">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586486362372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586361231637" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586361231637">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586486362371">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586361231637" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586361231637">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586486362371" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586486362372">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586361231637" />
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1586357199532">
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1586465379175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586357199532" />
-    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1586357199532">
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586465379175" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1586465379175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1586357199532" />
-    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1586357199532">
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1586465379175" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1586465379174">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1586357199532" />
-    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1586357199532">
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1586465379174" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1586465379175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1586357199532" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1586465379175" />
     <state x="277" y="0" key="SettingsEditor" timestamp="1586219678320">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
