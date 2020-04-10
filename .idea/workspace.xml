@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf2e9839-8bcb-4913-8b3a-4032c8ea4138" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Pokemon" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pokemon2.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +104,7 @@
       <workItem from="1586198184544" duration="1177000" />
       <workItem from="1586199920296" duration="6475000" />
       <workItem from="1586220100700" duration="119000" />
-      <workItem from="1586220239463" duration="29632000" />
+      <workItem from="1586220239463" duration="31593000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1585949540707</created>
@@ -204,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586400216621</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="added M open menu">
+      <created>1586488110256</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1586488110256</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,7 +231,8 @@
     <MESSAGE value="fixed sprites" />
     <MESSAGE value="fixed conflict" />
     <MESSAGE value="Added Pokemon sprites" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Pokemon sprites" />
+    <MESSAGE value="added M open menu" />
+    <option name="LAST_COMMIT_MESSAGE" value="added M open menu" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586220537802">
@@ -247,30 +255,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586400215551">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586488109469">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586400215551" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586488109469" />
     <state x="577" y="167" key="FileChooserDialogImpl" timestamp="1586198998779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586486362372">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586488499507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586486362372">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586488499507" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586488499507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586486362371">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586488499507" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586488499507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586486362371" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586486362372">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586488499507" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586488499507">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586486362372" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586488499507" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1586465379175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -287,10 +295,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1586465379175" />
-    <state x="277" y="0" key="SettingsEditor" timestamp="1586219678320">
+    <state x="277" y="0" key="SettingsEditor" timestamp="1586533160109">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586219678320" />
+    <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586533160109" />
     <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1585960131939">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
