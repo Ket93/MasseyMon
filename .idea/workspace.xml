@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf2e9839-8bcb-4913-8b3a-4032c8ea4138" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Images/Text/Textbox.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PokemonMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonMenu.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -31,7 +33,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/Menu" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/Text" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -45,15 +47,16 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\src" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\src" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Data" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Text" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Text" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Menu" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Sprites" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MasseyMon">
@@ -105,7 +108,7 @@
       <workItem from="1586198184544" duration="1177000" />
       <workItem from="1586199920296" duration="6475000" />
       <workItem from="1586220100700" duration="119000" />
-      <workItem from="1586220239463" duration="59806000" />
+      <workItem from="1586220239463" duration="66362000" />
     </task>
     <task id="LOCAL-00001" summary="first commit">
       <created>1585949540707</created>
@@ -254,7 +257,14 @@
       <option name="project" value="LOCAL" />
       <updated>1586619591858</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Tried to fix border">
+      <created>1586620894975</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1586620894975</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -279,7 +289,8 @@
     <MESSAGE value="Added options screen" />
     <MESSAGE value="Added Items screen" />
     <MESSAGE value="Added pokemon screen" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added pokemon screen" />
+    <MESSAGE value="Tried to fix border" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tried to fix border" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586220537802">
@@ -302,30 +313,30 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586619591054">
+    <state x="393" y="0" key="CommitChangelistDialog2" timestamp="1586620894266">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586619591054" />
+    <state x="393" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1586620894266" />
     <state x="577" y="167" key="FileChooserDialogImpl" timestamp="1586198998779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586620815106">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1586634445779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586620815106" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586620815106">
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1586634445779" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1586634445779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586620815106" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586620815106">
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1586634445779" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1586634445779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586620815106" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586620815106">
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1586634445779" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1586634445779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586620815106" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1586634445779" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1586583081273">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

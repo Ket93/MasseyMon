@@ -11,7 +11,7 @@ public class PokemonMenu {
     public PokemonMenu() throws IOException {
         displayButton = false;
         moveX = true;
-        posX = 157;
+        posX = 161;
         posY = 110;
         pointer = ImageIO.read(new File("Images/Menu/MenuPointer.png"));
         background = ImageIO.read(new File("Images/Menu/PokemonBackground.png"));
@@ -20,22 +20,21 @@ public class PokemonMenu {
     public static void display (Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g.drawImage(background,155,100,null);
-        g.setColor(new Color(120,105,200));
-        g.drawRect(148,95,662,552);
         g.setColor(new Color(255,165,0));
         g.drawRect(152,100,653,541);
 
-        g.setColor(new Color(100,255,150));
-        g.drawRect(157,110,320,150);
-        g.drawRect(157,260,320,150);
-        g.drawRect(157,410,320,150);
+        g.setColor(new Color(0,0,0));
+        g.drawRect(161,110,316,150);
+        g.drawRect(161,260,316,150);
+        g.drawRect(161,410,316,150);
         g.drawRect(477,130,320,150);
         g.drawRect(477,280,320,150);
         g.drawRect(477,430,320,150);
 
         g.setColor(new Color(255,0,0));
         if (!displayButton) {
-            g.drawRect(posX, posY, 320, 150);
+            System.out.println(posX);
+            g.drawRect(posX, posY, 316, 150);
         }
 
         Font optionFont = new Font("Consolas", 0, 35);
@@ -57,7 +56,7 @@ public class PokemonMenu {
     public static int getPosY(){return posY;}
     public static void resetPosXY() {
         posY = 110;
-        posX = 157;
+        posX = 161;
         displayButton = false;
     }
     public static void setPosY(){
@@ -97,10 +96,10 @@ public class PokemonMenu {
 
     public static void setPosX() {
         if (moveX) {
-            if (posX == 157) {
-                posX += 320;
+            if (posX == 161) {
+                posX += 316;
             } else {
-                posX -= 320;
+                posX -= 316;
             }
         }
     }

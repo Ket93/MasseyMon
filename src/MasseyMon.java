@@ -42,6 +42,7 @@ class GamePanel extends JPanel{
 	public boolean ready = true;
 	private Image back;
 	private boolean[] keys;
+	Textbox myTextBox;
 	PokemonMenu myPokeMenu;
 	Items myItem;
 	Menu myMenu;
@@ -56,6 +57,7 @@ class GamePanel extends JPanel{
 		myPokeMenu = new PokemonMenu();
 		myMenu = new Menu();
 		myItem = new Items();
+		myTextBox = new Textbox();
         try {
     		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
 		} 
@@ -81,6 +83,8 @@ class GamePanel extends JPanel{
 				PokemonMenu.display(g);
 			}
 		}
+		Textbox.display(g);
+
 	}
 
     class clickListener implements MouseListener{
@@ -97,10 +101,10 @@ class GamePanel extends JPanel{
     		if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false){
     			menu = true;
 			}
-    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu ){
+    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu &&!bag && !pokemon ){
     			Menu.setPosY(40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu){
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu && !bag && !pokemon){
 				Menu.setPosY(-40);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && bag){
