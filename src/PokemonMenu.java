@@ -20,8 +20,12 @@ public class PokemonMenu {
     public static void display (Graphics g){
         Graphics2D g2d = (Graphics2D)g;
         g.drawImage(background,155,100,null);
+        g.setColor(new Color(120,105,200));
+        g.drawRect(148,95,662,552);
+        g.setColor(new Color(255,165,0));
+        g.drawRect(152,100,653,541);
 
-        g.setColor(new Color(100,255,100));
+        g.setColor(new Color(100,255,150));
         g.drawRect(157,110,320,150);
         g.drawRect(157,260,320,150);
         g.drawRect(157,410,320,150);

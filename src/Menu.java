@@ -24,9 +24,9 @@ public class Menu {
         ((Graphics2D) g).setStroke(new BasicStroke(borderWidth));
         Font optionFont = new Font("Consolas", 0, 27);
         g.setColor(new Color(255,255,255));
-        g.fillRect(600,150, 160,400);
+        g.fillRect(600,150, 160,200);
         g.setColor(new Color(120,105,200));
-        g.drawRect(600,150,160,400);
+        g.drawRect(600,150,160,200);
 
         g.drawImage(pointer , posX , posY, null);
         g2d.setFont(optionFont);
