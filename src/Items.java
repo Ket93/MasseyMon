@@ -39,9 +39,8 @@ public class Items {
     }
 
     public static int getPosY(){return posY;}
-    public static int resetPosY(){
+    public static void resetPosY(){
         posY = 207;
-        return posY;
     }
     public static void setPosY(int val){
         if (posY + val >= 207 && posY + val <= 287) {

@@ -38,9 +38,8 @@ public class Menu {
 
     public static int getPosY(){return posY;}
 
-    public static int resetPosY(){
+    public static void resetPosY(){
         posY = 186;
-        return posY;
     }
 
     public static void setPosY(int val){

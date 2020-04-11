@@ -35,21 +35,25 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel{
+	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
 	private int direction;
 	public boolean ready = true;
 	private Image back;
 	private boolean[] keys;
+	PokemonMenu myPokeMenu;
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
+		pokemon = false;
 		bag = false;
 		menu = false;
 		keys = new boolean[KeyEvent.KEY_LAST+1];
 		myGuy = new Player(0);
+		myPokeMenu = new PokemonMenu();
 		myMenu = new Menu();
 		myItem = new Items();
         try {
@@ -73,6 +77,9 @@ class GamePanel extends JPanel{
 			if (bag){
 				Items.display(g);
 			}
+			if (pokemon){
+				PokemonMenu.display(g);
+			}
 		}
 	}
 
@@ -88,9 +95,9 @@ class GamePanel extends JPanel{
     	}
 	    public void keyPressed(KeyEvent e) {
     		if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false){
-    			menu = !menu;
+    			menu = true;
 			}
-    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu){
+    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu ){
     			Menu.setPosY(40);
 			}
 			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu){
@@ -102,14 +109,29 @@ class GamePanel extends JPanel{
 			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && bag){
 				Items.setPosY(-40);
 			}
+			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && pokemon){
+				PokemonMenu.setPosY();
+				PokemonMenu.setPosX();
+			}
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && pokemon){
+				PokemonMenu.setPosYUP();
+				PokemonMenu.setPosX();
+			}
 
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226){
+
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon){
+				PokemonMenu.resetPosXY();
+				pokemon = true;
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag){
 				Items.resetPosY();
 				bag = true;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon){
 				Menu.resetPosY();
 				menu = false;
 			}
@@ -117,6 +139,11 @@ class GamePanel extends JPanel{
 			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag){
 				Menu.resetPosY();
 				bag = false;
+			}
+
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon){
+				Menu.resetPosY();
+				pokemon = false;
 			}
 
 
