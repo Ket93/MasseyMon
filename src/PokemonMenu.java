@@ -53,7 +53,6 @@ public class PokemonMenu {
         }
     }
 
-    public static int getPosY(){return posY;}
     public static void resetPosXY() {
         posY = 110;
         posX = 161;

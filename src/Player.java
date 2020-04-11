@@ -8,12 +8,13 @@ import java.util.*;
 
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
-	private int px, py, frame, dir, extra, wait, delay;
+	private int frame, dir, extra, wait, delay;
+	private static int px,py;
 	private Image[] sprites;
 
 	public Player(int gen) {
 		px = 285;
-		py = 280;
+		py = 300;
 		frame = 6;
 		extra = 0;
 		wait = 0;
@@ -92,5 +93,8 @@ public class Player {
 	public void resetExtra() {
 		extra = 0;
 	}
+
+	public static int getPx(){return px;}
+	public static int getPy(){return py;}
 }
 	

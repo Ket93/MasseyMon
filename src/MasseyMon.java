@@ -1,7 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import java.io.*; 
+import java.awt.image.BufferedImage;
+import java.io.*;
 import javax.imageio.*;
 
 public class MasseyMon extends JFrame {
@@ -41,6 +42,7 @@ class GamePanel extends JPanel{
 	private int direction;
 	public boolean ready = true;
 	private Image back;
+	private BufferedImage mask;
 	private boolean[] keys;
 	Textbox myTextBox;
 	PokemonMenu myPokeMenu;
@@ -60,6 +62,7 @@ class GamePanel extends JPanel{
 		myTextBox = new Textbox();
         try {
     		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
+    		mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
 		} 
 		catch (IOException e) {}
 		setSize(956,795);
@@ -83,8 +86,6 @@ class GamePanel extends JPanel{
 				PokemonMenu.display(g);
 			}
 		}
-		Textbox.display(g);
-
 	}
 
     class clickListener implements MouseListener{
@@ -159,16 +160,16 @@ class GamePanel extends JPanel{
     }
     public void move() {
 		if (!menu) {
-			if (keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) {
+			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(),Player.getPy()+5)) {
 				direction = UP;
 				myGuy.move(direction);
-			} else if (keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) {
+			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx(),Player.getPy()-5)) {
 				direction = DOWN;
 				myGuy.move(direction);
-			} else if (keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) {
+			} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 5,Player.getPy())) {
 				direction = RIGHT;
 				myGuy.move(direction);
-			} else if (keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) {
+			} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 5,Player.getPy())) {
 				direction = LEFT;
 				myGuy.move(direction);
 			} else {
@@ -176,6 +177,15 @@ class GamePanel extends JPanel{
 				myGuy.idle(direction);
 			}
 		}
+	}
+
+	private boolean clear(int x, int y){
+		int WALL = 0xFF0000FF;
+		if(x<0 || x>= mask.getWidth(null) || y<0 || y>= mask.getHeight(null)){
+			return false;
+		}
+		int c = mask.getRGB(x, y);
+		return c != WALL;
 	}
 	public boolean getMenu(){return menu;}
 }
