@@ -1,4 +1,4 @@
-import java.awt.*;// assicated with that location within a 10 pixel radius. These emotions are shown using colours.
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.*; 
@@ -14,7 +14,7 @@ public class Player {
 
 	public Player(int gen) {
 		px = 285;
-		py = 300;
+		py = 280;
 		frame = 6;
 		extra = 0;
 		wait = 0;
