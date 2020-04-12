@@ -160,16 +160,16 @@ class GamePanel extends JPanel{
     }
     public void move() {
 		if (!menu) {
-			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(),Player.getPy()+5)) {
+			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(),Player.getPy()-1) && clear(Player.getPx()+19,Player.getPy()-1)) {
 				direction = UP;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx(),Player.getPy()-5)) {
+			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx() + 10,Player.getPy()+27) && clear (Player.getPx()+19,Player.getPy()+27)) {
 				direction = DOWN;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 5,Player.getPy())) {
+			} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20,Player.getPy()) && clear (Player.getPx() + 20,Player.getPy()+26)) {
 				direction = RIGHT;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 5,Player.getPy())) {
+			} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1,Player.getPy()) && clear (Player.getPx() -1, Player.getPy()+26)) {
 				direction = LEFT;
 				myGuy.move(direction);
 			} else {
