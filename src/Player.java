@@ -1,10 +1,6 @@
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.awt.image.*; 
 import java.io.*; 
 import javax.imageio.*;
-import java.util.*;
 
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
@@ -14,7 +10,7 @@ public class Player {
 
 	public Player(int gen) {
 		px = 285;
-		py = 280;
+		py = 285;
 		frame = 6;
 		extra = 0;
 		wait = 0;

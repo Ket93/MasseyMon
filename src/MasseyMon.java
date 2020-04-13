@@ -36,6 +36,7 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel{
+	private boolean lab;
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
@@ -44,6 +45,7 @@ class GamePanel extends JPanel{
 	private Image back;
 	private BufferedImage mask;
 	private boolean[] keys;
+	Houses myHouse;
 	Textbox myTextBox;
 	PokemonMenu myPokeMenu;
 	Items myItem;
@@ -51,6 +53,7 @@ class GamePanel extends JPanel{
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
+		lab = false;
 		pokemon = false;
 		bag = false;
 		menu = false;
@@ -60,6 +63,7 @@ class GamePanel extends JPanel{
 		myMenu = new Menu();
 		myItem = new Items();
 		myTextBox = new Textbox();
+		myHouse = new Houses();
         try {
     		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
     		mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
@@ -74,9 +78,10 @@ class GamePanel extends JPanel{
         requestFocus();
         ready = true;
     }
-    public void paintComponent(Graphics g){    	
-    	g.drawImage(back,0,0,this);
-    	myGuy.draw(g);
+    public void paintComponent(Graphics g){
+		if (!lab) {
+			g.drawImage(back, 0, 0, this);
+		}
 		if (menu) {
 			Menu.display(g);
 			if (bag){
@@ -86,6 +91,10 @@ class GamePanel extends JPanel{
 				PokemonMenu.display(g);
 			}
 		}
+		if(lab){
+			Houses.displayLab(g);
+		}
+		myGuy.draw(g);
 	}
 
     class clickListener implements MouseListener{
@@ -163,16 +172,23 @@ class GamePanel extends JPanel{
 			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(),Player.getPy()-1) && clear(Player.getPx()+19,Player.getPy()-1)) {
 				direction = UP;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx() + 10,Player.getPy()+27) && clear (Player.getPx()+19,Player.getPy()+27)) {
+			}
+			else if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && profDoor(Player.getPx(),Player.getPy()-1) && profDoor(Player.getPx()+19,Player.getPy()-1)){
+				lab = true;
+			}
+			else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx() + 10,Player.getPy()+27) && clear (Player.getPx()+19,Player.getPy()+27)) {
 				direction = DOWN;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20,Player.getPy()) && clear (Player.getPx() + 20,Player.getPy()+26)) {
+			}
+			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20,Player.getPy()) && clear (Player.getPx() + 20,Player.getPy()+26)) {
 				direction = RIGHT;
 				myGuy.move(direction);
-			} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1,Player.getPy()) && clear (Player.getPx() -1, Player.getPy()+26)) {
+			}
+			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1,Player.getPy()) && clear (Player.getPx() -1, Player.getPy()+26)) {
 				direction = LEFT;
 				myGuy.move(direction);
-			} else {
+			}
+			else {
 				myGuy.resetExtra();
 				myGuy.idle(direction);
 			}
@@ -187,5 +203,15 @@ class GamePanel extends JPanel{
 		int c = mask.getRGB(x, y);
 		return c != WALL;
 	}
+
+	private boolean profDoor(int x, int y){
+		int Wall = 0xFF00FF00;
+		if(x<0 || x>= mask.getWidth(null) || y<0 || y>= mask.getHeight(null)){
+			return false;
+		}
+		int c = mask.getRGB(x, y);
+		return c != Wall;
+	}
+
 	public boolean getMenu(){return menu;}
 }
