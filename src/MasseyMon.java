@@ -81,6 +81,7 @@ class GamePanel extends JPanel{
     public void paintComponent(Graphics g){
 		if (!lab) {
 			g.drawImage(back, 0, 0, this);
+			myGuy.draw(g);
 		}
 		if (menu) {
 			Menu.display(g);
@@ -94,7 +95,6 @@ class GamePanel extends JPanel{
 		if(lab){
 			Houses.displayLab(g);
 		}
-		myGuy.draw(g);
 	}
 
     class clickListener implements MouseListener{
@@ -173,7 +173,7 @@ class GamePanel extends JPanel{
 				direction = UP;
 				myGuy.move(direction);
 			}
-			else if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && profDoor(Player.getPx(),Player.getPy()-1) && profDoor(Player.getPx()+19,Player.getPy()-1)){
+			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && profDoor(Player.getPx(),Player.getPy()-1) && profDoor(Player.getPx()+19,Player.getPy()-1)){
 				lab = true;
 			}
 			else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx() + 10,Player.getPy()+27) && clear (Player.getPx()+19,Player.getPy()+27)) {
@@ -210,7 +210,7 @@ class GamePanel extends JPanel{
 			return false;
 		}
 		int c = mask.getRGB(x, y);
-		return c != Wall;
+		return c == Wall;
 	}
 
 	public boolean getMenu(){return menu;}

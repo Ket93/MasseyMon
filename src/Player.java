@@ -92,5 +92,7 @@ public class Player {
 
 	public static int getPx(){return px;}
 	public static int getPy(){return py;}
+	public static void setPx(int val ){px = val;}
+	public static void setPy (int val){py = val;}
 }
 	
