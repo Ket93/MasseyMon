@@ -287,6 +287,17 @@ class GamePanel extends JPanel {
 				return c == WALL;
 			}
 
+			private boolean checkHouse ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFF0000;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+	}
+
+
+
 
 			public boolean getMenu () {
 				return menu;
