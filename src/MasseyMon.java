@@ -1,8 +1,12 @@
+import org.w3c.dom.css.Rect;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.sql.SQLOutput;
+import java.util.Scanner;
 import javax.imageio.*;
 
 public class MasseyMon extends JFrame {
@@ -35,183 +39,257 @@ public class MasseyMon extends JFrame {
     }
 }
 
-class GamePanel extends JPanel{
-	private boolean lab;
+class GamePanel extends JPanel {
+	private Image[] backgrounds;
+	private BufferedImage[] backgroundMasks;
+	private Rectangle[] positions;
+	private int playerPositionCount;
+	private int  [][] playerPositions;
+	private int picIndex;
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
 	private int direction;
 	public boolean ready = true;
-	private Image back;
-	private BufferedImage mask;
+	private Image back, oakLab;
+	private BufferedImage mask, oakLabMask;
 	private boolean[] keys;
-	Houses myHouse;
 	Textbox myTextBox;
 	PokemonMenu myPokeMenu;
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
+
 	public GamePanel() throws IOException {
-		lab = false;
+		playerPositionCount = 0;
+
+		backgrounds = new Image[2];
+		for (int i = 0; i < 2; i++) {
+			String path = String.format("%s/%s/%s%d.png", "Images", "Towns", "Background", i + 1);
+			try {
+				Image pic = ImageIO.read(new File(path));
+				backgrounds[i] = pic;
+			} catch (IOException e) {
+			}
+		}
+
+		backgroundMasks = new BufferedImage[2];
+		for (int i = 0; i < 2; i++) {
+			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i + 1, "Mask");
+			try {
+				BufferedImage pic = ImageIO.read(new File(path));
+				backgroundMasks[i] = pic;
+			} catch (IOException e) {
+			}
+		}
+
+		positions = new Rectangle[2];
+		for (int i = 0; i < 2; i++) {
+			Rectangle rect = new Rectangle((956 - backgrounds[i].getWidth(null)) / 2, (795 - backgrounds[i].getHeight(null)) / 2, backgrounds[i].getWidth(null), backgrounds[i].getHeight(null));
+			positions[i] = rect;
+		}
+
+		playerPositions = new int [2][2];
+			Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/PlayerPositions.txt")));
+			while (inFile.hasNextLine()){
+				String line = inFile.nextLine();
+				String [] coordinates = line.split(",");
+				playerPositions[playerPositionCount][0] = Integer.parseInt(coordinates[0]);
+				playerPositions[playerPositionCount][1] = Integer.parseInt(coordinates[1]);
+				playerPositionCount ++;
+			}
+			inFile.close();
+
+		picIndex = 0;
 		pokemon = false;
 		bag = false;
 		menu = false;
-		keys = new boolean[KeyEvent.KEY_LAST+1];
+		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
 		myPokeMenu = new PokemonMenu();
 		myMenu = new Menu();
 		myItem = new Items();
 		myTextBox = new Textbox();
-		myHouse = new Houses();
-        try {
-    		back = ImageIO.read(new File("Images/Towns/palletTown.png"));
-    		mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
-		} 
-		catch (IOException e) {}
-		setSize(956,795);
+		try {
+			back = ImageIO.read(new File("Images/Towns/palletTown.png"));
+			oakLab = ImageIO.read(new File("Images/Buildings/ProfessorOakLab.png"));
+			mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
+			oakLabMask = ImageIO.read(new File("Images/Buildings/ProfessorOakLabMask.png"));
+		} catch (IOException e) {
+		}
+		setSize(956, 795);
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
 	}
-    public void addNotify() {
-        super.addNotify();
-        requestFocus();
-        ready = true;
-    }
-    public void paintComponent(Graphics g){
-		if (!lab) {
-			g.drawImage(back, 0, 0, this);
-			myGuy.draw(g);
-		}
+
+	public void addNotify() {
+		super.addNotify();
+		requestFocus();
+		ready = true;
+	}
+
+	public void paintComponent(Graphics g) {
+		g.setColor(new Color(0,0,0));
+		g.fillRect(0,0,956,795);
+		g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
+		myGuy.draw(g);
+
 		if (menu) {
 			Menu.display(g);
-			if (bag){
+			if (bag) {
 				Items.display(g);
 			}
-			if (pokemon){
+			if (pokemon) {
 				PokemonMenu.display(g);
 			}
 		}
-		if(lab){
-			Houses.displayLab(g);
+	}
+
+	class clickListener implements MouseListener {
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		public void mouseExited(MouseEvent e) {
+		}
+
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		public void mouseClicked(MouseEvent e) {
+		}
+
+		public void mousePressed(MouseEvent e) {
 		}
 	}
 
-    class clickListener implements MouseListener{
-        public void mouseEntered(MouseEvent e) {}
-        public void mouseExited(MouseEvent e) {}
-        public void mouseReleased(MouseEvent e) {}
-        public void mouseClicked(MouseEvent e){}
-        public void mousePressed(MouseEvent e){}
-    }
-    class moveListener implements KeyListener{
-    	public void keyTyped(KeyEvent e) {
-    	}
-	    public void keyPressed(KeyEvent e) {
-    		if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false){
-    			menu = true;
+	class moveListener implements KeyListener {
+		public void keyTyped(KeyEvent e) {
+		}
+
+		public void keyPressed(KeyEvent e) {
+			if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false) {
+				menu = true;
 			}
-    		if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu &&!bag && !pokemon ){
-    			Menu.setPosY(40);
+			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
+				Menu.setPosY(40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu && !bag && !pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
 				Menu.setPosY(-40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && bag){
+			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && bag) {
 				Items.setPosY(40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && bag){
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && bag) {
 				Items.setPosY(-40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && pokemon) {
 				PokemonMenu.setPosY();
 				PokemonMenu.setPosX();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && pokemon) {
 				PokemonMenu.setPosYUP();
 				PokemonMenu.setPosX();
 			}
 
-
-
-
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon) {
 				PokemonMenu.resetPosXY();
 				pokemon = true;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag) {
 				Items.resetPosY();
 				bag = true;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon) {
 				Menu.resetPosY();
 				menu = false;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag) {
 				Menu.resetPosY();
 				bag = false;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon){
+			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon) {
 				Menu.resetPosY();
 				pokemon = false;
 			}
 
+			keys[e.getKeyCode()] = true;
+		}
 
-	    	keys[e.getKeyCode()] = true;
+		public void keyReleased(KeyEvent e) {
+			keys[e.getKeyCode()] = false;
 		}
-		public void keyReleased(KeyEvent e){
-			keys[e.getKeyCode()] =  false;
-		}
-    }
-    public void move() {
+	}
+
+	public void move() {
 		if (!menu) {
-			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(),Player.getPy()-1) && clear(Player.getPx()+19,Player.getPy()-1)) {
+			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = UP;
 				myGuy.move(direction);
-			}
-			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && profDoor(Player.getPx(),Player.getPy()-1) && profDoor(Player.getPx()+19,Player.getPy()-1)){
-				lab = true;
-			}
-			else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx() + 10,Player.getPy()+27) && clear (Player.getPx()+19,Player.getPy()+27)) {
+				if (checkBuilding(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkBuilding(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					picIndex++;
+					Player.setPx(playerPositions[picIndex][0]);
+					Player.setPy(playerPositions[picIndex][1]);
+				}
+			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx(), Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 19, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = DOWN;
 				myGuy.move(direction);
+
+				if (checkExit(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkExit(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					picIndex--;
+					Player.setPx(playerPositions[picIndex][0]);
+					Player.setPy(playerPositions[picIndex][1]);
+				}
 			}
-			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20,Player.getPy()) && clear (Player.getPx() + 20,Player.getPy()+26)) {
-				direction = RIGHT;
-				myGuy.move(direction);
+			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20, Player.getPy(), backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 20, Player.getPy() + 26, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					direction = RIGHT;
+					myGuy.move(direction);
 			}
-			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1,Player.getPy()) && clear (Player.getPx() -1, Player.getPy()+26)) {
+			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1, Player.getPy(), backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() - 1, Player.getPy() + 26, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = LEFT;
 				myGuy.move(direction);
 			}
 			else {
 				myGuy.resetExtra();
 				myGuy.idle(direction);
+					}
+				}
+			}
+
+			private boolean clear ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF0000FF;
+				if (x < (0 + posX) || x >=  (maskPic.getWidth(null) + posX) || y < (0 + posY) || y >= (maskPic.getHeight(null) + posY)) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y -posY);
+				return c != WALL;
+			}
+
+			private boolean checkBuilding ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF00FF00;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+			private boolean checkExit ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF00FFFF;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+
+			public boolean getMenu () {
+				return menu;
 			}
 		}
-	}
 
-	private boolean clear(int x, int y){
-		int WALL = 0xFF0000FF;
-		if(x<0 || x>= mask.getWidth(null) || y<0 || y>= mask.getHeight(null)){
-			return false;
-		}
-		int c = mask.getRGB(x, y);
-		return c != WALL;
-	}
-
-	private boolean profDoor(int x, int y){
-		int Wall = 0xFF00FF00;
-		if(x<0 || x>= mask.getWidth(null) || y<0 || y>= mask.getHeight(null)){
-			return false;
-		}
-		int c = mask.getRGB(x, y);
-		return c == Wall;
-	}
-
-	public boolean getMenu(){return menu;}
-}
