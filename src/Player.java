@@ -9,7 +9,7 @@ public class Player {
 	private Image[] sprites;
 
 	public Player(int gen) {
-		px = 285;
+		px = 287;
 		py = 285;
 		frame = 6;
 		extra = 0;

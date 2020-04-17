@@ -40,6 +40,7 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel {
+	private int posIndex;
 	private Image[] backgrounds;
 	private BufferedImage[] backgroundMasks;
 	private Rectangle[] positions;
@@ -64,9 +65,9 @@ class GamePanel extends JPanel {
 	public GamePanel() throws IOException {
 		playerPositionCount = 0;
 
-		backgrounds = new Image[2];
-		for (int i = 0; i < 2; i++) {
-			String path = String.format("%s/%s/%s%d.png", "Images", "Towns", "Background", i + 1);
+		backgrounds = new Image[4];
+		for (int i = 0; i < 4; i++) {
+			String path = String.format("%s/%s/%s%d.png", "Images", "Towns", "Background", i);
 			try {
 				Image pic = ImageIO.read(new File(path));
 				backgrounds[i] = pic;
@@ -74,9 +75,9 @@ class GamePanel extends JPanel {
 			}
 		}
 
-		backgroundMasks = new BufferedImage[2];
-		for (int i = 0; i < 2; i++) {
-			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i + 1, "Mask");
+		backgroundMasks = new BufferedImage[3];
+		for (int i = 0; i < 3; i++) {
+			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i, "Mask");
 			try {
 				BufferedImage pic = ImageIO.read(new File(path));
 				backgroundMasks[i] = pic;
@@ -84,24 +85,27 @@ class GamePanel extends JPanel {
 			}
 		}
 
-		positions = new Rectangle[2];
-		for (int i = 0; i < 2; i++) {
+		positions = new Rectangle[3];
+		for (int i = 0; i < 3; i++) {
 			Rectangle rect = new Rectangle((956 - backgrounds[i].getWidth(null)) / 2, (795 - backgrounds[i].getHeight(null)) / 2, backgrounds[i].getWidth(null), backgrounds[i].getHeight(null));
 			positions[i] = rect;
 		}
 
-		playerPositions = new int [2][2];
+		playerPositions = new int [2][4];
 			Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/PlayerPositions.txt")));
 			while (inFile.hasNextLine()){
 				String line = inFile.nextLine();
 				String [] coordinates = line.split(",");
 				playerPositions[playerPositionCount][0] = Integer.parseInt(coordinates[0]);
 				playerPositions[playerPositionCount][1] = Integer.parseInt(coordinates[1]);
+				playerPositions[playerPositionCount][2] = Integer.parseInt(coordinates[2]);
+				playerPositions[playerPositionCount][3] = Integer.parseInt(coordinates[3]);
 				playerPositionCount ++;
 			}
 			inFile.close();
 
-		picIndex = 0;
+		posIndex = 0;
+		picIndex = 1;
 		pokemon = false;
 		bag = false;
 		menu = false;
@@ -232,17 +236,33 @@ class GamePanel extends JPanel {
 				myGuy.move(direction);
 				if (checkBuilding(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkBuilding(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 					picIndex++;
-					Player.setPx(playerPositions[picIndex][0]);
-					Player.setPy(playerPositions[picIndex][1]);
+					if (posIndex%2!=0) {
+						posIndex++;
+					}
+					Player.setPx(playerPositions[posIndex+1][0]);
+					Player.setPy(playerPositions[posIndex+1][1]);
+				}
+				if (checkBuilding2(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkBuilding2(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					picIndex--;
+					if (posIndex%2==0) {
+						posIndex--;
+					}
+					Player.setPx(playerPositions[posIndex+1][0]);
+					Player.setPy(playerPositions[posIndex+1][1]);
 				}
 			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx(), Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 19, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = DOWN;
 				myGuy.move(direction);
 
-				if (checkExit(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkExit(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+				if (checkExit1(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkExit1(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 					picIndex--;
-					Player.setPx(playerPositions[picIndex][0]);
-					Player.setPy(playerPositions[picIndex][1]);
+					Player.setPx(playerPositions[posIndex+1][2]);
+					Player.setPy(playerPositions[posIndex+1][3]);
+				}
+				if (checkExit2(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkExit2(Player.getPx() - 1, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					picIndex++;
+					Player.setPx(playerPositions[posIndex+1][2]);
+					Player.setPy(playerPositions[posIndex+1][3]);
 				}
 			}
 			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20, Player.getPy(), backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 20, Player.getPy() + 26, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
@@ -278,8 +298,8 @@ class GamePanel extends JPanel {
 				return c == WALL;
 			}
 
-			private boolean checkExit ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-				int WALL = 0xFF00FFFF;
+			private boolean checkExit1 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFF0000;
 				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
 					return false;
 				}
@@ -287,14 +307,23 @@ class GamePanel extends JPanel {
 				return c == WALL;
 			}
 
-			private boolean checkHouse ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-				int WALL = 0xFFFF0000;
+			private boolean checkExit2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF00FFFF;
 				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
 					return false;
 				}
 				int c = maskPic.getRGB(x - posX, y - posY);
 				return c == WALL;
 	}
+
+			private boolean checkBuilding2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFF00FF;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
 
 
 
