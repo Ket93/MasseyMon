@@ -75,8 +75,8 @@ class GamePanel extends JPanel {
 			}
 		}
 
-		backgroundMasks = new BufferedImage[3];
-		for (int i = 0; i < 3; i++) {
+		backgroundMasks = new BufferedImage[4];
+		for (int i = 0; i < 4; i++) {
 			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i, "Mask");
 			try {
 				BufferedImage pic = ImageIO.read(new File(path));
@@ -85,13 +85,13 @@ class GamePanel extends JPanel {
 			}
 		}
 
-		positions = new Rectangle[3];
-		for (int i = 0; i < 3; i++) {
+		positions = new Rectangle[4];
+		for (int i = 0; i < 4; i++) {
 			Rectangle rect = new Rectangle((956 - backgrounds[i].getWidth(null)) / 2, (795 - backgrounds[i].getHeight(null)) / 2, backgrounds[i].getWidth(null), backgrounds[i].getHeight(null));
 			positions[i] = rect;
 		}
 
-		playerPositions = new int [2][4];
+		playerPositions = new int [3][4];
 			Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/PlayerPositions.txt")));
 			while (inFile.hasNextLine()){
 				String line = inFile.nextLine();
@@ -136,7 +136,12 @@ class GamePanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0,0,956,795);
-		g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
+		if ((int)positions[picIndex].getWidth() > 956 ||(int)positions[picIndex].getHeight() > 795) {
+			g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
+		}
+		else{
+			
+		}
 		myGuy.draw(g);
 
 		if (menu) {
@@ -250,6 +255,13 @@ class GamePanel extends JPanel {
 					Player.setPx(playerPositions[posIndex+1][0]);
 					Player.setPy(playerPositions[posIndex+1][1]);
 				}
+				if (checkNextRoute(Player.getPx(), Player.getPy() -1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkNextRoute(Player.getPx() +19, Player.getPy() -1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
+					picIndex+=2;
+					posIndex++;
+					Player.setPx(playerPositions[posIndex + 1][0]);
+					Player.setPy(playerPositions[posIndex + 1][1]);
+				}
+
 			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(Player.getPx(), Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 19, Player.getPy() + 27, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = DOWN;
 				myGuy.move(direction);
@@ -318,6 +330,15 @@ class GamePanel extends JPanel {
 
 			private boolean checkBuilding2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
 				int WALL = 0xFFFF00FF;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+			private boolean checkNextRoute ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFFFF00;
 				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
 					return false;
 				}
