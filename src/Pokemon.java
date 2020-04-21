@@ -9,18 +9,19 @@ class Pokemon{
 		type2 = "N/A";
 		if (stats.length == 10){
 			extra = 1;
-			type2 = stats[2];
+			type2 = stats[3];
 		}
 		num = Integer.parseInt(stats[0]);
 		name = stats[1];
-		type1 = (stats[2+extra]);
-		hp = Integer.parseInt(stats[2+extra]);
+		type1 = (stats[2]);
+		hp = Integer.parseInt(stats[3+extra]);
 		maxHP = Integer.parseInt(stats[3+extra]);
 		atk = Integer.parseInt(stats[4+extra]);
 		def = Integer.parseInt(stats[5+extra]);
 		spatk = Integer.parseInt(stats[6+extra]);
 		spdef = Integer.parseInt(stats[7+extra]);
-		speed = Integer.parseInt(stats[8+extra]);	
+		speed = Integer.parseInt(stats[8+extra]);
+
 	}
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
@@ -29,6 +30,9 @@ class Pokemon{
 	}
 	public String getType2(){
 		return type2;
+	}
+	public String getName(){
+		return name;
 	}
 }
 class TypeChart{
@@ -67,9 +71,8 @@ class Attack{
 		special = stats[2];
 		dmg = Integer.parseInt(stats[3]);
 		accuracy = Integer.parseInt(stats[4]);
-		times = Integer.parseInt(stats[5]);
-		pp = Integer.parseInt(stats[6]);
-		maxPP = Integer.parseInt(stats[6]);
+		pp = Integer.parseInt(stats[5]);
+		maxPP = Integer.parseInt(stats[5]);
 	}
 	public String getName(){
 		return name;

@@ -1,18 +1,22 @@
+/*
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.MouseInfo;
+import java.io.IOException;
 import java.util.*;
 
 public class PokemonBattle extends JFrame implements ActionListener{
-        public static ArrayList<Pokemon> myPokes;
-        public static ArrayList<Pokemon> enemyPokes;
-        private Pokemon curPoke1, curPoke2;
-        private boolean fleeable;
-        javax.swing.Timer myTimer;
-        GamePanel2 game;
+    public static ArrayList<Pokemon> myPokes;
+    public static ArrayList<Pokemon> enemyPokes;
+    private Pokemon curPoke1,curPoke2;
+    private boolean fleeable;
+    javax.swing.Timer myTimer;
+    GamePanel2 game;
     public PokemonBattle(ArrayList < Pokemon > mine, ArrayList < Pokemon > enemy) {
         super("Pokemon Battle");
+        curPoke1 = mine.get(0);
+        curPoke2 = enemy.get(0);
         myPokes = mine;
         enemyPokes = enemy;
         myTimer = new javax.swing.Timer(10, this);     // trigger every 10 ms
@@ -60,8 +64,8 @@ public class PokemonBattle extends JFrame implements ActionListener{
             }
         }
     }
-    */
-    public static void main (String[]arguments){
+    public static void main (String[]arguments) throws IOException {
+        MasseyMon.init();
         PokemonBattle frame = new PokemonBattle(myPokes,enemyPokes);
     }
 }
@@ -124,3 +128,4 @@ class GamePanel2 extends JPanel implements KeyListener{
         g.drawImage(battleSprites[1],500,150,null);
     }
 }
+*/

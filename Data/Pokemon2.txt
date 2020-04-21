@@ -135,7 +135,7 @@
 136,Flareon,Fire,65,130,60,95,110,65
 137,Porygon,Normal,65,60,70,85,75,40
 138,Omanyte,Rock,Water,35,40,100,90,55,35
-139,Omastar,Rock,Water,70,60,125,115,70	55
+139,Omastar,Rock,Water,70,60,125,115,70,55
 140,Kabuto,Rock,Water,30,80,90,55,45,55
 141,Kabutops,Rock,Water,60,115,105,65,70,80
 142,Aerodactyl,Rock,Flying,80,105,65,60,75,130
