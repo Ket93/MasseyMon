@@ -51,13 +51,13 @@ public class MasseyMon extends JFrame {
 		for (int i = 1; i < 152; i++){
 			String path = String.format("Sprites/Pokemon/P%dM.png",i);
 			Image pic = ImageIO.read(new File(path));
-			pic = pic.getScaledInstance(200,133,Image.SCALE_SMOOTH);
+			pic = pic.getScaledInstance(300,233,Image.SCALE_SMOOTH);
 			myPokeImages.add(pic);
 		}
 		for (int i = 1; i < 152; i++){
 			String path = String.format("Sprites/Pokemon/P%d.png",i);
 			Image pic = ImageIO.read(new File(path));
-			pic = pic.getScaledInstance(175,125,Image.SCALE_SMOOTH);
+			pic = pic.getScaledInstance(220,180,Image.SCALE_SMOOTH);
 			enemyPokeImages.add(pic);
 		}
 	}
@@ -175,13 +175,14 @@ class GamePanel extends JPanel {
 		myItem = new Items();
 		myTextBox = new Textbox();
 		try {
-			back = ImageIO.read(new File("Images/Towns/palletTown.png"));
+			//back = ImageIO.read(new File("Images/Towns/palletTown.png"));
 			pokeArenaBack = ImageIO.read(new File("Images/Battles/PokeBattle2.jpg"));
-			pokeArenaBack = pokeArenaBack.getScaledInstance(956,795,Image.SCALE_SMOOTH);
-			oakLab = ImageIO.read(new File("Images/Buildings/ProfessorOakLab.png"));
-			mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
-			oakLabMask = ImageIO.read(new File("Images/Buildings/ProfessorOakLabMask.png"));
+			pokeArenaBack = pokeArenaBack.getScaledInstance(945,770,Image.SCALE_SMOOTH);
+			//oakLab = ImageIO.read(new File("Images/Buildings/ProfessorOakLab.png"));
+			//mask = ImageIO.read(new File("Images/Towns/palletTownMask.png"));
+			//oakLabMask = ImageIO.read(new File("Images/Buildings/ProfessorOakLabMask.png"));
 		} catch (IOException e) {
+			System.out.println("G");
 		}
 		setSize(956, 795);
 		addMouseListener(new clickListener());
@@ -195,13 +196,11 @@ class GamePanel extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		g.setColor(new Color(0,0,0));
-		g.fillRect(0,0,956,795);
 		if (MasseyMon.inBattle){
-			g.drawImage(pokeArenaBack,0,-15,null);
+			g.drawImage(pokeArenaBack,0,-5,null);
 			battleSprites = MasseyMon.frame.getPokeImages(MasseyMon.frame.getPokes());
-			g.drawImage(battleSprites[0],50,550,null);
-			g.drawImage(battleSprites[1],500,150,null);
+			g.drawImage(battleSprites[0],90,355,null);
+			g.drawImage(battleSprites[1],620,175,null);
 		}
 		else{
 			g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
