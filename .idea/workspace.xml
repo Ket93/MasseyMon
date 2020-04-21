@@ -2,11 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cf2e9839-8bcb-4913-8b3a-4032c8ea4138" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Images/Masks/Background3Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/PlayerPositions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/PlayerPositions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Towns/Background3.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Towns/Background3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pokemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pokemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PokemonBattle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonBattle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,10 +24,10 @@
   <component name="ProjectId" id="1a31Upzbowqvkx8OrV12cjdOc1e" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -59,7 +57,7 @@
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Text" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MasseyMon">
+  <component name="RunManager" selected="Application.PokemonBattle">
     <configuration name="MasseyMon" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="MasseyMon" />
       <module name="Pokemon-FSE" />
@@ -76,22 +74,10 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MasseyMon" />
         <item itemvalue="Application.PokemonBattle" />
+        <item itemvalue="Application.MasseyMon" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />

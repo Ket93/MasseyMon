@@ -22,6 +22,8 @@ class Pokemon{
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);	
 	}
+	public int getNum(){return num;}
+	public int getHP(){return hp;}
 	public String getType1(){
 		return type1;
 	}

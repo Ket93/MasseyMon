@@ -6,12 +6,16 @@ import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.*;
 
 public class MasseyMon extends JFrame {
+	public static MasseyMon frame;
 	GamePanel game;
 	javax.swing.Timer myTimer;
+	private ArrayList<Image> myPokeImages = new ArrayList<Image>();
+	private ArrayList<Image> enemyPokeImages = new ArrayList<Image>();
     public MasseyMon() throws IOException {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -24,9 +28,27 @@ public class MasseyMon extends JFrame {
 		start();
     }
     public static void main(String[] arguments) throws IOException{
-		MasseyMon frame = new MasseyMon();		
+		frame = new MasseyMon();
     }
-    public void start(){
+	public void loadImages() throws IOException{
+		for (int i = 1; i < 152; i++){
+			String path = String.format("Sprites/Pokemon/P%dM.png",i);
+			Image pic = ImageIO.read(new File(path));
+			myPokeImages.add(pic);
+		}
+		for (int i = 1; i < 152; i++){
+			String path = String.format("Sprites/Pokemon/P%d.png",i);
+			Image pic = ImageIO.read(new File(path));
+			enemyPokeImages.add(pic);
+		}
+	}
+	public Image[] getPokeImages(int [] indexes){
+		Image[] newSprites = new Image[2];
+		newSprites[0] = myPokeImages.get(indexes[0]);
+		newSprites[1] = enemyPokeImages.get(indexes[1]);
+		return newSprites;
+	}
+	public void start(){
     	myTimer.start();
     }
     class TickListener implements ActionListener{
