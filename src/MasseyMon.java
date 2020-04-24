@@ -140,7 +140,7 @@ class GamePanel extends JPanel {
 			g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
 		}
 		else{
-			
+
 		}
 		myGuy.draw(g);
 
