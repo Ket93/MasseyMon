@@ -1,11 +1,8 @@
-import org.w3c.dom.css.Rect;
-
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.*;
@@ -79,6 +76,9 @@ public class MasseyMon extends JFrame {
 			Attack newAtk = new Attack(line);
 			allAttacks.add(newAtk);
 		}
+		for (int i = 0; i < 6; i++){
+			myPokes.get(i).learnMove(allAttacks.get(0));
+		}
 	}
 	public Image[] getPokeImages(int [] indexes){
 		Image[] newSprites = new Image[2];
@@ -107,6 +107,7 @@ class GamePanel extends JPanel {
 	private int playerPositionCount;
 	private int  [][] playerPositions;
 	private int picIndex;
+	private int mx,my;
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
@@ -114,15 +115,18 @@ class GamePanel extends JPanel {
 	public boolean ready = true;
 	private Image back, oakLab,pokeArenaBack;
 	private BufferedImage mask, oakLabMask;
+	private String choice;
 	private boolean[] keys;
 	private Image[] battleSprites;
+	private Rectangle fightButton,bagButton,pokeButton,runButton;
+	private ArrayList<Rectangle> rectButtons;
+	private Font gameFont,smallerGameFont;
 	Textbox myTextBox;
 	PokemonMenu myPokeMenu;
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
-
 	public GamePanel() throws IOException {
 		playerPositionCount = 0;
 		backgrounds = new Image[4];
@@ -136,6 +140,16 @@ class GamePanel extends JPanel {
 			}
 		}
 		backgroundMasks = new BufferedImage[4];
+		fightButton = new Rectangle(464,584,236,86);
+		bagButton = new Rectangle(701,584,236,86);
+		pokeButton = new Rectangle(464,671,236,86);
+		runButton = new Rectangle(701,671,236,86);
+		rectButtons = new ArrayList<Rectangle>();
+		rectButtons.add(fightButton);
+        rectButtons.add(bagButton);
+        rectButtons.add(pokeButton);
+        rectButtons.add(runButton);
+        choice = "none";
 		for (int i = 0; i < 4; i++) {
 			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i, "Mask");
 			try {
@@ -144,6 +158,15 @@ class GamePanel extends JPanel {
 			}
 			catch (IOException e) {
 			}
+		}
+		try{
+			gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
+			gameFont = gameFont.deriveFont(40f);
+			smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
+			smallerGameFont = gameFont.deriveFont(35f);
+		}
+		catch (IOException | FontFormatException e) {
+			e.printStackTrace();
 		}
 		positions = new Rectangle[4];
 		for (int i = 0; i < 4; i++) {
@@ -194,13 +217,57 @@ class GamePanel extends JPanel {
 		requestFocus();
 		ready = true;
 	}
-
+    public void checkButtonCollision(int mx, int my){
+		if (choice.equals("fight")){
+			for (Rectangle item: rectButtons){
+				if (item.contains(mx,my)){
+					Pokemon attacker = MasseyMon.myPokes.get(0);
+					attacker.doAttack(attacker.getMoves().get(rectButtons.indexOf(item)));
+				}
+			}
+		}
+	    if (fightButton.contains(mx,my)){
+            System.out.println("fight");
+            choice = "fight";
+        }
+        else if (bagButton.contains(mx,my)){
+            System.out.println("bag");
+			choice = "bag";
+        }
+        else if (pokeButton.contains(mx,my)){
+            System.out.println("pokemon");
+			choice = "pokemon";
+        }
+        else if (runButton.contains(mx,my)){
+            System.out.println("run");
+			choice = "run";
+        }
+    }
 	public void paintComponent(Graphics g) {
 		if (MasseyMon.inBattle){
 			g.drawImage(pokeArenaBack,0,-5,null);
-			battleSprites = MasseyMon.frame.getPokeImages(MasseyMon.frame.getPokes());
+			int [] curPokes = MasseyMon.frame.getPokes();
+			battleSprites = MasseyMon.frame.getPokeImages(curPokes);
 			g.drawImage(battleSprites[0],90,355,null);
 			g.drawImage(battleSprites[1],620,175,null);
+			g.setColor(Color.black);
+			if (choice.equals(("none"))){
+				g.setFont(gameFont);
+			    g.drawString("Fight",555,640);
+                g.drawString("Bag",795,640);
+                g.drawString("Pokemon",535,726);
+                g.drawString("Run",795,726);
+            }
+			else if (choice.equals("fight")){
+				g.setFont(smallerGameFont);
+				Attack curAttack = MasseyMon.myPokes.get(0).getMoves().get(0);
+				if (curAttack != null){
+					g.drawString(curAttack.getName(),490,630);
+					g.drawString(curAttack.getType(),600,630);
+					g.drawString("DMG:"+curAttack.getDmg(),490,660);
+					g.drawString("PP:"+curAttack.getPP()+"/"+curAttack.getMaxPP(),590,660);
+				}
+			}
 		}
 		else{
 			g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
@@ -231,6 +298,9 @@ class GamePanel extends JPanel {
 		}
 
 		public void mousePressed(MouseEvent e) {
+		    mx = e.getX();
+		    my = e.getY();
+		    checkButtonCollision(mx,my);
 		}
 	}
 
@@ -405,10 +475,6 @@ class GamePanel extends JPanel {
 				int c = maskPic.getRGB(x - posX, y - posY);
 				return c == WALL;
 			}
-
-
-
-
 			public boolean getMenu () {
 				return menu;
 			}

@@ -21,7 +21,6 @@ class Pokemon{
 		spatk = Integer.parseInt(stats[6+extra]);
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
-
 	}
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
@@ -33,6 +32,17 @@ class Pokemon{
 	}
 	public String getName(){
 		return name;
+	}
+	public void learnMove(Attack atk){
+		if (pokeAttacks.size()<4){
+			pokeAttacks.add(atk);
+		}
+	}
+	public ArrayList<Attack> getMoves(){
+		return pokeAttacks;
+	}
+	public void doAttack(Attack atk){
+		int x = 1;
 	}
 }
 class TypeChart{
@@ -83,4 +93,6 @@ class Attack{
 	public int getDmg(){
 		return dmg;
 	}
+	public int getPP(){return pp;}
+	public int getMaxPP(){return maxPP;}
 }
