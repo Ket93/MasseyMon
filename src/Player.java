@@ -45,16 +45,12 @@ public class Player {
 	public void move(int dir) {
 		if (dir == UP) {
 			py -= 1;
-			dir = UP;
 		} else if (dir == RIGHT) {
 			px += 1;
-			dir = RIGHT;
 		} else if (dir == DOWN) {
 			py += 1;
-			dir = DOWN;
 		} else if (dir == LEFT) {
 			px -= 1;
-			dir = LEFT;
 		}
 
 		updateFrame();
