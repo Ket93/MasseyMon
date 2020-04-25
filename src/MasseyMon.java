@@ -118,7 +118,8 @@ class GamePanel extends JPanel {
 	private String choice;
 	private boolean[] keys;
 	private Image[] battleSprites;
-	private Rectangle fightButton,bagButton,pokeButton,runButton;
+	private Rectangle fightButton,bagButton,pokeButton,runButton,myPokeHealth,enemyPokeHealth;
+	private int HPRectWidths;
 	private ArrayList<Rectangle> rectButtons;
 	private Font gameFont,smallerGameFont;
 	Textbox myTextBox;
@@ -144,6 +145,9 @@ class GamePanel extends JPanel {
 		bagButton = new Rectangle(701,584,236,86);
 		pokeButton = new Rectangle(464,671,236,86);
 		runButton = new Rectangle(701,671,236,86);
+		HPRectWidths = 182;
+		myPokeHealth = new Rectangle(740,460,182,18);
+		enemyPokeHealth = new Rectangle(185,142,182,19);
 		rectButtons = new ArrayList<Rectangle>();
 		rectButtons.add(fightButton);
         rectButtons.add(bagButton);
@@ -185,7 +189,6 @@ class GamePanel extends JPanel {
 				playerPositionCount ++;
 			}
 			inFile.close();
-
 		posIndex = 0;
 		picIndex = 1;
 		pokemon = false;
@@ -222,7 +225,8 @@ class GamePanel extends JPanel {
 			for (Rectangle item: rectButtons){
 				if (item.contains(mx,my)){
 					Pokemon attacker = MasseyMon.myPokes.get(0);
-					attacker.doAttack(attacker.getMoves().get(rectButtons.indexOf(item)));
+					Pokemon defender = MasseyMon.enemyPokes.get(0);
+					attacker.doAttack(attacker.getMoves().get(rectButtons.indexOf(item)),defender);
 				}
 			}
 		}
@@ -247,12 +251,23 @@ class GamePanel extends JPanel {
 		if (MasseyMon.inBattle){
 			g.drawImage(pokeArenaBack,0,-5,null);
 			int [] curPokes = MasseyMon.frame.getPokes();
+			Pokemon myPoke = MasseyMon.frame.allPokemon.get(curPokes[0]);
+			Pokemon enemyPoke = MasseyMon.frame.allPokemon.get(curPokes[1]);
 			battleSprites = MasseyMon.frame.getPokeImages(curPokes);
 			g.drawImage(battleSprites[0],90,355,null);
 			g.drawImage(battleSprites[1],620,175,null);
+			g.setFont(gameFont);
+			g.setColor(Color.GREEN);
+			System.out.println(enemyPoke.getHP()/enemyPoke.getMaxHP());
+			g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP(),(int)myPokeHealth.getHeight());
+			g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP(),(int)enemyPokeHealth.getHeight());
+			String pokeName = myPoke.getName();
 			g.setColor(Color.black);
+			g.drawString(pokeName,560,440);
+			g.drawString(enemyPoke.getName(),15,125);
+			String text = String.format("What  will  %s  do?",pokeName);
+			g.drawString(text,50,640);
 			if (choice.equals(("none"))){
-				g.setFont(gameFont);
 			    g.drawString("Fight",555,640);
                 g.drawString("Bag",795,640);
                 g.drawString("Pokemon",535,726);
