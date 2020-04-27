@@ -19,7 +19,7 @@ public class MasseyMon extends JFrame {
 	private ArrayList<Image> enemyPokeImages = new ArrayList<Image>();
 	public static ArrayList<Pokemon> allPokemon = new ArrayList<Pokemon>();
 	public static ArrayList<Attack> allAttacks = new ArrayList<Attack>();
-	public MasseyMon() throws IOException {
+    public MasseyMon() throws IOException {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
@@ -32,10 +32,10 @@ public class MasseyMon extends JFrame {
 		load();
 		loadImages();
 		inBattle = true;
-	}
-	public static void main(String[] args) throws IOException{
+    }
+    public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
-	}
+    }
 	public int[] getPokes(){
 		int [] pokeIndexes = new int[2];
 		curPoke1 = myPokes.get(0);
@@ -87,16 +87,16 @@ public class MasseyMon extends JFrame {
 		return newSprites;
 	}
 	public void start(){
-		myTimer.start();
-	}
-	class TickListener implements ActionListener{
-		public void actionPerformed(ActionEvent evt){
-			if(game!= null){
-				game.move();
-				game.repaint();
-			}
-		}
-	}
+    	myTimer.start();
+    }
+    class TickListener implements ActionListener{
+        public void actionPerformed(ActionEvent evt){
+            if(game!= null){
+            	game.move();
+                game.repaint();
+            }
+        }
+    }
 }
 
 class GamePanel extends JPanel {
@@ -150,10 +150,10 @@ class GamePanel extends JPanel {
 		enemyPokeHealth = new Rectangle(185,142,182,19);
 		rectButtons = new ArrayList<Rectangle>();
 		rectButtons.add(fightButton);
-		rectButtons.add(bagButton);
-		rectButtons.add(pokeButton);
-		rectButtons.add(runButton);
-		choice = "none";
+        rectButtons.add(bagButton);
+        rectButtons.add(pokeButton);
+        rectButtons.add(runButton);
+        choice = "none";
 		for (int i = 0; i < 4; i++) {
 			String path = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i, "Mask");
 			try {
@@ -178,17 +178,17 @@ class GamePanel extends JPanel {
 			positions[i] = rect;
 		}
 		playerPositions = new int [3][4];
-		Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/PlayerPositions.txt")));
-		while (inFile.hasNextLine()){
-			String line = inFile.nextLine();
-			String [] coordinates = line.split(",");
-			playerPositions[playerPositionCount][0] = Integer.parseInt(coordinates[0]);
-			playerPositions[playerPositionCount][1] = Integer.parseInt(coordinates[1]);
-			playerPositions[playerPositionCount][2] = Integer.parseInt(coordinates[2]);
-			playerPositions[playerPositionCount][3] = Integer.parseInt(coordinates[3]);
-			playerPositionCount ++;
-		}
-		inFile.close();
+			Scanner inFile = new Scanner (new BufferedReader( new FileReader("Data/PlayerPositions.txt")));
+			while (inFile.hasNextLine()){
+				String line = inFile.nextLine();
+				String [] coordinates = line.split(",");
+				playerPositions[playerPositionCount][0] = Integer.parseInt(coordinates[0]);
+				playerPositions[playerPositionCount][1] = Integer.parseInt(coordinates[1]);
+				playerPositions[playerPositionCount][2] = Integer.parseInt(coordinates[2]);
+				playerPositions[playerPositionCount][3] = Integer.parseInt(coordinates[3]);
+				playerPositionCount ++;
+			}
+			inFile.close();
 		posIndex = 0;
 		picIndex = 1;
 		pokemon = false;
@@ -220,7 +220,7 @@ class GamePanel extends JPanel {
 		requestFocus();
 		ready = true;
 	}
-	public void checkButtonCollision(int mx, int my){
+    public void checkButtonCollision(int mx, int my){
 		if (choice.equals("fight")){
 			for (Rectangle item: rectButtons){
 				if (item.contains(mx,my)){
@@ -230,23 +230,23 @@ class GamePanel extends JPanel {
 				}
 			}
 		}
-		if (fightButton.contains(mx,my)){
-			System.out.println("fight");
-			choice = "fight";
-		}
-		else if (bagButton.contains(mx,my)){
-			System.out.println("bag");
+	    if (fightButton.contains(mx,my)){
+            System.out.println("fight");
+            choice = "fight";
+        }
+        else if (bagButton.contains(mx,my)){
+            System.out.println("bag");
 			choice = "bag";
-		}
-		else if (pokeButton.contains(mx,my)){
-			System.out.println("pokemon");
+        }
+        else if (pokeButton.contains(mx,my)){
+            System.out.println("pokemon");
 			choice = "pokemon";
-		}
-		else if (runButton.contains(mx,my)){
-			System.out.println("run");
+        }
+        else if (runButton.contains(mx,my)){
+            System.out.println("run");
 			choice = "run";
-		}
-	}
+        }
+    }
 	public void paintComponent(Graphics g) {
 		if (MasseyMon.inBattle){
 			g.drawImage(pokeArenaBack,0,-5,null);
@@ -259,8 +259,8 @@ class GamePanel extends JPanel {
 			g.setFont(gameFont);
 			g.setColor(Color.GREEN);
 			System.out.println(enemyPoke.getHP()/enemyPoke.getMaxHP());
-			g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP(),(int)myPokeHealth.getHeight());
-			g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP(),(int)enemyPokeHealth.getHeight());
+			g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)(myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP()),(int)myPokeHealth.getHeight());
+			g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)(enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP()),(int)enemyPokeHealth.getHeight());
 			String pokeName = myPoke.getName();
 			g.setColor(Color.black);
 			g.drawString(pokeName,560,440);
@@ -268,11 +268,11 @@ class GamePanel extends JPanel {
 			String text = String.format("What  will  %s  do?",pokeName);
 			g.drawString(text,50,640);
 			if (choice.equals(("none"))){
-				g.drawString("Fight",555,640);
-				g.drawString("Bag",795,640);
-				g.drawString("Pokemon",535,726);
-				g.drawString("Run",795,726);
-			}
+			    g.drawString("Fight",555,640);
+                g.drawString("Bag",795,640);
+                g.drawString("Pokemon",535,726);
+                g.drawString("Run",795,726);
+            }
 			else if (choice.equals("fight")){
 				g.setFont(smallerGameFont);
 				Attack curAttack = MasseyMon.myPokes.get(0).getMoves().get(0);
@@ -285,20 +285,8 @@ class GamePanel extends JPanel {
 			}
 		}
 		else{
-
-		}
-		myGuy.draw(g);
-
-		if (menu) {
-			Menu.display(g);
-			if (bag) {
-				Items.display(g);
-			}
-			if (pokemon) {
-				PokemonMenu.display(g);
-				g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
-				myGuy.draw(g);
-			}
+			g.drawImage(backgrounds[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY(), this);
+			myGuy.draw(g);
 			if (menu) {
 				Menu.display(g);
 				if (bag) {
@@ -325,9 +313,9 @@ class GamePanel extends JPanel {
 		}
 
 		public void mousePressed(MouseEvent e) {
-			mx = e.getX();
-			my = e.getY();
-			checkButtonCollision(mx,my);
+		    mx = e.getX();
+		    my = e.getY();
+		    checkButtonCollision(mx,my);
 		}
 	}
 
@@ -393,11 +381,7 @@ class GamePanel extends JPanel {
 
 	public void move() {
 		if (!menu) {
-			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) &&
-					clear(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) &&
-					clear(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())
-			) {
-
+			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = UP;
 				myGuy.move(direction);
 				if (checkBuilding(Player.getPx(), Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && checkBuilding(Player.getPx() + 19, Player.getPy() - 1, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
@@ -439,8 +423,8 @@ class GamePanel extends JPanel {
 				}
 			}
 			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(Player.getPx() + 20, Player.getPy(), backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() + 20, Player.getPy() + 26, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
-				direction = RIGHT;
-				myGuy.move(direction);
+					direction = RIGHT;
+					myGuy.move(direction);
 			}
 			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(Player.getPx() - 1, Player.getPy(), backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY()) && clear(Player.getPx() - 1, Player.getPy() + 26, backgroundMasks[picIndex], (int) positions[picIndex].getX(), (int) positions[picIndex].getY())) {
 				direction = LEFT;
@@ -449,64 +433,65 @@ class GamePanel extends JPanel {
 			else {
 				myGuy.resetExtra();
 				myGuy.idle(direction);
+					}
+				}
+			}
+
+			private boolean clear ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF0000FF;
+				if (x < (0 + posX) || x >=  (maskPic.getWidth(null) + posX) || y < (0 + posY) || y >= (maskPic.getHeight(null) + posY)) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y -posY);
+				return c != WALL;
+			}
+
+			private boolean checkBuilding ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF00FF00;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+			private boolean checkExit1 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFF0000;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+			private boolean checkExit2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFF00FFFF;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+	}
+
+			private boolean checkBuilding2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFF00FF;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+
+			private boolean checkNextRoute ( int x, int y, BufferedImage maskPic ,int posX, int posY){
+				int WALL = 0xFFFFFF00;
+				if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+					return false;
+				}
+				int c = maskPic.getRGB(x - posX, y - posY);
+				return c == WALL;
+			}
+			public boolean getMenu () {
+				return menu;
 			}
 		}
-	}
 
-	private boolean clear ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFF0000FF;
-		if (x < (0 + posX) || x >=  (maskPic.getWidth(null) + posX) || y < (0 + posY) || y >= (maskPic.getHeight(null) + posY)) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y -posY);
-		return c != WALL;
-	}
-
-	private boolean checkBuilding ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFF00FF00;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		return c == WALL;
-	}
-
-	private boolean checkExit1 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFFFF0000;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		return c == WALL;
-	}
-
-	private boolean checkExit2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFF00FFFF;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		return c == WALL;
-	}
-
-	private boolean checkBuilding2 ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFFFF00FF;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		return c == WALL;
-	}
-
-	private boolean checkNextRoute ( int x, int y, BufferedImage maskPic ,int posX, int posY){
-		int WALL = 0xFFFFFF00;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
-		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		return c == WALL;
-	}
-	public boolean getMenu () {
-		return menu;
-	}
-}
