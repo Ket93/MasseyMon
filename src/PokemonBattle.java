@@ -49,7 +49,6 @@ public class PokemonBattle extends JFrame implements ActionListener{
         }
         return MPAlive;
     }
-    /*
     public void start(){
         curPoke1 = myPokes.get(0);
         curPoke2 = enemyPokes.get(0);
@@ -128,4 +127,4 @@ class GamePanel2 extends JPanel implements KeyListener{
         g.drawImage(battleSprites[1],500,150,null);
     }
 }
-*/
+ */

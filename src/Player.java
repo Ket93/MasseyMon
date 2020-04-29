@@ -4,13 +4,12 @@ import javax.imageio.*;
 
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
-	private int frame, dir, extra, wait, delay;
-	private static int px,py;
+	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
 
 	public Player(int gen) {
-		px = 287;
-		py = 285;
+		worldX = 289;
+		worldY = 285;
 		frame = 6;
 		extra = 0;
 		wait = 0;
@@ -39,18 +38,20 @@ public class Player {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(sprites[frame], px, py, null);
+		g.drawImage(sprites[frame], worldX, worldY, null);
 	}
 
 	public void move(int dir) {
-		if (dir == UP) {
-			py -= 1;
-		} else if (dir == RIGHT) {
-			px += 1;
-		} else if (dir == DOWN) {
-			py += 1;
-		} else if (dir == LEFT) {
-			px -= 1;
+		screenX = worldX%956;
+		screenY = worldY%795;
+		if (dir == UP && !GamePanel.getOffsetY()) {
+			worldY -= 1;
+		} else if (dir == RIGHT && !GamePanel.getOffsetX()) {
+			worldX += 1;
+		} else if (dir == DOWN && !GamePanel.getOffsetY()) {
+			worldY += 1;
+		} else if (dir == LEFT && !GamePanel.getOffsetX()) {
+			worldX -= 1;
 		}
 
 		updateFrame();
@@ -86,9 +87,11 @@ public class Player {
 		extra = 0;
 	}
 
-	public static int getPx(){return px;}
-	public static int getPy(){return py;}
-	public static void setPx(int val ){px = val;}
-	public static void setPy (int val){py = val;}
+	public int getWorldX(){return worldX;}
+	public int getWorldY(){return worldY;}
+	public void setWorldX(int val ){worldX = val;}
+	public void setWorldY(int val){worldY = val;}
+	public int getScreenX(){return screenX;}
+	public int getScreenY(){return screenY;}
 }
 	
