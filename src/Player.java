@@ -42,21 +42,21 @@ public class Player {
 		g.drawImage(sprites[frame], worldX, screenY, null);
 	}
 
-	public void move(int dir) {
+	public void move(int dir,int picIndex) {
 
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
 				screenY -=1;
 			}
 			worldY -= 1;
-		} else if (dir == RIGHT && !GamePanel.getOffsetX()) {
+		} else if (dir == RIGHT) {
 			worldX += 1;
 		} else if (dir == DOWN) {
-			if (screenY < 398 || worldY > 870) {
+			if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
 				screenY +=1;
 			}
 			worldY += 1;
-		} else if (dir == LEFT && !GamePanel.getOffsetX()) {
+		} else if (dir == LEFT) {
 			worldX -= 1;
 		}
 

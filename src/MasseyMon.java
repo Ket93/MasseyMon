@@ -294,7 +294,6 @@ class GamePanel extends JPanel {
 			}
 		}
 		else{
-			System.out.println(myMap.getMapY());
 
 			g.setColor(new Color(0,0,0));
 			g.fillRect(0,0,956,795);
@@ -411,13 +410,14 @@ class GamePanel extends JPanel {
 		if (!menu) {
 			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY()-1,myGuy.getWorldX()+19,myGuy.getWorldY()-1)) {
 				direction = UP;
-				myGuy.move(direction);
+				myGuy.move(direction,picIndex);
 				if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
 					mini = true;
 					miniPicIndex += 2;
 
 					myGuy.setWorldX(MasseyMon.getMiniMap(miniPicIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMiniMap(miniPicIndex).getStartPosY());
+					myGuy.setScreenY(MasseyMon.getMiniMap(miniPicIndex).getStartPosY());
 				}
 				if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
 					mini = true;
@@ -425,38 +425,41 @@ class GamePanel extends JPanel {
 
 					myGuy.setWorldX(MasseyMon.getMiniMap(miniPicIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMiniMap(miniPicIndex).getStartPosY());
+					myGuy.setScreenY(MasseyMon.getMiniMap(miniPicIndex).getStartPosY());
 				}
 				if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() -1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
 					picIndex += 1;
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
-					myGuy.setScreenY(100);
+					myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
 				}
 
 			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27,myGuy.getWorldX()+19,myGuy.getWorldY()+27)) {
 				direction = DOWN;
-				myGuy.move(direction);
+				myGuy.move(direction,picIndex);
 
 				if (checkExit1(myGuy.getWorldX()-1, myGuy.getWorldY() + 27,myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
 					mini = false;
 					miniPicIndex-=2;
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX2());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY2());
+					myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY2());
 				}
 				if (checkExit2(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
 					mini = false;
 					miniPicIndex-=1;
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
+					myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
 				}
 			}
 			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(),myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
 				direction = RIGHT;
-				myGuy.move(direction);
+				myGuy.move(direction,picIndex);
 			}
 			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(),myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
 				direction = LEFT;
-				myGuy.move(direction);
+				myGuy.move(direction,picIndex);
 			}
 			else {
 				myGuy.resetExtra();
@@ -582,11 +585,5 @@ class GamePanel extends JPanel {
 	}
 	public boolean getMenu () {
 		return menu;
-	}
-	public static boolean getOffsetX(){
-		return ifOffsetX;
-	}
-	public static boolean getOffsetY(){
-		return ifOffsetY;
 	}
 }

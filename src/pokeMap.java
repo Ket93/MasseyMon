@@ -31,9 +31,15 @@ public class pokeMap {
         startPosX2 = Integer.parseInt(pos[2]);
         startPosY2 = Integer.parseInt(pos[3]);
         mapX = (956 - background.getWidth(null)) / 2;
+        if (background.getWidth(null) > 956){
+            mapX = 0;
+        }
         mapY = (795 - background.getHeight(null)) / 2;
+        if (background.getHeight(null) > 795){
+            mapY = 0;
+        }
         mapHeight = background.getHeight(null);
-        mapWidth = background.getWidth(null) / 2;
+        mapWidth = background.getWidth(null);
 
     }
 
