@@ -294,6 +294,8 @@ class GamePanel extends JPanel {
 			}
 		}
 		else{
+			System.out.println(myMap.getMapY());
+
 			g.setColor(new Color(0,0,0));
 			g.fillRect(0,0,956,795);
 			ifOffsetX = false;
@@ -479,8 +481,8 @@ class GamePanel extends JPanel {
 		if (x < (0 + posX) || x >=  (maskPic.getWidth(null) + posX) || y < (0 + posY) || y >= (maskPic.getHeight(null) + posY)) {
 			return false;
 		}
-		int c = maskPic.getRGB(x - posX, y -posY);
-		int d = maskPic.getRGB(x2 - posX, y2 -posY);
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c != WALL && d!=WALL;
 	}
 

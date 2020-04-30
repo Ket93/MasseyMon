@@ -44,22 +44,22 @@ public class Player {
 
 	public void move(int dir) {
 
-		if (dir == UP && !GamePanel.getOffsetY()) {
-
-			if (worldY < 398) {
+		if (dir == UP) {
+			if (screenY > 398 || worldY < 398) {
 				screenY -=1;
 			}
 			worldY -= 1;
 		} else if (dir == RIGHT && !GamePanel.getOffsetX()) {
 			worldX += 1;
-		} else if (dir == DOWN && !GamePanel.getOffsetY()) {
-			if (worldY < 398) {
+		} else if (dir == DOWN) {
+			if (screenY < 398 || worldY > 870) {
 				screenY +=1;
 			}
 			worldY += 1;
 		} else if (dir == LEFT && !GamePanel.getOffsetX()) {
 			worldX -= 1;
 		}
+
 
 		updateFrame();
 		frame = dir + extra;
