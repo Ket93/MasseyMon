@@ -310,7 +310,7 @@ class GamePanel extends JPanel {
 				g.drawImage(MasseyMon.getMiniMap(miniPicIndex).getMap(),MasseyMon.getMiniMap(miniPicIndex).getMapX(),MasseyMon.getMiniMap(miniPicIndex).getMapY(),this);
 			}
 			else {
-				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
+				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX() + offsetX, offsetY, this);
 			}
 			myGuy.draw(g);
 			if (menu) {
@@ -406,7 +406,6 @@ class GamePanel extends JPanel {
 	}
 
 	public void move() {
-		System.out.println(miniPicIndex);
 		if (!menu) {
 			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY()-1,myGuy.getWorldX()+19,myGuy.getWorldY()-1)) {
 				direction = UP;
@@ -429,6 +428,7 @@ class GamePanel extends JPanel {
 					picIndex += 1;
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
+					myGuy.setScreenY(100);
 				}
 
 			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27,myGuy.getWorldX()+19,myGuy.getWorldY()+27)) {

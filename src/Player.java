@@ -10,6 +10,7 @@ public class Player {
 	public Player(int gen) {
 		worldX = 289;
 		worldY = 285;
+		screenY = 285;
 		frame = 6;
 		extra = 0;
 		wait = 0;
@@ -38,17 +39,23 @@ public class Player {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(sprites[frame], worldX, worldY, null);
+		g.drawImage(sprites[frame], worldX, screenY, null);
 	}
 
 	public void move(int dir) {
-		screenX = worldX%956;
-		screenY = worldY%795;
+
 		if (dir == UP && !GamePanel.getOffsetY()) {
+
+			if (worldY < 398) {
+				screenY -=1;
+			}
 			worldY -= 1;
 		} else if (dir == RIGHT && !GamePanel.getOffsetX()) {
 			worldX += 1;
 		} else if (dir == DOWN && !GamePanel.getOffsetY()) {
+			if (worldY < 398) {
+				screenY +=1;
+			}
 			worldY += 1;
 		} else if (dir == LEFT && !GamePanel.getOffsetX()) {
 			worldX -= 1;
@@ -93,5 +100,6 @@ public class Player {
 	public void setWorldY(int val){worldY = val;}
 	public int getScreenX(){return screenX;}
 	public int getScreenY(){return screenY;}
+	public void setScreenY(int val){screenY = val;}
 }
 	
