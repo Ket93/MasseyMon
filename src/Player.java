@@ -50,6 +50,9 @@ public class Player {
 			}
 			worldY -= 1;
 		} else if (dir == RIGHT) {
+			if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478){
+				screenX +=1;
+			}
 			worldX += 1;
 		} else if (dir == DOWN) {
 			if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
@@ -57,6 +60,9 @@ public class Player {
 			}
 			worldY += 1;
 		} else if (dir == LEFT) {
+			if (screenX > 478 || worldX < 478){
+				screenX -=1;
+			}
 			worldX -= 1;
 		}
 
