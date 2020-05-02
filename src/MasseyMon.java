@@ -164,7 +164,7 @@ class GamePanel extends JPanel {
 	private int direction;
 	private boolean ready = true;
 	private boolean mini;
-	private Image pokeArenaBack,pokeBox,backArrow,itemMenu;
+	private Image pokeArenaBack,pokeBox,backArrow,itemMenu,switchBackground;
 	private String choice;
 	private boolean[] keys;
 	private Image[] battleSprites;
@@ -229,6 +229,7 @@ class GamePanel extends JPanel {
 
 		try {
 			pokeArenaBack = ImageIO.read(new File("Images/Battles/PokeBattle2.jpg"));
+			switchBackground = ImageIO.read(new File("Images/Battles/switchBackground.png"));
 			pokeBox = ImageIO.read(new File("Images/Battles/pokeBox.png"));
 			backArrow = ImageIO.read(new File("Images/Battles/arrow.png"));
 			itemMenu = ImageIO.read(new File("Images/Battles/itemMenu.png"));
@@ -276,19 +277,15 @@ class GamePanel extends JPanel {
 		}
 		else if (choice.equals("none")){
 			if (fightButton.contains(mouse)){
-				System.out.println("fight");
 				choice = "fight";
 			}
 			else if (bagButton.contains(mouse)){
-				System.out.println("bag");
 				choice = "bag";
 			}
 			else if (pokeButton.contains(mouse)){
-				System.out.println("pokemon");
 				choice = "pokemon";
 			}
 			else if (runButton.contains(mouse)){
-				System.out.println("run");
 				choice = "run";
 				MasseyMon.inBattle = false;
 			}
@@ -301,22 +298,24 @@ class GamePanel extends JPanel {
 		}
 		if (MasseyMon.inBattle){
 			curGame = MasseyMon.frame;
-			Pokemon myPoke = curGame.getMyPokes().get(0);
-			Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
-			battleSprites = curGame.getPokeImages(myPoke.getNum(),enemyPoke.getNum());
-			String pokeName = myPoke.getName();
-			String text = String.format("What  will  %s  do?",pokeName);
-			g.drawImage(pokeArenaBack,0,-5,null);
-			g.drawImage(battleSprites[0],90,355,null);
-			g.drawImage(battleSprites[1],620,175,null);
-			g.setFont(gameFont);
-			g.setColor(Color.GREEN);
-			g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)(myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP()),(int)myPokeHealth.getHeight());
-			g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)(enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP()),(int)enemyPokeHealth.getHeight());
-			g.setColor(Color.black);
-			g.drawString(pokeName,560,440);
-			g.drawString(enemyPoke.getName(),15,125);
-			g.drawString(text,50,640);
+			if (choice.equals("none") || choice.equals("fight") || choice.equals("run")){
+				Pokemon myPoke = curGame.getMyPokes().get(0);
+				Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
+				battleSprites = curGame.getPokeImages(myPoke.getNum(),enemyPoke.getNum());
+				String pokeName = myPoke.getName();
+				String text = String.format("What  will  %s  do?",pokeName);
+				g.drawImage(pokeArenaBack,0,-5,null);
+				g.drawImage(battleSprites[0],90,355,null);
+				g.drawImage(battleSprites[1],620,175,null);
+				g.setFont(gameFont);
+				g.setColor(Color.GREEN);
+				g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)(myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP()),(int)myPokeHealth.getHeight());
+				g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)(enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP()),(int)enemyPokeHealth.getHeight());
+				g.setColor(Color.black);
+				g.drawString(pokeName,560,440);
+				g.drawString(enemyPoke.getName(),15,125);
+				g.drawString(text,50,640);
+			}
 			if (choice.equals(("none"))){
 				g.drawString("Fight",555,640);
 				g.drawString("Bag",795,640);
@@ -329,15 +328,15 @@ class GamePanel extends JPanel {
 					Attack curAttack = MasseyMon.myPokes.get(0).getMoves().get(i);
 					if (curAttack != null){
 						int x,y;
-						if (i == 1){
+						if (i == 0){
 							x = 485;
 							y = 627;
 						}
-						else if (i == 2){
+						else if (i == 1){
 							x = 721;
 							y = 627;
 						}
-						else if (i == 3){
+						else if (i == 2){
 							x = 485;
 							y = 713;
 						}
@@ -353,12 +352,15 @@ class GamePanel extends JPanel {
 				}
 			}
 			else if(choice.equals("pokemon")){
-				g.setColor(Color.WHITE);
-				g.fillRect(0,0,956,795);
+				//g.setColor(Color.WHITE);
+				//g.fillRect(0,0,956,795);
+				g.setFont(gameFont);
+				g.drawImage(switchBackground,0,0,null);
 				g.drawImage(pokeBox,231,650,null);
 				g.drawImage(backArrow,10,10,null);
-				ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
-				myPokes = curGame.getMyPokes();
+				g.setColor(Color.BLACK);
+				g.drawString("What Pokemon will you switch to?",275,710);
+				ArrayList<Pokemon> myPokes = curGame.getMyPokes();
 				for (int i = 0; i < myPokes.size(); i++){
 					Pokemon curPoke = myPokes.get(i);
 					Image pokeImage = curGame.getDisplayPic(curPoke);
