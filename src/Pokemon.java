@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+
 class Pokemon{
 	private int hp,maxHP,num,atk,def,spatk,spdef,speed,extra,level;
 	private String type1,type2,resistance,weakness,name;
@@ -22,6 +24,9 @@ class Pokemon{
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
 		level = 10;
+		for (int i = 0; i < 4; i++){
+			pokeAttacks.add(null);
+		}
 	}
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
@@ -38,9 +43,21 @@ class Pokemon{
 	public int getSpecialDefence(){return spdef;}
 	public int getDefence(){return def;}
 	public int getMaxHP(){return maxHP;}
+	public int getLevel(){return level;}
+	public void setAtkPP(Attack atk, int p){
+		atk.setPP(p);
+	}
 	public void learnMove(Attack atk){
 		if (pokeAttacks.size()<4){
 			pokeAttacks.add(atk);
+		}
+		else{
+			for (int i = 0; i < 4; i++){
+				if (pokeAttacks.get(i) == null){
+					pokeAttacks.set(i,atk);
+					break;
+				}
+			}
 		}
 	}
 	public static int randint(int low, int high){
@@ -50,6 +67,7 @@ class Pokemon{
 		return pokeAttacks;
 	}
 	public void doAttack(Attack atkDone, Pokemon defender){
+		System.out.println(atkDone.getName());
 		TypeChart myChart = new TypeChart();
 		int myRandInt = randint(1,100);
 		double mod,STAB,crit,rand,typeMult;
@@ -57,17 +75,17 @@ class Pokemon{
 		if (type1.equals(atkDone.getType()) || type2.equals(atkDone.getType())){
 			STAB = 1.5;
 		}
-		crit = 1;
+		crit = 1.0;
 		if (myRandInt <= 100 && myRandInt >= 85){
 			crit = 1.5;
 		}
 		myRandInt = randint(0,15);
-		rand = 1+myRandInt/100;
+		rand = 1+myRandInt/100.0;
 		typeMult = myChart.getEffect(atkDone,defender);
+		System.out.println(typeMult);
 		mod = crit*rand*STAB*typeMult;
 		int atkDmg, defDef;
 		if (atkDone.getDmgType().equals("Physical")){
-			System.out.println("x");
 			atkDmg = atk;
 			defDef = defender.getDefence();
 		}
@@ -76,21 +94,34 @@ class Pokemon{
 			defDef = defender.getSpecialDefence();
 		}
 		else{
-			System.out.println("Z");
 			atkDmg = 0;
 			defDef = 1;
 		}
-		double damageDone = ((((2*level/5+2)*atkDone.getDmg()*atkDmg/defDef)+2)/50);
+		double damageDone = ((((2.0*((float)level)/5.0+2)*((float)atkDone.getDmg())*((float)atkDmg)/((float)defDef))+2)/50.0);
 		damageDone *= mod;
-		System.out.println(damageDone);
 		defender.setHP((int)(defender.getHP()-damageDone));
+		setAtkPP(atkDone,atkDone.getPP()-1);
 	}
 }
 class TypeChart{
 	private double [][] types;
 	private ArrayList<String> typeVals;
 	public TypeChart(){
-	    double[][] doubles = {{1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5,0.0,1.0},{1.0,0.5,0.5,1.0,2.0,2.0,1.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5},{1.0,2.0,0.5,1.0,0.5,1.0,1.0,1.0,2.0,1.0,1.0,1.0,2.0,1.0,0.5},{1.0,1.0,2.0,0.5,0.5,1.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,1.0,0.5},{1,0,0.5,2.0,1.0,0.5,1.0,1.0,0.5,2.0,0.5,1.0,0.5,2.0,1.0,0.5},{1.0,1.0,0.5,1.0,2.0,0.5,1.0,1.0,2.0,2.0,1.0,1.0,1.0,1.0,2.0},{2.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0,0.5,0.5,0.5,2.0,0.0,1.0},{1.0,1.0,1.0,1.0,2.0,1.0,1.0,0.5,0.5,1.0,1.0,2.0,0.5,0.5,1.0},{1.0,2.0,1.0,2.0,0.5,1.0,1.0,2.0,1.0,0.0,1.0,0.5,2.0,1.0,1.0},{1.0,1.0,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0},{1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,1.0,0.5,1.0,1.0,1.0,1.0},{1.0,0.5,1.0,1.0,2.0,1.0,0.5,2.0,1.0,0.5,2.0,1.0,1.0,0.5,1.0},{1.0,2.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0},{0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,1.0},{1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0}};
+	    double[][] doubles = {{1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5,0.0,1.0},
+				  			  {1.0,0.5,0.5,1.0,2.0,2.0,1.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5},
+				              {1.0,2.0,0.5,1.0,0.5,1.0,1.0,1.0,2.0,1.0,1.0,1.0,2.0,1.0,0.5},
+				              {1.0,1.0,2.0,0.5,0.5,1.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,1.0,0.5},
+				              {1.0,0.5,2.0,1.0,0.5,1.0,1.0,0.5,2.0,0.5,1.0,0.5,2.0,1.0,0.5},
+				              {1.0,1.0,0.5,1.0,2.0,0.5,1.0,1.0,2.0,2.0,1.0,1.0,1.0,1.0,2.0},
+				              {2.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0,0.5,0.5,0.5,2.0,0.0,1.0},
+				              {1.0,1.0,1.0,1.0,2.0,1.0,1.0,0.5,0.5,1.0,1.0,2.0,0.5,0.5,1.0},
+				              {1.0,2.0,1.0,2.0,0.5,1.0,1.0,2.0,1.0,0.0,1.0,0.5,2.0,1.0,1.0},
+				              {1.0,1.0,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0},
+				              {1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,1.0,0.5,1.0,1.0,1.0,1.0},
+				              {1.0,0.5,1.0,1.0,2.0,1.0,0.5,2.0,1.0,0.5,2.0,1.0,1.0,0.5,1.0},
+				              {1.0,2.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0},
+				              {0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,1.0},
+				              {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0}};
 		ArrayList<String> Ts = new ArrayList<String>();
 		String [] Ts2 = {"Normal","Fire","Water","Electric","Grass","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon"};
 		for (String item : Ts2){
@@ -103,9 +134,10 @@ class TypeChart{
 		double tot;
 		int index1 = typeVals.indexOf(atk.getType());
 		int index2 = typeVals.indexOf(def.getType1());
-		tot = types[index2][index1];
+		tot = types[index1][index2];
 		if (def.getType2().equals("N/A") == false){
-			int index3 = typeVals.indexOf(def.getType2());
+			System.out.println("hi");
+			int index3 = typeVals.get(index1).indexOf(def.getType2());
 			tot *= types[index3][index1];
 		}
 		return tot;
@@ -137,4 +169,5 @@ class Attack{
 	public int getPP(){return pp;}
 	public int getMaxPP(){return maxPP;}
 	public String getDmgType(){return dmgType;}
+	public void setPP(int p){pp = p;}
 }
