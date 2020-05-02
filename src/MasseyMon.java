@@ -539,13 +539,23 @@ class GamePanel extends JPanel {
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+							myGuy.setScreenY(398);
+						} else {
+							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+						}
 					}
+
 					else{
 						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
 					}
 					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
+						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+							myGuy.setScreenX(478);
+						}
+					else {
+							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
+						}
 					}
 					else{
 						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
