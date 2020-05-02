@@ -11,6 +11,7 @@ public class Player {
 		worldX = 289;
 		worldY = 285;
 		screenY = 285;
+		screenX = 289;
 		frame = 6;
 		extra = 0;
 		wait = 0;
@@ -39,7 +40,7 @@ public class Player {
 	}
 
 	public void draw(Graphics g) {
-		g.drawImage(sprites[frame], worldX, screenY, null);
+		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
 
 	public void move(int dir,int picIndex) {
@@ -105,6 +106,7 @@ public class Player {
 	public void setWorldX(int val ){worldX = val;}
 	public void setWorldY(int val){worldY = val;}
 	public int getScreenX(){return screenX;}
+	public void setScreenX(int val){screenX = val;}
 	public int getScreenY(){return screenY;}
 	public void setScreenY(int val){screenY = val;}
 }
