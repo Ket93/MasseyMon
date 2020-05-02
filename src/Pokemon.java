@@ -22,6 +22,9 @@ class Pokemon{
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
 		level = 10;
+		for (int i = 0; i < 4; i++){
+			pokeAttacks.add(null);
+		}
 	}
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
@@ -38,9 +41,18 @@ class Pokemon{
 	public int getSpecialDefence(){return spdef;}
 	public int getDefence(){return def;}
 	public int getMaxHP(){return maxHP;}
+	public int getLevel(){return level;}
 	public void learnMove(Attack atk){
 		if (pokeAttacks.size()<4){
 			pokeAttacks.add(atk);
+		}
+		else{
+			for (int i = 0; i < 4; i++){
+				if (pokeAttacks.get(i) == null){
+					pokeAttacks.set(i,atk);
+					break;
+				}
+			}
 		}
 	}
 	public static int randint(int low, int high){
@@ -57,17 +69,17 @@ class Pokemon{
 		if (type1.equals(atkDone.getType()) || type2.equals(atkDone.getType())){
 			STAB = 1.5;
 		}
-		crit = 1;
+		crit = 1.0;
 		if (myRandInt <= 100 && myRandInt >= 85){
 			crit = 1.5;
 		}
 		myRandInt = randint(0,15);
-		rand = 1+myRandInt/100;
+		rand = 1+myRandInt/100.0;
 		typeMult = myChart.getEffect(atkDone,defender);
+		System.out.println(typeMult);
 		mod = crit*rand*STAB*typeMult;
 		int atkDmg, defDef;
 		if (atkDone.getDmgType().equals("Physical")){
-			System.out.println("x");
 			atkDmg = atk;
 			defDef = defender.getDefence();
 		}
@@ -76,11 +88,10 @@ class Pokemon{
 			defDef = defender.getSpecialDefence();
 		}
 		else{
-			System.out.println("Z");
 			atkDmg = 0;
 			defDef = 1;
 		}
-		double damageDone = ((((2*level/5+2)*atkDone.getDmg()*atkDmg/defDef)+2)/50);
+		double damageDone = ((((2.0*((float)level)/5.0+2)*((float)atkDone.getDmg())*((float)atkDmg)/((float)defDef))+2)/50.0);
 		damageDone *= mod;
 		System.out.println(damageDone);
 		defender.setHP((int)(defender.getHP()-damageDone));
