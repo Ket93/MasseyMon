@@ -67,7 +67,6 @@ class Pokemon{
 		return pokeAttacks;
 	}
 	public void doAttack(Attack atkDone, Pokemon defender){
-		System.out.println(atkDone.getName());
 		TypeChart myChart = new TypeChart();
 		int myRandInt = randint(1,100);
 		double mod,STAB,crit,rand,typeMult;
@@ -82,7 +81,6 @@ class Pokemon{
 		myRandInt = randint(0,15);
 		rand = 1+myRandInt/100.0;
 		typeMult = myChart.getEffect(atkDone,defender);
-		System.out.println(typeMult);
 		mod = crit*rand*STAB*typeMult;
 		int atkDmg, defDef;
 		if (atkDone.getDmgType().equals("Physical")){
@@ -100,7 +98,18 @@ class Pokemon{
 		double damageDone = ((((2.0*((float)level)/5.0+2)*((float)atkDone.getDmg())*((float)atkDmg)/((float)defDef))+2)/50.0);
 		damageDone *= mod;
 		defender.setHP((int)(defender.getHP()-damageDone));
+		if (defender.getHP() < 0){
+			defender.setHP(0);
+		}
 		setAtkPP(atkDone,atkDone.getPP()-1);
+		MasseyMon curGame = MasseyMon.frame;
+		if (defender == curGame.getMyPokes().get(0) && defender.getHP() <= 0){
+			defender.getHP();
+			curGame.game.setChoice("pokemon");
+		}
+		if (defender == curGame.getEnemyPokes().get(0) && defender.getHP() <= 0){
+			curGame.AISwitch();
+		}
 	}
 }
 class TypeChart{
@@ -136,9 +145,30 @@ class TypeChart{
 		int index2 = typeVals.indexOf(def.getType1());
 		tot = types[index1][index2];
 		if (def.getType2().equals("N/A") == false){
-			System.out.println("hi");
-			int index3 = typeVals.get(index1).indexOf(def.getType2());
+			int index3 = typeVals.indexOf(def.getType2());
 			tot *= types[index3][index1];
+		}
+		return tot;
+	}
+	public double getPokeEffect(Pokemon atk, Pokemon def){
+		double tot;
+		int index1,index2;
+		int index3 = -1, index4 = -1;
+		index1 = typeVals.indexOf(atk.getType1());
+		index2 = typeVals.indexOf(def.getType1());
+		if (atk.getType2().equals("N/A") == false){
+			index3 = typeVals.indexOf(atk.getType2());
+		}
+		if (def.getType2().equals("N/A") == false){
+			index4 = typeVals.indexOf(def.getType2());
+		}
+		tot = types[index1][index2];
+		if (index3 != -1){
+			tot*= types[index3][index2];
+		}
+		if (index4 != -1){
+			tot*= types[index3][index4];
+			tot*= types[index1][index4];
 		}
 		return tot;
 	}
