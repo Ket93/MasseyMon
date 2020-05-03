@@ -8,13 +8,13 @@ import java.util.Scanner;
 import javax.imageio.*;
 
 public class MasseyMon extends JFrame {
-	public static MasseyMon frame;
 	GamePanel game;
 	javax.swing.Timer myTimer;
-	private Pokemon curPoke1,curPoke2;
+	private int winner;
 	public static boolean inBattle;
-	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
-	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+	private Pokemon curPoke1,curPoke2;
+	public static MasseyMon frame;
+	TypeChart myChart = new TypeChart();
 	private ArrayList<Image> myPokeImages = new ArrayList<Image>();
 	private ArrayList<Image> enemyPokeImages = new ArrayList<Image>();
 	private ArrayList<Image> displayImages = new ArrayList<Image>();
@@ -22,6 +22,9 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<Attack> allAttacks = new ArrayList<Attack>();
 	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>();
 	public static ArrayList<pokeMapMini> miniMaps = new ArrayList<pokeMapMini>();
+	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
+	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+	private boolean fleeable;
 	public MasseyMon() throws IOException {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,7 +37,9 @@ public class MasseyMon extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		start();
-		inBattle = false;
+		inBattle = true;
+		winner = -1;
+		fleeable = true;
 	}
 	public ArrayList<Pokemon> getAllPokes(){
 		return allPokemon;
@@ -50,6 +55,46 @@ public class MasseyMon extends JFrame {
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
+	}
+	public boolean isFleeable(){
+		return fleeable;
+	}
+	public void AISwitch(){
+		myChart = new TypeChart();
+		ArrayList<Double> vals = new ArrayList<Double>();
+		ArrayList<Pokemon> possiblePokes = new ArrayList<Pokemon>();
+		for (Pokemon poke: enemyPokes){
+			if (poke.getHP() > 0){
+				int index = enemyPokes.indexOf(poke);
+				vals.add(myChart.getPokeEffect(myPokes.get(0),poke));
+				possiblePokes.add(poke);
+			}
+		}
+		double smallest = 4.0;
+		int index = -1;
+		for (Double val: vals){
+			if (val < smallest){
+				val = smallest;
+				index = vals.indexOf(val);
+			}
+		}
+		if (index == -1){
+			for (int i = 0; i < 5; i++){
+				Pokemon potPoke = enemyPokes.get(1+i);
+				if (potPoke.getHP() > 0){
+					index = enemyPokes.indexOf(potPoke);
+				}
+			}
+			if (index == -1){
+				winner = 1;
+			}
+		}
+		if (winner != 1){
+			Pokemon curPoke = enemyPokes.get(0);
+			Pokemon switchPoke = enemyPokes.get(index);
+			enemyPokes.set(0,switchPoke);
+			enemyPokes.set(index,curPoke);
+		}
 	}
 	public void loadImages() throws IOException{
 		for (int i = 0; i < 151; i++){
@@ -94,6 +139,7 @@ public class MasseyMon extends JFrame {
 		for (int i = 0; i < 6; i++){
 			for (int j = 0; j < 4; j++){
 				myPokes.get(i).learnMove(allAttacks.get(j));
+				enemyPokes.get(i).learnMove(allAttacks.get(i));
 			}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
@@ -142,6 +188,18 @@ public class MasseyMon extends JFrame {
 	public Image getDisplayPic(Pokemon poke){
 		return displayImages.get(poke.getNum()-1);
 	}
+	public void heal(Pokemon poke){
+		System.out.println("healed" + poke.getName());
+	}
+	public boolean isBad(){
+		Pokemon myPoke = myPokes.get(0);
+		Pokemon enemyPoke = enemyPokes.get(0);
+		double val  = myChart.getPokeEffect(myPoke,enemyPoke);
+		if (val <= 1.0){
+			return false;
+		}
+		return true;
+	}
 	public void start(){
 		myTimer.start();
 	}
@@ -181,6 +239,7 @@ class GamePanel extends JPanel {
 	Menu myMenu;
 	Player myGuy;
 	MasseyMon curGame;
+	TypeChart myChart = new TypeChart();
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
 		fightButton = new Rectangle(464,584,236,86);
@@ -189,7 +248,7 @@ class GamePanel extends JPanel {
 		runButton = new Rectangle(701,671,236,86);
 		HPRectWidths = 182;
 		myPokeHealth = new Rectangle(740,460,182,18);
-		enemyPokeHealth = new Rectangle(185,142,182,19);
+		enemyPokeHealth = new Rectangle(185,143,182,19);
 		backArrowRect = new Rectangle(10,10,50,50);
 		for (int i = 0; i < 6; i++){
 			switchPokeRects[i] = new Rectangle(143,20+105*i,650,105);
@@ -248,15 +307,21 @@ class GamePanel extends JPanel {
 		requestFocus();
 		ready = true;
 	}
+	public void setChoice(String c){
+		choice = c;
+	}
 	public void checkButtonCollision(int mx, int my){
 		Point mouse = getMousePosition();
+		boolean doneTurn = false;
 		if (choice.equals("fight")){
 			for (Rectangle item: rectButtons){
 				if (item.contains(mouse)){
 					Pokemon attacker = MasseyMon.myPokes.get(0);
 					Pokemon defender = MasseyMon.enemyPokes.get(0);
 					if (attacker.getMoves().get(rectButtons.indexOf(item)) != null){
-						attacker.doAttack(attacker.getMoves().get(rectButtons.indexOf(item)),defender);
+						Attack atk = attacker.getMoves().get(rectButtons.indexOf(item));
+						attacker.doAttack(atk,defender);
+						doneTurn = true;
 					}
 					choice = "none";
 				}
@@ -266,13 +331,26 @@ class GamePanel extends JPanel {
 			for (int i = 0; i < 6; i++){
 				if (switchPokeRects[i].contains(mouse)){
 					if (i != 0){
-						curGame.pokeSwitch(i);
-						choice = "none";
+						if (curGame.getMyPokes().get(0).getHP() > 0){
+							curGame.pokeSwitch(i);
+							choice = "none";
+							doneTurn = true;
+						}
 					}
 				}
 			}
 			if (backArrowRect.contains(mouse)){
 				choice = "none";
+			}
+		}
+		else if (choice.equals("run")){
+			if (curGame.isFleeable()){
+				System.out.println("you raw away...");
+				MasseyMon.inBattle = false;
+			}
+			else{
+				System.out.println("you couldn't run away!");
+				doneTurn = true;
 			}
 		}
 		else if (choice.equals("none")){
@@ -287,7 +365,33 @@ class GamePanel extends JPanel {
 			}
 			else if (runButton.contains(mouse)){
 				choice = "run";
-				MasseyMon.inBattle = false;
+			}
+		}
+		if (doneTurn){
+			Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
+			if (curGame.isBad()){
+				curGame.AISwitch();
+			}
+			else{
+				if ((float)enemyPoke.getHP()/(float)enemyPoke.getMaxHP() <= 0.25){
+					curGame.heal(enemyPoke);
+				}
+				else{
+					ArrayList<Attack> enemyAttacks = new ArrayList<Attack>();
+					enemyAttacks = curGame.getEnemyPokes().get(0).getMoves();
+					ArrayList<Double> atkMults = new ArrayList<Double>();
+					Pokemon myPoke = curGame.getMyPokes().get(0);
+					int index = 0;
+					double highest = 0.0;
+					for (Attack atk: enemyAttacks){
+						double val = myChart.getEffect(atk,myPoke);
+						atkMults.add(val);
+						if (val > highest){
+							index = enemyAttacks.indexOf(atk);
+						}
+					}
+					enemyPoke.doAttack(enemyAttacks.get(index),myPoke);
+				}
 			}
 		}
 	}
@@ -303,7 +407,8 @@ class GamePanel extends JPanel {
 				Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
 				battleSprites = curGame.getPokeImages(myPoke.getNum(),enemyPoke.getNum());
 				String pokeName = myPoke.getName();
-				String text = String.format("What  will  %s  do?",pokeName);
+				String enemyPokeName = enemyPoke.getName();
+				String text = String.format("What will %s do?",pokeName);
 				g.drawImage(pokeArenaBack,0,-5,null);
 				g.drawImage(battleSprites[0],90,355,null);
 				g.drawImage(battleSprites[1],620,175,null);
@@ -352,8 +457,6 @@ class GamePanel extends JPanel {
 				}
 			}
 			else if(choice.equals("pokemon")){
-				//g.setColor(Color.WHITE);
-				//g.fillRect(0,0,956,795);
 				g.setFont(gameFont);
 				g.drawImage(switchBackground,0,0,null);
 				g.drawImage(pokeBox,231,650,null);
@@ -374,7 +477,6 @@ class GamePanel extends JPanel {
 					int finalWidth = (int)width;
 					g.fillRect(333,80+105*i,finalWidth,25);
 					g.setColor(Color.BLACK);
-					g.fillRect(533,80+105*i,2,25);
 					g.drawString(""+curPoke.getHP()+"/"+curPoke.getMaxHP(),543,105+105*i);
 					g.drawString("Level: "+curPoke.getLevel(),653,105+105*i);
 				}
