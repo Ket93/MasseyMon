@@ -43,28 +43,44 @@ public class Player {
 		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
 
-	public void move(int dir,int picIndex) {
+	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) {
 
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
-				screenY -=1;
+				screenY -=5;
 			}
-			worldY -= 1;
+			worldY -= 5;
 		} else if (dir == RIGHT) {
-			if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478){
-				screenX +=1;
+			if (mini) {
+				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) {
+					screenX += 5;
+				}
 			}
-			worldX += 1;
-		} else if (dir == DOWN) {
-			if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
-				screenY +=1;
+				else {
+					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) {
+						screenX += 5;
+					}
+				}
+			worldX += 5;
+		}
+		else if (dir == DOWN) {
+			if (mini){
+				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){
+					screenY += 5;
+				}
 			}
-			worldY += 1;
-		} else if (dir == LEFT) {
+			else {
+				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
+					screenY += 5;
+				}
+			}
+			worldY += 5;
+		}
+		else if (dir == LEFT) {
 			if (screenX > 478 || worldX < 478){
-				screenX -=1;
+				screenX -=5;
 			}
-			worldX -= 1;
+			worldX -= 5;
 		}
 
 
