@@ -10,139 +10,31 @@ import javax.imageio.*;
 public class MasseyMon extends JFrame {
 	GamePanel game;
 	javax.swing.Timer myTimer;
-	private int winner;
 	public static boolean inBattle;
-	private Pokemon curPoke1,curPoke2;
 	public static MasseyMon frame;
-	TypeChart myChart = new TypeChart();
-	private ArrayList<Image> myPokeImages = new ArrayList<Image>();
-	private ArrayList<Image> enemyPokeImages = new ArrayList<Image>();
-	private ArrayList<Image> displayImages = new ArrayList<Image>();
-	public static ArrayList<Pokemon> allPokemon = new ArrayList<Pokemon>();
-	public static ArrayList<Attack> allAttacks = new ArrayList<Attack>();
 	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>();
 	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>();
 	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
-	private boolean fleeable;
+	PokemonBattle pokeBattle;
 	public MasseyMon() throws IOException {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
 		setSize(956,795);
-		load();
-		loadImages();
+		loadMaps();
 		game = new GamePanel();
 		add(game);
 		setResizable(false);
 		setVisible(true);
 		start();
-		inBattle = false;
-		winner = -1;
-		fleeable = true;
-	}
-	public ArrayList<Pokemon> getAllPokes(){
-		return allPokemon;
-	}
-	public ArrayList<Pokemon> getMyPokes(){
-		return myPokes;
-	}
-	public ArrayList<Pokemon> getEnemyPokes(){
-		return enemyPokes;
-	}
-	public ArrayList<Attack> getAllAttacks(){
-		return allAttacks;
+		inBattle = true;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
-	public boolean isFleeable(){
-		return fleeable;
-	}
-	public void AISwitch(){
-		myChart = new TypeChart();
-		ArrayList<Double> vals = new ArrayList<Double>();
-		ArrayList<Pokemon> possiblePokes = new ArrayList<Pokemon>();
-		for (Pokemon poke: enemyPokes){
-			if (poke.getHP() > 0){
-				int index = enemyPokes.indexOf(poke);
-				vals.add(myChart.getPokeEffect(myPokes.get(0),poke));
-				possiblePokes.add(poke);
-			}
-		}
-		double smallest = 4.0;
-		int index = -1;
-		for (Double val: vals){
-			if (val < smallest){
-				val = smallest;
-				index = vals.indexOf(val);
-			}
-		}
-		if (index == -1){
-			for (int i = 0; i < 5; i++){
-				Pokemon potPoke = enemyPokes.get(1+i);
-				if (potPoke.getHP() > 0){
-					index = enemyPokes.indexOf(potPoke);
-				}
-			}
-			if (index == -1){
-				winner = 1;
-			}
-		}
-		if (winner != 1){
-			Pokemon curPoke = enemyPokes.get(0);
-			Pokemon switchPoke = enemyPokes.get(index);
-			enemyPokes.set(0,switchPoke);
-			enemyPokes.set(index,curPoke);
-		}
-	}
-	public void loadImages() throws IOException{
-		for (int i = 0; i < 151; i++){
-			String path = String.format("Sprites/Pokemon/P%dM.png",i+1);
-			Image pic = ImageIO.read(new File(path));
-			pic = pic.getScaledInstance(300,233,Image.SCALE_SMOOTH);
-			myPokeImages.add(pic);
-		}
-		for (int i = 0; i < 151; i++){
-			String path = String.format("Sprites/Pokemon/P%d.png",i+1);
-			Image pic = ImageIO.read(new File(path));
-			pic = pic.getScaledInstance(220,180,Image.SCALE_SMOOTH);
-			enemyPokeImages.add(pic);
-			pic = pic.getScaledInstance(122,100,Image.SCALE_SMOOTH);
-			displayImages.add(pic);
-		}
-	}
-	public void pokeSwitch(int i){
-		Pokemon curPoke = myPokes.get(0);
-		Pokemon switchPoke = myPokes.get(i);
-		myPokes.set(0,switchPoke);
-		myPokes.set(i,curPoke);
-	}
-	public void load() throws FileNotFoundException{
-		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		String dumInp = inFile.nextLine();
-		while (inFile.hasNext()){
-			String line = inFile.nextLine();
-			Pokemon newPoke = new Pokemon(line);
-			allPokemon.add(newPoke);
-		}
-		for (int i = 0; i < 6; i++){
-			myPokes.add(allPokemon.get(i));
-			enemyPokes.add(allPokemon.get(i+6));
-		}
-		inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
-		while(inFile.hasNext()){
-			String line = inFile.nextLine();
-			Attack newAtk = new Attack(line);
-			allAttacks.add(newAtk);
-		}
-		for (int i = 0; i < 6; i++){
-			for (int j = 0; j < 4; j++){
-				myPokes.get(i).learnMove(allAttacks.get(j));
-				enemyPokes.get(i).learnMove(allAttacks.get(i));
-			}
-		}
-		inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
+	public void loadMaps() throws IOException {
+		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
 		for (int i = 0; i < 3; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
@@ -151,9 +43,7 @@ public class MasseyMon extends JFrame {
 				Image pic = ImageIO.read(new File(path));
 				BufferedImage picMask = ImageIO.read(new File(pathMask));
 				maps.add(new pokeMap(pic,picMask,line));
-			}
-			catch (IOException e) {
-			}
+			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
 		for (int k = 0; k <3;k++) {
@@ -166,12 +56,12 @@ public class MasseyMon extends JFrame {
 					Image pic = ImageIO.read(new File(path));
 					BufferedImage picMask = ImageIO.read(new File(pathMask));
 					miniMaps.get(k).add(new pokeMapMini(pic, picMask, line));
-				} catch (IOException e) {
+				}
+				catch (IOException e) {
 				}
 			}
 		}
 	}
-
 	public static pokeMap getMap(int n){
 		return maps.get(n);
 	}
@@ -180,26 +70,8 @@ public class MasseyMon extends JFrame {
 		return miniMaps.get(n).get(k);
 	}
 
-	public Image[] getPokeImages(int x, int y){
-		Image[] newSprites = new Image[2];
-		newSprites[0] = myPokeImages.get(x-1);
-		newSprites[1] = enemyPokeImages.get(y-1);
-		return newSprites;
-	}
-	public Image getDisplayPic(Pokemon poke){
-		return displayImages.get(poke.getNum()-1);
-	}
-	public void heal(Pokemon poke){
-		System.out.println("healed" + poke.getName());
-	}
-	public boolean isBad(){
-		Pokemon myPoke = myPokes.get(0);
-		Pokemon enemyPoke = enemyPokes.get(0);
-		double val  = myChart.getPokeEffect(myPoke,enemyPoke);
-		if (val <= 1.0){
-			return false;
-		}
-		return true;
+	public void startBattle(Graphics g){
+		pokeBattle.Start(g);
 	}
 	public void start(){
 		myTimer.start();
@@ -223,15 +95,7 @@ class GamePanel extends JPanel {
 	private int direction;
 	private boolean ready = true;
 	private static boolean mini;
-	private Image pokeArenaBack,pokeBox,backArrow,itemMenu,switchBackground;
-	private String choice;
 	private boolean[] keys;
-	private Image[] battleSprites;
-	private Rectangle fightButton,bagButton,pokeButton,runButton,myPokeHealth,enemyPokeHealth,backArrowRect;
-	private Rectangle[] switchPokeRects = new Rectangle[6];
-	private int HPRectWidths;
-	private ArrayList<Rectangle> rectButtons;
-	private Font gameFont,smallerGameFont,switchFont;
 	pokeMap myMap;
 	pokeMapMini myMiniMap;
 	Textbox myTextBox;
@@ -240,36 +104,8 @@ class GamePanel extends JPanel {
 	Menu myMenu;
 	Player myGuy;
 	MasseyMon curGame;
-	TypeChart myChart = new TypeChart();
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
-		fightButton = new Rectangle(464,584,236,86);
-		bagButton = new Rectangle(701,584,236,86);
-		pokeButton = new Rectangle(464,671,236,86);
-		runButton = new Rectangle(701,671,236,86);
-		HPRectWidths = 182;
-		myPokeHealth = new Rectangle(740,460,182,18);
-		enemyPokeHealth = new Rectangle(185,143,182,19);
-		backArrowRect = new Rectangle(10,10,50,50);
-		for (int i = 0; i < 6; i++){
-			switchPokeRects[i] = new Rectangle(143,20+105*i,650,105);
-		}
-		rectButtons = new ArrayList<Rectangle>();
-		rectButtons.add(fightButton);
-		rectButtons.add(bagButton);
-		rectButtons.add(pokeButton);
-		rectButtons.add(runButton);
-		choice = "none";
-		try{
-			gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
-			gameFont = gameFont.deriveFont(40f);
-			smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
-			smallerGameFont = gameFont.deriveFont(35f);
-			switchFont = gameFont.deriveFont(45f);
-		}
-		catch (IOException | FontFormatException e) {
-			e.printStackTrace();
-		}
 		offsetX = 0;
 		offsetY = 0;
 		picIndex =0;
@@ -286,21 +122,10 @@ class GamePanel extends JPanel {
 		myTextBox = new Textbox();
 		myMap = (MasseyMon.getMap(picIndex));
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
-
-		try {
-			pokeArenaBack = ImageIO.read(new File("Images/Battles/PokeBattle2.jpg"));
-			switchBackground = ImageIO.read(new File("Images/Battles/switchBackground.png"));
-			pokeBox = ImageIO.read(new File("Images/Battles/pokeBox.png"));
-			backArrow = ImageIO.read(new File("Images/Battles/arrow.png"));
-			itemMenu = ImageIO.read(new File("Images/Battles/itemMenu.png"));
-			pokeArenaBack = pokeArenaBack.getScaledInstance(945,770,Image.SCALE_SMOOTH);
-
-		} catch (IOException e) {
-			System.out.println("G");
-		}
 		setSize(956, 795);
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
+		curGame = MasseyMon.frame;
 	}
 
 	public void addNotify() {
@@ -308,233 +133,48 @@ class GamePanel extends JPanel {
 		requestFocus();
 		ready = true;
 	}
-	public void setChoice(String c){
-		choice = c;
-	}
-	public void checkButtonCollision(int mx, int my){
-		Point mouse = getMousePosition();
-		boolean doneTurn = false;
-		if (choice.equals("fight")){
-			for (Rectangle item: rectButtons){
-				if (item.contains(mouse)){
-					Pokemon attacker = MasseyMon.myPokes.get(0);
-					Pokemon defender = MasseyMon.enemyPokes.get(0);
-					if (attacker.getMoves().get(rectButtons.indexOf(item)) != null){
-						Attack atk = attacker.getMoves().get(rectButtons.indexOf(item));
-						attacker.doAttack(atk,defender);
-						doneTurn = true;
-					}
-					choice = "none";
-				}
-			}
-		}
-		else if (choice.equals("pokemon")){
-			for (int i = 0; i < 6; i++){
-				if (switchPokeRects[i].contains(mouse)){
-					if (i != 0){
-						if (curGame.getMyPokes().get(0).getHP() > 0){
-							curGame.pokeSwitch(i);
-							choice = "none";
-							doneTurn = true;
-						}
-					}
-				}
-			}
-			if (backArrowRect.contains(mouse)){
-				choice = "none";
-			}
-		}
-		else if (choice.equals("run")){
-			if (curGame.isFleeable()){
-				System.out.println("you raw away...");
-				MasseyMon.inBattle = false;
-			}
-			else{
-				System.out.println("you couldn't run away!");
-				doneTurn = true;
-			}
-		}
-		else if (choice.equals("none")){
-			if (fightButton.contains(mouse)){
-				choice = "fight";
-			}
-			else if (bagButton.contains(mouse)){
-				choice = "bag";
-			}
-			else if (pokeButton.contains(mouse)){
-				choice = "pokemon";
-			}
-			else if (runButton.contains(mouse)){
-				choice = "run";
-			}
-		}
-		if (doneTurn){
-			Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
-			if (curGame.isBad()){
-				curGame.AISwitch();
-			}
-			else{
-				if ((float)enemyPoke.getHP()/(float)enemyPoke.getMaxHP() <= 0.25){
-					curGame.heal(enemyPoke);
-				}
-				else{
-					ArrayList<Attack> enemyAttacks = new ArrayList<Attack>();
-					enemyAttacks = curGame.getEnemyPokes().get(0).getMoves();
-					ArrayList<Double> atkMults = new ArrayList<Double>();
-					Pokemon myPoke = curGame.getMyPokes().get(0);
-					int index = 0;
-					double highest = 0.0;
-					for (Attack atk: enemyAttacks){
-						double val = myChart.getEffect(atk,myPoke);
-						atkMults.add(val);
-						if (val > highest){
-							index = enemyAttacks.indexOf(atk);
-						}
-					}
-					enemyPoke.doAttack(enemyAttacks.get(index),myPoke);
-				}
-			}
-		}
-	}
 	public void paintComponent(Graphics g) {
-		Point mouse = getMousePosition();
-		if (mouse == null){
-			mouse = new Point(0,0);
-		}
 		if (MasseyMon.inBattle){
-			curGame = MasseyMon.frame;
-			if (choice.equals("none") || choice.equals("fight") || choice.equals("run")){
-				Pokemon myPoke = curGame.getMyPokes().get(0);
-				Pokemon enemyPoke = curGame.getEnemyPokes().get(0);
-				battleSprites = curGame.getPokeImages(myPoke.getNum(),enemyPoke.getNum());
-				String pokeName = myPoke.getName();
-				String enemyPokeName = enemyPoke.getName();
-				String text = String.format("What will %s do?",pokeName);
-				g.drawImage(pokeArenaBack,0,-5,null);
-				g.drawImage(battleSprites[0],90,355,null);
-				g.drawImage(battleSprites[1],620,175,null);
-				g.setFont(gameFont);
-				g.setColor(Color.GREEN);
-				g.fillRect((int)myPokeHealth.getX(),(int)myPokeHealth.getY(),(int)(myPokeHealth.getWidth()*myPoke.getHP()/myPoke.getMaxHP()),(int)myPokeHealth.getHeight());
-				g.fillRect((int)enemyPokeHealth.getX(),(int)enemyPokeHealth.getY(),(int)(enemyPokeHealth.getWidth()*enemyPoke.getHP()/enemyPoke.getMaxHP()),(int)enemyPokeHealth.getHeight());
-				g.setColor(Color.black);
-				g.drawString(pokeName,560,440);
-				g.drawString(enemyPoke.getName(),15,125);
-				g.drawString(text,50,640);
+			curGame.startBattle(g);
+		}
+		g.setColor(new Color(0,0,0));
+		g.fillRect(0,0,956,795);
+		offsetX = 0;
+		offsetY = 0;
+		if (MasseyMon.getMap(picIndex).getMapWidth() > 956){
+			offsetX = myGuy.getScreenX() - myGuy.getWorldX();
+		}
+		if (MasseyMon.getMap(picIndex).getMapHeight() > 795){
+			offsetY = myGuy.getScreenY() - myGuy.getWorldY();
+		}
+		if (mini){
+			g.drawImage(MasseyMon.getMiniMap(picIndex,miniPicIndex).getMap(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY(),this);
+		}
+		else {
+			if (offsetX == 0 && offsetY ==0){
+				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
 			}
-			if (choice.equals(("none"))){
-				g.drawString("Fight",555,640);
-				g.drawString("Bag",795,640);
-				g.drawString("Pokemon",535,726);
-				g.drawString("Run",795,726);
+			else if (offsetX != 0 && offsetY == 0){
+				g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
 			}
-			else if (choice.equals("fight")){
-				g.setFont(smallerGameFont);
-				for (int i = 0; i < 4; i++){
-					Attack curAttack = MasseyMon.myPokes.get(0).getMoves().get(i);
-					if (curAttack != null){
-						int x,y;
-						if (i == 0){
-							x = 485;
-							y = 627;
-						}
-						else if (i == 1){
-							x = 721;
-							y = 627;
-						}
-						else if (i == 2){
-							x = 485;
-							y = 713;
-						}
-						else{
-							x = 721;
-							y = 713;
-						}
-						g.drawString(curAttack.getName(),x,y);
-						g.drawString(curAttack.getType(),x+110,y);
-						g.drawString("DMG: "+curAttack.getDmg(),x,y+30);
-						g.drawString("PP: "+curAttack.getPP()+"/"+curAttack.getMaxPP(),x+100,y+30);
-					}
-				}
+			else if (offsetX == 0 && offsetY != 0){
+				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
 			}
-			else if(choice.equals("pokemon")){
-				g.setFont(gameFont);
-				g.drawImage(switchBackground,0,0,null);
-				g.drawImage(pokeBox,231,650,null);
-				g.drawImage(backArrow,10,10,null);
-				g.setColor(Color.BLACK);
-				g.drawString("What Pokemon will you switch to?",275,710);
-				ArrayList<Pokemon> myPokes = curGame.getMyPokes();
-				for (int i = 0; i < myPokes.size(); i++){
-					Pokemon curPoke = myPokes.get(i);
-					Image pokeImage = curGame.getDisplayPic(curPoke);
-					g.setFont(switchFont);
-					g.setColor(Color.BLACK);
-					g.drawImage(pokeImage,143,20+105*i,null);
-					g.drawString(curPoke.getName(),273,65+105*i);
-					g.drawString("HP: ",273,100+105*i);
-					g.setColor(Color.GREEN);
-					float width = (float)curPoke.getHP()/(float)curPoke.getMaxHP()*200;
-					int finalWidth = (int)width;
-					g.fillRect(333,80+105*i,finalWidth,25);
-					g.setColor(Color.BLACK);
-					g.drawString(""+curPoke.getHP()+"/"+curPoke.getMaxHP(),543,105+105*i);
-					g.drawString("Level: "+curPoke.getLevel(),653,105+105*i);
-				}
-				for (Rectangle item: switchPokeRects){
-					if (item.contains(mouse)){
-						Graphics2D g2d = (Graphics2D) g;
-						g2d.setStroke(new BasicStroke(3));
-						g2d.drawRect(item.x,item.y,item.width,item.height);
-						g2d.setStroke(new BasicStroke(1));
-					}
-				}
-			}
-			else if(choice.equals("bag")){
-				g.drawImage(itemMenu,0,0,null);
+			else{
+				g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
 			}
 		}
-		else{
-			g.setColor(new Color(0,0,0));
-			g.fillRect(0,0,956,795);
-			offsetX = 0;
-			offsetY = 0;
-			if (MasseyMon.getMap(picIndex).getMapWidth() > 956){
-				offsetX = myGuy.getScreenX() - myGuy.getWorldX();
+		myGuy.draw(g);
+		if (menu) {
+			Menu.display(g);
+			if (bag) {
+				Items.display(g);
 			}
-			if (MasseyMon.getMap(picIndex).getMapHeight() > 795){
-				offsetY = myGuy.getScreenY() - myGuy.getWorldY();
-			}
-			if (mini){
-				g.drawImage(MasseyMon.getMiniMap(picIndex,miniPicIndex).getMap(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY(),this);
-			}
-			else {
-				if (offsetX == 0 && offsetY ==0){
-					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
-				}
-				else if (offsetX != 0 && offsetY == 0){
-					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
-				}
-				else if (offsetX == 0 && offsetY != 0){
-					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
-				}
-				else{
-					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
-				}
-			}
-			myGuy.draw(g);
-			if (menu) {
-				Menu.display(g);
-				if (bag) {
-					Items.display(g);
-				}
-				if (pokemon) {
-					PokemonMenu.display(g);
-				}
+			if (pokemon) {
+				PokemonMenu.display(g);
 			}
 		}
 	}
-
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
 
@@ -551,7 +191,6 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
-			checkButtonCollision(mx,my);
 		}
 	}
 
