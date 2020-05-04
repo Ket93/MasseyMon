@@ -844,7 +844,7 @@ class GamePanel extends JPanel {
 		}
 		return true;
 	}
-	
+
 
 	public boolean getMenu () {
 		return menu;
