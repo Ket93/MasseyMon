@@ -90,19 +90,19 @@ public class pokeMap {
     }
 
     public int getStartPosX6() {
-        return startPosX4;
+        return startPosX6;
     }
 
     public int getStartPosY6() {
-        return startPosY4;
+        return startPosY6;
     }
 
     public int getStartPosX7() {
-        return startPosX5;
+        return startPosX7;
     }
 
     public int getStartPosY7() {
-        return startPosY5;
+        return startPosY7;
     }
 
     public int getMapX() {

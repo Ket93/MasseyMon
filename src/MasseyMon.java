@@ -445,6 +445,35 @@ class GamePanel extends JPanel {
 						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX5());
 					}
 				}
+				else if (checkExit5(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
+					System.out.println(MasseyMon.getMap(picIndex).getStartPosX6());
+					mini = false;
+					miniPicIndex-=5;
+					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX6());
+					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY6());
+					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+							myGuy.setScreenY(398);
+						} else {
+							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY6()));
+						}
+					}
+
+					else{
+						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY6());
+					}
+					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+							myGuy.setScreenX(478);
+						}
+						else {
+							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX6()));
+						}
+					}
+					else{
+						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX6());
+					}
+				}
 				else if (checkPrevRoute(myGuy.getWorldX()-1,myGuy.getWorldY()+27,myGuy.getWorldX()+20,myGuy.getWorldY()+27)){
 					picIndex -=1;
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
@@ -724,7 +753,7 @@ class GamePanel extends JPanel {
 			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
 		}
 
-		int WALL = 0xFF008080;
+		int WALL = 0xFFFF8000;
 		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
 			return false;
 		}
