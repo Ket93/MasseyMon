@@ -23,7 +23,7 @@ public class pokeMapMini {
             mapY = 0;
         }
         mapHeight = background.getHeight(null);
-        mapWidth = background.getWidth(null) / 2;
+        mapWidth = background.getWidth(null);
     }
 
     public Image getMap(){
