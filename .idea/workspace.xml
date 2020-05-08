@@ -20,20 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Data/Textbox" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/Backgrounds/Background3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/Backgrounds/Background4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/Masks/Background3Mask.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/Masks/Background4Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/PlayerPositions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/PlayerPositions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/miniPlayerPositions" beforeDir="false" afterPath="$PROJECT_DIR$/Data/miniPlayerPositions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background1Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background1Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background2Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background2Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 1/Background0Mask.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 1/Background1Mask.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,14 +117,7 @@
       <workItem from="1588443446344" duration="11334000" />
       <workItem from="1588606405067" duration="22933000" />
       <workItem from="1588871803034" duration="11637000" />
-      <workItem from="1588962214810" duration="2998000" />
-    </task>
-    <task id="LOCAL-00003" summary="first commit">
-      <created>1585960123457</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1585960123457</updated>
+      <workItem from="1588962214810" duration="3595000" />
     </task>
     <task id="LOCAL-00004" summary="Added Pokemon File">
       <created>1586019761426</created>
@@ -474,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588707502586</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Started Textbox">
+      <created>1588967550432</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1588967550432</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -494,7 +482,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Started Masks" />
     <MESSAGE value="Finished Masks for first screen" />
     <MESSAGE value="Finished Masks for first screen (for real)" />
     <MESSAGE value="Added lab picture" />
@@ -519,7 +506,8 @@
     <MESSAGE value="tried to fix Viridian city" />
     <MESSAGE value="Almost finished viridian city" />
     <MESSAGE value="Finished Viridian city" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished Viridian city" />
+    <MESSAGE value="Started Textbox" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started Textbox" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586988756733">
@@ -542,33 +530,33 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="0" y="7" key="CommitChangelistDialog2" timestamp="1588707501989">
+    <state x="0" y="7" key="CommitChangelistDialog2" timestamp="1588967548861">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="7" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588707501989" />
+    <state x="0" y="7" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1588967548861" />
     <state x="577" y="167" key="FileChooserDialogImpl" timestamp="1586198998779">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1588964155206">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1588968015013">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588964155206" />
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588968015013" />
     <state width="1877" height="197" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588574913085" />
-    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1588964155206">
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1588968015013">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588964155206" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588968015013" />
     <state width="1877" height="197" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588574913085" />
-    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1588964155206">
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1588968015013">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588964155206" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588968015013" />
     <state width="1877" height="197" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588574913085" />
-    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1588964155206">
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1588968015013">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588964155206" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588968015013" />
     <state width="1877" height="197" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588574913085" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1588628467812">
       <screen x="0" y="0" width="1536" height="824" />

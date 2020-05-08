@@ -312,7 +312,7 @@ class GamePanel extends JPanel {
 						}
 
 						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(700);
+							myGuy.setScreenY(710);
 						}
 						else {
 							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
