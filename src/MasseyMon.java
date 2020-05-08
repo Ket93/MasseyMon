@@ -35,7 +35,7 @@ public class MasseyMon extends JFrame {
 	}
 	public void loadMaps() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -46,7 +46,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <3;k++) {
+		for (int k = 0; k <5;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -174,6 +174,7 @@ class GamePanel extends JPanel {
 				PokemonMenu.display(g);
 			}
 		}
+		//Textbox.display(g);
 	}
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
@@ -305,16 +306,22 @@ class GamePanel extends JPanel {
 					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+
+						if (myGuy.getWorldY() == 397){
+							myGuy.setScreenY(398);
+						}
+
+						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 							myGuy.setScreenY(700);
-						} else {
+						}
+						else {
 							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
 						}
 					}
 
 					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
-					}
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
+						}
 					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
 						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
 							myGuy.setScreenX(478);
@@ -540,17 +547,20 @@ class GamePanel extends JPanel {
 	}
 
 	private boolean checkBuilding ( int x, int y,int x2,int y2){
-		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
-		int posX = MasseyMon.getMap(picIndex).getMapX();
-		int posY =  MasseyMon.getMap(picIndex).getMapY();
+		if (!mini) {
+			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+			int posX = MasseyMon.getMap(picIndex).getMapX();
+			int posY = MasseyMon.getMap(picIndex).getMapY();
 
-		int WALL = 0xFF00FF00;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
+			int WALL = 0xFF00FF00;
+			if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+				return false;
+			}
+			int c = maskPic.getRGB(x - posX, y - posY);
+			int d = maskPic.getRGB(x2 - posX, y2 - posY);
+			return c == WALL && d == WALL;
 		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		int d = maskPic.getRGB(x2 - posX, y2 - posY);
-		return c == WALL && d==WALL;
+		return false;
 	}
 
 	private boolean checkExit1 ( int x, int y,int x2, int y2){
@@ -593,18 +603,21 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
-	private boolean checkBuilding2 ( int x, int y, int x2, int y2){
-		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
-		int posX = MasseyMon.getMap(picIndex).getMapX();
-		int posY =  MasseyMon.getMap(picIndex).getMapY();
+	private boolean checkBuilding2 ( int x, int y, int x2, int y2) {
+		if (!mini) {
+			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+			int posX = MasseyMon.getMap(picIndex).getMapX();
+			int posY = MasseyMon.getMap(picIndex).getMapY();
 
-		int WALL = 0xFFFF00FF;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
+			int WALL = 0xFFFF00FF;
+			if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+				return false;
+			}
+			int c = maskPic.getRGB(x - posX, y - posY);
+			int d = maskPic.getRGB(x2 - posX, y2 - posY);
+			return c == WALL && d == WALL;
 		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		int d = maskPic.getRGB(x2 - posX, y2 - posY);
-		return c == WALL && d==WALL;
+		return false;
 	}
 
 	private boolean checkNextRoute ( int x, int y, int x2,int y2){
@@ -657,18 +670,20 @@ class GamePanel extends JPanel {
 		return true;
 	}
 
-	private boolean checkBuilding3 ( int x, int y, int x2,int y2){
-
-		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
-		int posX = MasseyMon.getMap(picIndex).getMapX();
-		int posY =  MasseyMon.getMap(picIndex).getMapY();
-		int WALL = 0xFF008000;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
+	private boolean checkBuilding3 ( int x, int y, int x2,int y2) {
+		if (!mini) {
+			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+			int posX = MasseyMon.getMap(picIndex).getMapX();
+			int posY = MasseyMon.getMap(picIndex).getMapY();
+			int WALL = 0xFF008000;
+			if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+				return false;
+			}
+			int c = maskPic.getRGB(x - posX, y - posY);
+			int d = maskPic.getRGB(x2 - posX, y2 - posY);
+			return c == WALL && d == WALL;
 		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		int d = maskPic.getRGB(x2 - posX, y2 - posY);
-		return c == WALL && d==WALL;
+		return false;
 	}
 
 	private boolean checkExit3 ( int x, int y, int x2,int y2){
@@ -693,17 +708,19 @@ class GamePanel extends JPanel {
 	}
 
 	private boolean checkBuilding4 ( int x, int y, int x2,int y2){
-
-		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
-		int posX = MasseyMon.getMap(picIndex).getMapX();
-		int posY =  MasseyMon.getMap(picIndex).getMapY();
-		int WALL = 0xFF808080;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
+		if (!mini) {
+			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+			int posX = MasseyMon.getMap(picIndex).getMapX();
+			int posY = MasseyMon.getMap(picIndex).getMapY();
+			int WALL = 0xFF808080;
+			if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+				return false;
+			}
+			int c = maskPic.getRGB(x - posX, y - posY);
+			int d = maskPic.getRGB(x2 - posX, y2 - posY);
+			return c == WALL && d == WALL;
 		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		int d = maskPic.getRGB(x2 - posX, y2 - posY);
-		return c == WALL && d==WALL;
+		return false;
 	}
 
 	private boolean checkExit4 ( int x, int y, int x2,int y2){
@@ -727,18 +744,20 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
-	private boolean checkBuilding5 ( int x, int y, int x2,int y2){
-
-		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
-		int posX = MasseyMon.getMap(picIndex).getMapX();
-		int posY =  MasseyMon.getMap(picIndex).getMapY();
-		int WALL = 0xFF80FF00;
-		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
-			return false;
+	private boolean checkBuilding5 ( int x, int y, int x2,int y2) {
+		if (!mini) {
+			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+			int posX = MasseyMon.getMap(picIndex).getMapX();
+			int posY = MasseyMon.getMap(picIndex).getMapY();
+			int WALL = 0xFF80FF00;
+			if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+				return false;
+			}
+			int c = maskPic.getRGB(x - posX, y - posY);
+			int d = maskPic.getRGB(x2 - posX, y2 - posY);
+			return c == WALL && d == WALL;
 		}
-		int c = maskPic.getRGB(x - posX, y - posY);
-		int d = maskPic.getRGB(x2 - posX, y2 - posY);
-		return c == WALL && d==WALL;
+		return false;
 	}
 
 	private boolean checkExit5 ( int x, int y, int x2,int y2){
