@@ -1,6 +1,5 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,19 +16,20 @@ public class PokemonBattle{
     private ArrayList<Rectangle> rectButtons;
     private Rectangle[] switchPokeRects = new Rectangle[6];
     private int winner;
-    private boolean fleeable, cFight,cPokes,cBag,cRun, doneTurn;
+    private boolean fleeable, cFight,cPokes,cBag,cRun,doneTurn;
+    private Attack attackC;
+    private int indexC;
     private String choice, text;
     private int HPRectWidths;
     private Pokemon myCurPoke, enemyCurPoke;
-    public PokemonBattle(ArrayList<Pokemon> myPokes2, ArrayList<Pokemon> enemyPokes2) throws IOException {
-        myPokes = myPokes2;
-        enemyPokes = enemyPokes2;
+    public PokemonBattle() throws IOException {
         fightButton = new Rectangle(464,584,236,86);
         bagButton = new Rectangle(701,584,236,86);
         pokeButton = new Rectangle(464,671,236,86);
         runButton = new Rectangle(701,671,236,86);
         HPRectWidths = 182;
         backArrowRect = new Rectangle(10,10,50,50);
+        load();
         for (int i = 0; i < 6; i++){
             switchPokeRects[i] = new Rectangle(143,20+105*i,650,105);
         }
@@ -51,7 +51,9 @@ public class PokemonBattle{
             smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
             smallerGameFont = gameFont.deriveFont(35f);
             switchFont = gameFont.deriveFont(45f);
-        } catch (IOException | FontFormatException e) { }
+        } catch (IOException | FontFormatException e) {
+            System.out.println("hi");
+        }
     }
     public ArrayList<Pokemon> getAllPokes(){
         return allPokemon;
@@ -109,31 +111,29 @@ public class PokemonBattle{
         choice = c;
     }
     public Point getMousePosition2(){
-        return MasseyMon.frame.getMousePosition();
-    }
-    public void startAttack(Pokemon atker, Pokemon def, Attack atk){
-        atker.doAttack(atk,def);
+        Point mouse2 = MasseyMon.frame.getMousePosition();
+        if (mouse2 == null){
+            mouse2 = new Point(0,0);
+        }
+        return mouse2;
     }
     public void checkCollision(){
         cFight = false;
         cPokes = false;
         cBag = false;
         cRun = false;
-        int index;
-        Attack atk;
-        //Item itemC;
+        doneTurn = false;
         Point mouse = getMousePosition2();
-        if (mouse == null){
-            mouse = new Point(0,0);
-        }
         if (choice.equals("fight")){
             for (Rectangle item: rectButtons){
                 if (item.contains(mouse)){
                     if (myPokes.get(0).getMoves().get(rectButtons.indexOf(item)) != null){
                         Pokemon atker = myPokes.get(0);
-                        atk = atker.getMoves().get(rectButtons.indexOf(item));
+                        attackC = atker.getMoves().get(rectButtons.indexOf(item));
                         cFight = true;
                         choice = "none";
+                        doneTurn = true;
+                        System.out.println("fight");
                     }
                 }
             }
@@ -143,9 +143,11 @@ public class PokemonBattle{
                 if (switchPokeRects[i].contains(mouse)){
                     if (i != 0){
                         if (getMyPokes().get(0).getHP() > 0){
-                            index = i;
+                            indexC = i;
                             cPokes = true;
                             choice = "none";
+                            doneTurn = true;
+                            System.out.println("pokemon");
                         }
                     }
                 }
@@ -157,6 +159,7 @@ public class PokemonBattle{
         else if (choice.equals("run")){
             cRun = true;
             choice = "none";
+            doneTurn = true;
         }
         else if (choice.equals("none")){
             if (fightButton.contains(mouse)){
@@ -246,6 +249,7 @@ public class PokemonBattle{
         return true;
     }
     public void draw(Graphics g){
+        System.out.println("painthhhhhhhhhhhhhhhhhhhhhhhhhing");
         Point mouse = getMousePosition2();
         myCurPoke.drawGood(g);
         enemyCurPoke.drawBad(g);
@@ -284,18 +288,30 @@ public class PokemonBattle{
             g.drawImage(itemMenu,0,0,null);
         }
     }
-    public boolean battleOver(){
+    public String battleOver(){
+        boolean myTeamAlive = false;
         for (Pokemon item: myPokes){
             if (item.getHP() > 0){
-                return false;
+                myTeamAlive = true;
             }
         }
+        boolean enemyTeamAlive = false;
         for (Pokemon item: enemyPokes){
             if (item.getHP() > 0){
-                return false;
+                enemyTeamAlive = true;
             }
         }
-        return true;
+        if (myTeamAlive == true){
+            if (enemyTeamAlive == false){
+                return "win";
+            }
+            else{
+                return "";
+            }
+        }
+        else{
+            return "loss";
+        }
     }
     public void myTurn(){
         if (fleeable){
@@ -313,24 +329,43 @@ public class PokemonBattle{
         pokeSwitch(i);
     }
     public void Start(Graphics g){
-        while (battleOver() == false){
-            System.out.println("hi");
+        if (battleOver().equals("")){
             enemyCurPoke = enemyPokes.get(0);
             myCurPoke = myPokes.get(0);
-            checkCollision();
+            if (doneTurn){
+                if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed()){
+                    AITurn(enemyCurPoke);//pokemon should do this
+                    if (cFight){
+                        myTurn(attackC);
+                        cFight = false;
+                    }
+                    else if (cPokes){
+                        myTurn(indexC);
+                        cPokes = false;
+                    }
+                    else if(cRun){
+                        myTurn();
+                        cRun = false;
+                    }
+                }
+                else{
+                    if (cFight){
+                        myTurn(attackC);
+                        cFight = false;
+                    }
+                    else if (cPokes){
+                        myTurn(indexC);
+                        cPokes = false;
+                    }
+                    else if(cRun){
+                        myTurn();
+                        cRun = false;
+                    }
+                    AITurn(enemyCurPoke);
+                }
+                doneTurn = false;
+            }
             draw(g);
-            if (enemyCurPoke.getSpeed() < myCurPoke.getSpeed()){
-                AITurn(enemyCurPoke);//pokemon should do this
-                draw(g);
-                myTurn();
-                draw(g);
-            }
-            else{
-                myTurn();
-                draw(g);
-                AITurn(enemyCurPoke);
-                draw(g);
-            }
         }
     }
 }

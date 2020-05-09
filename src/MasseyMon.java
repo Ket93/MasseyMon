@@ -28,11 +28,16 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = false;
+		inBattle = true;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
+	public void startBattle(Graphics g) throws IOException {
+		pokeBattle = new PokemonBattle();
+		pokeBattle.Start(g);
+	}
+	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void loadMaps() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
 		for (int i = 0; i < 5; i++) {
@@ -70,9 +75,6 @@ public class MasseyMon extends JFrame {
 		return miniMaps.get(n).get(k);
 	}
 
-	public void startBattle(Graphics g){
-		pokeBattle.Start(g);
-	}
 	public void start(){
 		myTimer.start();
 	}
@@ -103,7 +105,6 @@ class GamePanel extends JPanel {
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
-	MasseyMon curGame;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
 		offsetX = 0;
@@ -125,7 +126,6 @@ class GamePanel extends JPanel {
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
-		curGame = MasseyMon.frame;
 	}
 
 	public void addNotify() {
@@ -135,46 +135,50 @@ class GamePanel extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		if (MasseyMon.inBattle){
-			curGame.startBattle(g);
+			try {
+				MasseyMon.frame.startBattle(g);
+			} catch (IOException e) { }
 		}
-		g.setColor(new Color(0,0,0));
-		g.fillRect(0,0,956,795);
-		offsetX = 0;
-		offsetY = 0;
-		if (MasseyMon.getMap(picIndex).getMapWidth() > 956){
-			offsetX = myGuy.getScreenX() - myGuy.getWorldX();
+		else{
+			g.setColor(new Color(0,0,0));
+			g.fillRect(0,0,956,795);
+			offsetX = 0;
+			offsetY = 0;
+			if (MasseyMon.getMap(picIndex).getMapWidth() > 956){
+				offsetX = myGuy.getScreenX() - myGuy.getWorldX();
+			}
+			if (MasseyMon.getMap(picIndex).getMapHeight() > 795){
+				offsetY = myGuy.getScreenY() - myGuy.getWorldY();
+			}
+			if (mini){
+				g.drawImage(MasseyMon.getMiniMap(picIndex,miniPicIndex).getMap(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY(),this);
+			}
+			else {
+				if (offsetX == 0 && offsetY ==0){
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
+				}
+				else if (offsetX != 0 && offsetY == 0){
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
+				}
+				else if (offsetX == 0 && offsetY != 0){
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
+				}
+				else{
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
+				}
+			}
+			myGuy.draw(g);
+			if (menu) {
+				Menu.display(g);
+				if (bag) {
+					Items.display(g);
+				}
+				if (pokemon) {
+					PokemonMenu.display(g);
+				}
+			}
+			//Textbox.display(g);
 		}
-		if (MasseyMon.getMap(picIndex).getMapHeight() > 795){
-			offsetY = myGuy.getScreenY() - myGuy.getWorldY();
-		}
-		if (mini){
-			g.drawImage(MasseyMon.getMiniMap(picIndex,miniPicIndex).getMap(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX(),MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY(),this);
-		}
-		else {
-			if (offsetX == 0 && offsetY ==0){
-				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
-			}
-			else if (offsetX != 0 && offsetY == 0){
-				g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
-			}
-			else if (offsetX == 0 && offsetY != 0){
-				g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
-			}
-			else{
-				g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
-			}
-		}
-		myGuy.draw(g);
-		if (menu) {
-			Menu.display(g);
-			if (bag) {
-				Items.display(g);
-			}
-			if (pokemon) {
-				PokemonMenu.display(g);
-			}
-		}
-		//Textbox.display(g);
 	}
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
@@ -192,6 +196,9 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
+			if (MasseyMon.inBattle){
+				MasseyMon.frame.getPokeBattle().checkCollision();
+			}
 		}
 	}
 
