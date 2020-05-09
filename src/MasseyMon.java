@@ -21,12 +21,12 @@ public class MasseyMon extends JFrame {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
-		setSize(956,795);
 		loadMaps();
 		game = new GamePanel();
 		add(game);
-		setResizable(false);
+		pack();
 		setVisible(true);
+		setResizable(false);
 		start();
 		inBattle = false;
 	}
@@ -122,7 +122,7 @@ class GamePanel extends JPanel {
 		myTextBox = new Textbox();
 		myMap = (MasseyMon.getMap(picIndex));
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
-		setSize(956, 795);
+		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
 		curGame = MasseyMon.frame;
@@ -312,7 +312,8 @@ class GamePanel extends JPanel {
 						}
 
 						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(710);
+							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+
 						}
 						else {
 							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
@@ -320,13 +321,13 @@ class GamePanel extends JPanel {
 					}
 
 					else{
-							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
-						}
+						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
+					}
 					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
 						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
 							myGuy.setScreenX(478);
 						}
-					else {
+						else {
 							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
 						}
 					}
