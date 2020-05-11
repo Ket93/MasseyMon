@@ -105,6 +105,7 @@ class GamePanel extends JPanel {
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
+	private boolean started;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
 		offsetX = 0;
@@ -122,12 +123,12 @@ class GamePanel extends JPanel {
 		myItem = new Items();
 		myTextBox = new Textbox();
 		myMap = (MasseyMon.getMap(picIndex));
+		started = false;
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
 	}
-
 	public void addNotify() {
 		super.addNotify();
 		requestFocus();
@@ -135,9 +136,16 @@ class GamePanel extends JPanel {
 	}
 	public void paintComponent(Graphics g) {
 		if (MasseyMon.inBattle){
-			try {
-				MasseyMon.frame.startBattle(g);
-			} catch (IOException e) { }
+			if (started == false){
+				try {
+					MasseyMon.frame.startBattle(g);
+				}
+				catch (IOException e) {}
+				started = true;
+			}
+			else{
+				MasseyMon.frame.getPokeBattle().Start(g);
+			}
 		}
 		else{
 			g.setColor(new Color(0,0,0));

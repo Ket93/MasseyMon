@@ -1,12 +1,13 @@
 import java.awt.*;
-import java.io.*; 
+import java.io.*;
+import java.util.ArrayList;
 import javax.imageio.*;
 
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
+	public static int [] items = new int [7];
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
-
 	public Player(int gen) {
 		worldX = 289;
 		worldY = 285;
@@ -21,8 +22,13 @@ public class Player {
 		} else {
 			load(GIRL);
 		}
+		for (int i = 0; i < 7; i++){
+			items[i] = 1;
+		}
 	}
-
+	public int[] getItems(){
+		return items;
+	}
 	public void load(int gen) {
 		sprites = new Image[12];
 		for (int i = 0; i < 12; i++) {
@@ -38,7 +44,13 @@ public class Player {
 			}
 		}
 	}
-
+	public static void drawItems(Graphics g){
+		Potion.drawMenu(g);
+		SuperPotion.drawMenu(g);
+		HyperPotion.drawMenu(g);
+		MaxPotion.drawMenu(g);
+		FullRestore.drawMenu(g);
+	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
