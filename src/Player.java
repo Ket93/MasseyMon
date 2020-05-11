@@ -1,12 +1,13 @@
 import java.awt.*;
-import java.io.*; 
+import java.io.*;
+import java.util.ArrayList;
 import javax.imageio.*;
 
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
+	public static int [] items = new int [7];
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
-
 	public Player(int gen) {
 		worldX = 289;
 		worldY = 285;
@@ -21,8 +22,13 @@ public class Player {
 		} else {
 			load(GIRL);
 		}
+		for (int i = 0; i < 7; i++){
+			items[i] = 1;
+		}
 	}
-
+	public int[] getItems(){
+		return items;
+	}
 	public void load(int gen) {
 		sprites = new Image[12];
 		for (int i = 0; i < 12; i++) {
@@ -38,7 +44,13 @@ public class Player {
 			}
 		}
 	}
-
+	public static void drawItems(Graphics g){
+		Potion.drawMenu(g);
+		SuperPotion.drawMenu(g);
+		HyperPotion.drawMenu(g);
+		MaxPotion.drawMenu(g);
+		FullRestore.drawMenu(g);
+	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
@@ -47,40 +59,40 @@ public class Player {
 
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
-				screenY -=5;
+				screenY -=7;
 			}
-			worldY -= 5;
+			worldY -= 7;
 		} else if (dir == RIGHT) {
 			if (mini) {
 				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) {
-					screenX += 5;
+					screenX += 7;
 				}
 			}
 				else {
 					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) {
-						screenX += 5;
+						screenX += 7;
 					}
 				}
-			worldX += 5;
+			worldX += 7;
 		}
 		else if (dir == DOWN) {
 			if (mini){
 				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){
-					screenY += 5;
+					screenY += 7;
 				}
 			}
 			else {
 				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
-					screenY += 5;
+					screenY += 7;
 				}
 			}
-			worldY += 5;
+			worldY += 7;
 		}
 		else if (dir == LEFT) {
 			if (screenX > 478 || worldX < 478){
-				screenX -=5;
+				screenX -=7;
 			}
-			worldX -= 5;
+			worldX -= 7;
 		}
 
 

@@ -7,11 +7,16 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Textbox {
-    private static int count, textX, textY;
+    private static int count, textX, textY,pauseCount,box;
+    private static boolean boxFull;
     private static Image textBox;
-    private static String[][] words = new String[1][1];
+    private static String[][] words = new String[1][2];
+    private static int [] wordLen = new int [2];;
 
     public Textbox() throws IOException {
+        box = 0;
+        boxFull = false;
+        pauseCount = 0;
         textX = 0;
         textY = 640;
         count = 0;
@@ -19,12 +24,20 @@ public class Textbox {
 
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Textbox")));
         for (int i = 0; i < 1; i++) {
-            String line = inFile.nextLine();
-            words[i][0] = line;
+            for (int k = 0; k<2; k++) {
+                String line = inFile.nextLine();
+                words[i][k] = line;
+            }
+        }
+
+        Scanner myFile = new Scanner(new BufferedReader(new FileReader("Data/TextboxCharacterLength")));
+        for (int i = 0; i < 2; i++) {
+            int val = myFile.nextInt();
+            wordLen[i] = val;
         }
     }
 
-    public static void display(Graphics g) {
+    public static void display(Graphics g, int index, boolean space) {
         Graphics2D g2d = (Graphics2D) g;
         Font optionFont = new Font("Consolas", 0, 20);
         g2d.setFont(optionFont);
@@ -33,21 +46,33 @@ public class Textbox {
         textX = 0;
         for (int i = 0; i < count; i++) {
             if (250 + textX * 12 < 700) {
-                g2d.drawString(String.valueOf(words[0][0].charAt(i)), 250 + textX * 12, textY);
+                g2d.drawString(String.valueOf(words[0][box].charAt(i)), 250 + textX * 12, textY);
                 textX += 1;
-            } else {
-                textX = 0;
-                if (textY + 30 > 750) {
-                    textY = 640;
-                }
-                else {
-                    textY += 30;
-                         }
+            }
+            else {
+                textY += 30;
+                g2d.drawString(String.valueOf(words[0][box].charAt(i)), 250, textY);
+                if (textY == 760 && textX == 38) {
+                    boxFull = true;
+                    if (space){
+                        boxFull = false;
+                        textY = 640;
+                        box +=1;
+                        count = 0;
                     }
                 }
-                if (count < 58) {
-                    count += 1;
+                textX = 1;
+                    }
                 }
+                if (pauseCount%5 == 0) {
+                    if (count < wordLen[box]) {
+                        if (boxFull == false) {
+                            count += 1;
+                        }
+                    }
+                }
+                pauseCount += 1;
+                textY = 640;
             }
         }
 

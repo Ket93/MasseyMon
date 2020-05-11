@@ -38,6 +38,7 @@ class Pokemon{
 			smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
 			smallerGameFont = gameFont.deriveFont(35f);
 			switchFont = gameFont.deriveFont(45f);
+			loadImage();
 		}
 		catch (IOException | FontFormatException e) {}
 	}
@@ -116,6 +117,7 @@ class Pokemon{
 			defender.setHP(0);
 		}
 		setAtkPP(atkDone,atkDone.getPP()-1);
+		System.out.println(name + damageDone);
 	}
 	public void loadImage() throws IOException {
 		String path = String.format("Sprites/Pokemon/P%dM.png",num);
@@ -123,7 +125,7 @@ class Pokemon{
 		pic = pic.getScaledInstance(300,233,Image.SCALE_SMOOTH);
 		myPokeImage = pic;
 		String path2 = String.format("Sprites/Pokemon/P%d.png",num);
-		Image pic2 = ImageIO.read(new File(path));
+		Image pic2 = ImageIO.read(new File(path2));
 		pic2 = pic2.getScaledInstance(220,180,Image.SCALE_SMOOTH);
 		enemyPokeImage = pic2;
 		pic2 = pic2.getScaledInstance(122,100,Image.SCALE_SMOOTH);
@@ -132,7 +134,7 @@ class Pokemon{
 	public int getHPWidth(int i){
 		float max = (float) maxHP;
 		float cur = (float) hp;
-		return (int)((hp/maxHP)*i);
+		return (int)((cur/max)*i);
 	}
 	public void drawGood(Graphics g){
 		g.setColor(Color.GREEN);
@@ -145,7 +147,7 @@ class Pokemon{
 	public void drawBad(Graphics g){
 		g.setColor(Color.GREEN);
 		g.drawImage(enemyPokeImage,620,175,null);
-		g.fillRect(740,460,getHPWidth(182),18);
+		g.fillRect(185,143,getHPWidth(182),18);
 		g.setColor(Color.BLACK);
 		g.setFont(gameFont);
 		g.drawString(name,15,125);
