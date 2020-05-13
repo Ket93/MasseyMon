@@ -41,7 +41,7 @@ public class MasseyMon extends JFrame {
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 9; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -52,7 +52,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <8;k++) {
+		for (int k = 0; k <9;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
