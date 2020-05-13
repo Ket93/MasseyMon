@@ -14,6 +14,7 @@ public class MasseyMon extends JFrame {
 	public static MasseyMon frame;
 	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>();
 	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>();
+	public static ArrayList<NPC> trainers = new ArrayList<NPC>();
 	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
 	PokemonBattle pokeBattle;
@@ -21,7 +22,7 @@ public class MasseyMon extends JFrame {
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
-		loadMaps();
+		load();
 		game = new GamePanel();
 		add(game);
 		pack();
@@ -38,9 +39,9 @@ public class MasseyMon extends JFrame {
 		pokeBattle.Start(g);
 	}
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
-	public void loadMaps() throws IOException {
+	public void load() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -51,7 +52,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <7;k++) {
+		for (int k = 0; k <8;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -66,7 +67,23 @@ public class MasseyMon extends JFrame {
 				}
 			}
 		}
+
+		for (int i =0; i<1;i++){
+			String path = String.format("%s/%s/%s%d.png", "Images", "NPCs", "Trainer", i);
+			Image pic = ImageIO.read(new File(path));
+			try {
+				trainers.add(new NPC (pic));
+
+			}
+			catch (Exception e) {
+			}
+		}
 	}
+
+	public static NPC getTrainers(int n){
+		return trainers.get(n);
+	}
+
 	public static pokeMap getMap(int n){
 		return maps.get(n);
 	}
@@ -94,7 +111,7 @@ class GamePanel extends JPanel {
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
-	private boolean spacePressed;
+	private boolean spacePressed,movable;
 	private int direction;
 	private boolean ready = true;
 	private static boolean mini;
@@ -106,9 +123,11 @@ class GamePanel extends JPanel {
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
+	NPC myNPC;
 	private boolean started;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	public GamePanel() throws IOException {
+		movable = false;
 		offsetX = 0;
 		offsetY = 0;
 		picIndex =0;
@@ -120,6 +139,7 @@ class GamePanel extends JPanel {
 		mini = false;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
+		myNPC = new NPC(MasseyMon.getTrainers(0).getSprite());
 		myPokeMenu = new PokemonMenu();
 		myMenu = new Menu();
 		myItem = new Items();
@@ -137,6 +157,7 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void paintComponent(Graphics g) {
+		movable = true;
 		if (MasseyMon.inBattle){
 			if (started == false){
 				try {
@@ -187,8 +208,15 @@ class GamePanel extends JPanel {
 					PokemonMenu.display(g);
 				}
 			}
-			Textbox.display(g,0,spacePressed);
+			if (Textbox.getTextWriting()) {
+				Textbox.display(g, 0, spacePressed);
+				movable = false;
+			}
 			spacePressed = false;
+		}
+
+		if (picIndex == 0 && miniPicIndex == 1){
+			g.drawImage(MasseyMon.getTrainers(0).getSprite(),475,300,this);
 		}
 	}
 	class clickListener implements MouseListener {
@@ -277,282 +305,292 @@ class GamePanel extends JPanel {
 		}
 	}
 
+
 	public void move() {
 		if (!menu) {
-			if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY()-1,myGuy.getWorldX()+19,myGuy.getWorldY()-1) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY()-2,myGuy.getWorldX()+19,myGuy.getWorldY()-2) ) {
-				direction = UP;
-				myGuy.move(direction,picIndex,miniPicIndex,mini);
-				if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
-					mini = true;
-					miniPicIndex += 2;
+			if (movable) {
+				if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)) {
+					direction = UP;
+					myGuy.move(direction, picIndex, miniPicIndex, mini);
+					if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						mini = true;
+						miniPicIndex += 2;
 
-					myGuy.setWorldX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-				}
-				else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
-					mini = true;
-					miniPicIndex += 1;
-					myGuy.setWorldX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-				}
-				else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() -1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)){
-					mini = true;
-					miniPicIndex +=3;
-					myGuy.setWorldX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-				}
-				else if (checkBuilding4(myGuy.getWorldX(), myGuy.getWorldY() -1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)){
-					mini = true;
-					miniPicIndex +=4;
-					myGuy.setWorldX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-				}
-				else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() -1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)){
-					mini = true;
-					miniPicIndex +=5;
-					myGuy.setWorldX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenY(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosY());
-					myGuy.setScreenX(MasseyMon.getMiniMap(picIndex,miniPicIndex).getStartPosX());
-				}
-				else if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() -1,myGuy.getWorldX()+20,myGuy.getWorldY()-1)) {
-					picIndex += 1;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+					} else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						mini = true;
+						miniPicIndex += 1;
+						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+					} else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						mini = true;
+						miniPicIndex += 3;
+						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+					} else if (checkBuilding4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						mini = true;
+						miniPicIndex += 4;
+						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+					} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						mini = true;
+						miniPicIndex += 5;
+						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
+						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+					} else if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						picIndex += 1;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-						if (myGuy.getWorldY() == 397){
-							myGuy.setScreenY(398);
-						}
+							if (myGuy.getWorldY() == 397) {
+								myGuy.setScreenY(398);
+							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
 
-						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
-
-						}
-						else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
-						}
-					}
-
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
-					}
-				}
-
-			} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27,myGuy.getWorldX()+19,myGuy.getWorldY()+27) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27,myGuy.getWorldX()+19,myGuy.getWorldY()+27)) {
-				direction = DOWN;
-				myGuy.move(direction,picIndex,miniPicIndex,mini);
-
-				if (checkExit1(myGuy.getWorldX()-1, myGuy.getWorldY() + 27,myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
-					mini = false;
-					miniPicIndex-=2;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX3());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY3());
-
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY3()));
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
 						}
-					}
-
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY3());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX3()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX3());
-					}
-				}
-				else if (checkExit2(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
-					mini = false;
-					miniPicIndex-=1;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX2());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY2());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(398);
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY2()));
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 						}
 					}
 
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY2());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX2()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX2());
-					}
-				}
-				else if (checkExit3(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
-					mini = false;
-					miniPicIndex-=3;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX4());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY4());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() == 975){
-							myGuy.setScreenY(500);
-						}
-						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(398);
+				} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)) {
+					direction = DOWN;
+					myGuy.move(direction, picIndex, miniPicIndex, mini);
+
+					if (checkExit1(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						mini = false;
+						miniPicIndex -= 2;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX3());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY3());
+
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY3()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY4()));
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY3());
 						}
-					}
-
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY4());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() == 285){
-							myGuy.setScreenX(200);
-						}
-						else if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX4()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX4());
-					}
-				}
-				else if (checkExit4(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
-					mini = false;
-					miniPicIndex-=4;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX5());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY5());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(398);
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX3()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY5()));
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX3());
 						}
-					}
-
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY5());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX5()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX5());
-					}
-				}
-				else if (checkExit5(myGuy.getWorldX()-1, myGuy.getWorldY() + 27, myGuy.getWorldX()+20,myGuy.getWorldY()+27)) {
-					System.out.println(MasseyMon.getMap(picIndex).getStartPosX6());
-					mini = false;
-					miniPicIndex-=5;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX6());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY6());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(398);
+					} else if (checkExit2(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						mini = false;
+						miniPicIndex -= 1;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX2());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY2());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY2()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY6()));
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY2());
 						}
-					}
-
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY6());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
-						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX6()));
-						}
-					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX6());
-					}
-				}
-				else if (checkPrevRoute(myGuy.getWorldX()-1,myGuy.getWorldY()+27,myGuy.getWorldX()+20,myGuy.getWorldY()+27)){
-					picIndex -=1;
-					myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
-					myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
-					if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-						if (myGuy.getWorldY() == 300){
-							myGuy.setScreenY(300);
-						}
-						else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-							myGuy.setScreenY(0);
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX2()));
+							}
 						} else {
-							myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY7()));
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX2());
+						}
+					} else if (checkExit3(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						mini = false;
+						miniPicIndex -= 3;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX4());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY4());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() == 975) {
+								myGuy.setScreenY(500);
+							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY4()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY4());
+						}
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() == 285) {
+								myGuy.setScreenX(200);
+							} else if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX4()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX4());
+						}
+					} else if (checkExit4(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						mini = false;
+						miniPicIndex -= 4;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX5());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY5());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY5()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY5());
+						}
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX5()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX5());
+						}
+					} else if (checkExit5(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						System.out.println(MasseyMon.getMap(picIndex).getStartPosX6());
+						mini = false;
+						miniPicIndex -= 5;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX6());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY6());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(398);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY6()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY6());
+						}
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX6()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX6());
+						}
+					} else if (checkPrevRoute(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						picIndex -= 1;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() == 300) {
+								myGuy.setScreenY(300);
+							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(0);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY7()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY7());
+						}
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX7()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 						}
 					}
 
-					else{
-						myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY7());
-					}
-					if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-						if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
-							myGuy.setScreenX(478);
+				} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)) {
+					direction = RIGHT;
+					myGuy.move(direction, picIndex, miniPicIndex, mini);
+
+					if (checkNextRoute(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
+						picIndex += 1;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+
+							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
 						}
-						else {
-							myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX7()));
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 						}
 					}
-					else{
-						myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
+				} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)) {
+					direction = LEFT;
+					myGuy.move(direction, picIndex, miniPicIndex, mini);
+
+					if (checkPrevRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
+						picIndex -= 1;
+						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
+						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
+						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+							if (myGuy.getWorldY() == 650) {
+								myGuy.setScreenY(398);
+							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+								myGuy.setScreenY(0);
+							} else {
+								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY7()));
+							}
+						} else {
+							myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY7());
+						}
+						if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+							if (myGuy.getWorldX() == 1460) {
+								myGuy.setScreenX(900);
+							} else if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
+								myGuy.setScreenX(478);
+							} else {
+								myGuy.setScreenX(956 - (MasseyMon.getMap(picIndex).getMapWidth() - MasseyMon.getMap(picIndex).getStartPosX7()));
+							}
+						} else {
+							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
+						}
 					}
+				} else {
+					myGuy.resetExtra();
+					myGuy.idle(direction);
 				}
-
-			}
-			else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(),myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)&& clear(myGuy.getWorldX() + 20, myGuy.getWorldY(),myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)) {
-				direction = RIGHT;
-				myGuy.move(direction,picIndex,miniPicIndex,mini);
-			}
-			else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(),myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(),myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)) {
-				direction = LEFT;
-				myGuy.move(direction,picIndex,miniPicIndex,mini);
-			}
-			else {
-				myGuy.resetExtra();
-				myGuy.idle(direction);
 			}
 		}
 	}
