@@ -301,7 +301,7 @@ public class PokemonBattle {
         return true;
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, Player myGuy) {
         Point mouse = getMousePosition2();
         g.drawImage(pokeArenaBack, 0, -5, null);
         myCurPoke.drawGood(g);
@@ -338,7 +338,8 @@ public class PokemonBattle {
         }
         else if (choice.equals("bag")) {
             g.drawImage(itemMenu, 0, 0, null);
-            Player.drawItems(g);
+            myGuy.drawItems(g);
+            g.drawRect(392,57,510,55);
         }
     }
 
@@ -383,7 +384,7 @@ public class PokemonBattle {
         pokeSwitch(i);
     }
 
-    public void Start(Graphics g) {
+    public void Start(Graphics g, Player myGuy) {
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
         if (doneTurn) {
@@ -425,7 +426,7 @@ public class PokemonBattle {
             }
             doneTurn = false;
         }
-        draw(g);
+        draw(g, myGuy);
         if (battleOver().equals("") == false){
             MasseyMon.inBattle = false;
         }

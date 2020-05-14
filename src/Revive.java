@@ -9,8 +9,8 @@ public class Revive {
     public Revive(){
         order = 5;
         try{
-            pic = ImageIO.read(new File("Images/Battles/maxPotionPic.png"));
-            pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+            pic = ImageIO.read(new File("Images/Battles/revivePic.png"));
+            pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
         }
         catch (IOException e) { }
     }
@@ -21,8 +21,8 @@ public class Revive {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",440,90+85*order);
-        g.drawString(""+Player.items[order],440,90+85*order);
+        g.drawImage(pic,400,70+75*order,null);
+        g.drawString("Revive",500,120+75*order);
+        g.drawString("x"+Player.items[order],825,110+75*order);
     }
 }

@@ -29,14 +29,14 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = false;
+		inBattle = true;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
-	public void startBattle(Graphics g) throws IOException {
+	public void startBattle(Graphics g, Player myGuy) throws IOException {
 		pokeBattle = new PokemonBattle();
-		pokeBattle.Start(g);
+		pokeBattle.Start(g, myGuy);
 	}
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
@@ -161,13 +161,13 @@ class GamePanel extends JPanel {
 		if (MasseyMon.inBattle){
 			if (started == false){
 				try {
-					MasseyMon.frame.startBattle(g);
+					MasseyMon.frame.startBattle(g, myGuy);
 				}
 				catch (IOException e) {}
 				started = true;
 			}
 			else{
-				MasseyMon.frame.getPokeBattle().Start(g);
+				MasseyMon.frame.getPokeBattle().Start(g, myGuy);
 			}
 		}
 		else{

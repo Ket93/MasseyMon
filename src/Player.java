@@ -6,6 +6,13 @@ import javax.imageio.*;
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
 	public static int [] items = new int [7];
+	private Potion myPotion = new Potion();
+	private SuperPotion mySuperPotion = new SuperPotion();
+	private HyperPotion myHyperPotion = new HyperPotion();
+	private MaxPotion myMaxPotion = new MaxPotion();
+	private FullRestore myFullRestore = new FullRestore();
+	private Revive myRevive = new Revive();
+	private MaxRevive myMaxRevive = new MaxRevive();
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
 	public Player(int gen) {
@@ -26,6 +33,27 @@ public class Player {
 			items[i] = 1;
 		}
 	}
+	public Potion getMyPotion(){
+		return myPotion;
+	}
+	public SuperPotion getMySuperPotion(){
+		return mySuperPotion;
+	}
+	public HyperPotion getMyHyperPotion() {
+		return myHyperPotion;
+	}
+	public MaxPotion getMyMaxPotion(){
+		return myMaxPotion;
+	}
+	public FullRestore getMyFullRestore() {
+		return myFullRestore;
+	}
+	public Revive getMyRevive() {
+		return myRevive;
+	}
+	public MaxRevive getMyMaxRevive() {
+		return myMaxRevive;
+	}
 	public int[] getItems(){
 		return items;
 	}
@@ -44,19 +72,18 @@ public class Player {
 			}
 		}
 	}
-	public static void drawItems(Graphics g){
-		Potion.drawMenu(g);
-		SuperPotion.drawMenu(g);
-		HyperPotion.drawMenu(g);
-		MaxPotion.drawMenu(g);
-		FullRestore.drawMenu(g);
+	public void drawItems(Graphics g){
+		getMyPotion().drawMenu(g);
+		getMySuperPotion().drawMenu(g);
+		getMyHyperPotion().drawMenu(g);
+		getMyMaxPotion().drawMenu(g);
+		getMyFullRestore().drawMenu(g);
 	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
 
 	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) {
-
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
 				screenY -=7;

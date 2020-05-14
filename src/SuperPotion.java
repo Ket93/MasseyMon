@@ -9,10 +9,12 @@ public class SuperPotion {
     public SuperPotion(){
         order = 1;
         try{
-            pic = ImageIO.read(new File("Images/Battles/superPotionPic.png"));
-            pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+            String path = "Images/Battles/superPotionPic.png";
+            pic = ImageIO.read(new File(path));
+            pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
         }
-        catch (IOException e) { }
+        catch (IOException e) {
+        }
     }
     public void use(Pokemon poke){
         if (poke.getHP() > 0){
@@ -23,8 +25,8 @@ public class SuperPotion {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",440,90+85*order);
-        g.drawString(""+Player.items[order],440,90+85*order);
+        g.drawImage(pic,400,70+75*order,null);
+        g.drawString("Super Potion",500,110+75*order);
+        g.drawString("x"+Player.items[order],825,115+75*order);
     }
 }

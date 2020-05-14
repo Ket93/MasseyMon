@@ -9,7 +9,7 @@ public class MaxRevive {
     public MaxRevive(){
         order = 6;
         try{
-            pic = ImageIO.read(new File("Images/Battles/maxPotionPic.png"));
+            pic = ImageIO.read(new File("Images/Battles/maxRevivePic.png"));
             pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
         }
         catch (IOException e) { }
@@ -20,8 +20,8 @@ public class MaxRevive {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",440,90+85*order);
-        g.drawString(""+Player.items[order],440,90+85*order);
+        g.drawImage(pic,400,60+75*order,null);
+        g.drawString("Max Revive",500,120+75*order);
+        g.drawString("x"+Player.items[order],825,110+75*order);
     }
 }

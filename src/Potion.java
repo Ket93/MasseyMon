@@ -9,8 +9,9 @@ public class Potion{
     public Potion(){
         order = 0;
         try{
+            System.out.println("whats up");
             pic = ImageIO.read(new File("Images/Battles/potionimage.png"));
-            pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+            pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
         }
         catch (IOException e) { }
     }
@@ -23,8 +24,8 @@ public class Potion{
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",500,90+85*order);
-        g.drawString(""+Player.items[order],600,90+85*order);
+        g.drawImage(pic,400,62+75*order,null);
+        g.drawString("Potion",500,105+75*order);
+        g.drawString("x"+Player.items[order],825,110+75*order);
     }
 }

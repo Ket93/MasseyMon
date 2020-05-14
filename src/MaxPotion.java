@@ -10,7 +10,7 @@ public class MaxPotion {
         order = 3;
         try{
             pic = ImageIO.read(new File("Images/Battles/maxPotionPic.png"));
-            pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+            pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
         }
         catch (IOException e) { }
     }
@@ -20,8 +20,8 @@ public class MaxPotion {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",440,90+85*order);
-        g.drawString(""+Player.items[order],440,90+85*order);
+        g.drawImage(pic,400,75+75*order,null);
+        g.drawString("Max Potion",500,120+75*order);
+        g.drawString("x"+Player.items[order],825,120+75*order);
     }
 }
