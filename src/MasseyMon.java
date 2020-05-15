@@ -34,14 +34,14 @@ public class MasseyMon extends JFrame {
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
-	public void startBattle(Graphics g) throws IOException {
-		pokeBattle = new PokemonBattle();
+	public void startBattle(Graphics g, Player myGuy) throws IOException {
+		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
 		pokeBattle.Start(g);
 	}
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 11; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -52,7 +52,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <9;k++) {
+		for (int k = 0; k <11;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -116,6 +116,9 @@ class GamePanel extends JPanel {
 	private boolean ready = true;
 	private static boolean mini;
 	private boolean[] keys;
+	private boolean animating;
+	private float frame;
+	private Composite var;
 	pokeMap myMap;
 	pokeMapMini myMiniMap;
 	Textbox myTextBox;
@@ -146,6 +149,7 @@ class GamePanel extends JPanel {
 		myTextBox = new Textbox();
 		myMap = (MasseyMon.getMap(picIndex));
 		started = false;
+		frame = (float)(frame);
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
@@ -157,20 +161,36 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void paintComponent(Graphics g) {
-		movable = true;
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,getWidth(),getHeight());
+		Graphics2D g2d = (Graphics2D) g;
+		var = g2d.getComposite();
 		if (MasseyMon.inBattle){
 			if (started == false){
-				try {
-					MasseyMon.frame.startBattle(g);
+				System.out.println(frame);
+				if (frame == (float)(.60)){
+					try {
+						MasseyMon.frame.startBattle(g,myGuy);
+						started = true;
+					}
+					catch (IOException e) {}
 				}
-				catch (IOException e) {}
-				started = true;
+				else{
+					g2d.setColor(Color.green);
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,frame));
+					g2d.drawRect(0,0,getWidth(),getHeight());
+					if (frame < (float)(1)){
+						frame += 0.005;
+					}
+				}
+				frame = (float)(Math.round(frame*1000.0)/1000.0);
 			}
 			else{
 				MasseyMon.frame.getPokeBattle().Start(g);
 			}
 		}
 		else{
+			movable = true;
 			g.setColor(new Color(0,0,0));
 			g.fillRect(0,0,956,795);
 			offsetX = 0;
@@ -209,8 +229,8 @@ class GamePanel extends JPanel {
 				}
 			}
 			if (Textbox.getTextWriting()) {
-				Textbox.display(g, 0, spacePressed);
-				movable = false;
+				//Textbox.display(g, 0, spacePressed);
+				//movable = false;
 			}
 			spacePressed = false;
 		}
@@ -235,7 +255,7 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
-			if (MasseyMon.inBattle){
+			if (MasseyMon.inBattle && frame == (float)(0.60)){
 				MasseyMon.frame.getPokeBattle().checkCollision();
 			}
 		}
@@ -506,7 +526,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 300) {
+							if (myGuy.getWorldY() == 290) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);

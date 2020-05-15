@@ -9,22 +9,12 @@ public class Potion{
     public Potion(){
         order = 0;
         try{
+            System.out.println("whats up");
             pic = ImageIO.read(new File("Images/Battles/potionimage.png"));
-            pic = pic.getScaledInstance(20,20,Image.SCALE_SMOOTH);
+            pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
         }
         catch (IOException e) { }
     }
-    public void use(Pokemon poke){
-        if (poke.getHP() > 0){
-            poke.setHP(poke.getHP() + 50);
-            if (poke.getHP() > poke.getMaxHP()){
-                poke.setHP(poke.getMaxHP());
-            }
-        }
-    }
-    public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,90+85*order,null);
-        g.drawString("Potion",500,90+85*order);
-        g.drawString(""+Player.items[order],600,90+85*order);
-    }
+
+
 }

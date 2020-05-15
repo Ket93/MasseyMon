@@ -2,27 +2,31 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class PokemonBattle {
-    TypeChart myChart = new TypeChart();
-    public static ArrayList<Pokemon> allPokemon = new ArrayList<Pokemon>();
-    public static ArrayList<Attack> allAttacks = new ArrayList<Attack>();
-    public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
-    public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+    private TypeChart myChart = new TypeChart();
     private Rectangle fightButton, bagButton, pokeButton, runButton, myPokeHealth, enemyPokeHealth, backArrowRect;
     private Image pokeArenaBack, pokeBox, backArrow, itemMenu, switchBackground;
-    private Font gameFont, smallerGameFont, switchFont;
+    private Font gameFont, smallerGameFont, switchFont, bigFont;
     private ArrayList<Rectangle> rectButtons;
+    private Rectangle[] bagRects = new Rectangle[6];
     private Rectangle[] switchPokeRects = new Rectangle[6];
     private boolean fleeable, cFight, cPokes, cBag, cRun, doneTurn;
     private Attack attackC;
     private int indexC;
     private String choice, text;
+    private int itemC;
     private int HPRectWidths;
     private boolean dead;
+    private Player curGuy;
     private Pokemon myCurPoke, enemyCurPoke;
-    public PokemonBattle() throws IOException {
+    private ArrayList <Pokemon> allPokemon, enemyPokes, myPokes;
+    private ArrayList <Attack> allAttacks;
+    private int[] numItems = new int[7];
+    private Items myItems;
+    public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         fightButton = new Rectangle(464, 584, 236, 86);
         bagButton = new Rectangle(701, 584, 236, 86);
         pokeButton = new Rectangle(464, 675, 236, 86);
@@ -30,8 +34,16 @@ public class PokemonBattle {
         HPRectWidths = 182;
         backArrowRect = new Rectangle(10, 10, 58, 62);
         dead = false;
+        myPokes = myPokes2;
+        enemyPokes = enemyPokes2;
+        curGuy = curGuy2;
+        curGuy = curGuy2;
+        allPokemon = new ArrayList<Pokemon>();
+        allAttacks = new ArrayList<Attack>();
+        numItems = curGuy.getNumItems();
         load();
         for (int i = 0; i < 6; i++) {
+            bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
             switchPokeRects[i] = new Rectangle(143, 20 + 105 * i, 650, 105);
         }
         rectButtons = new ArrayList<Rectangle>();
@@ -52,6 +64,7 @@ public class PokemonBattle {
             smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
             smallerGameFont = gameFont.deriveFont(35f);
             switchFont = gameFont.deriveFont(45f);
+            bigFont = gameFont.deriveFont(70f);
         } catch (IOException | FontFormatException e) {
         }
     }
@@ -61,21 +74,23 @@ public class PokemonBattle {
     public String getChoice() {
         return choice;
     }
-
+    public TypeChart getMyChart(){
+        return myChart;
+    }
     public void setChoice(String s) {
         choice = s;
     }
-
+    public ArrayList<Pokemon> getAllPokemon(){
+        return allPokemon;
+    }
     public boolean getDead() {
         return dead;
     }
-
+    public Player getCurGuy(){
+        return curGuy;
+    }
     public void setDead(boolean d) {
         dead = d;
-    }
-
-    public ArrayList<Pokemon> getAllPokes() {
-        return allPokemon;
     }
 
     public ArrayList<Pokemon> getMyPokes() {
@@ -90,12 +105,7 @@ public class PokemonBattle {
         return allAttacks;
     }
 
-    public boolean isFleeable() {
-        return fleeable;
-    }
-
     public void AISwitch() {
-        myChart = new TypeChart();
         ArrayList<Double> vals = new ArrayList<Double>();
         for (Pokemon poke : enemyPokes) {
             if (poke.getHP() > 0) {
@@ -120,6 +130,7 @@ public class PokemonBattle {
                     if (poke.getHP() > 0) {
                         if (done == false) {
                             index = enemyPokes.indexOf(poke);
+                            System.out.println(poke.getName());
                             done = true;
                         }
                     }
@@ -141,16 +152,21 @@ public class PokemonBattle {
             Pokemon switchPoke = enemyPokes.get(index);
             enemyPokes.set(0, switchPoke);
             enemyPokes.set(index, curPoke);
+            System.out.println(index);
             System.out.println("switched to a different pokemon");
         }
     }
 
     public Point getMousePosition2() {
         Point mouse2 = MasseyMon.frame.getMousePosition();
+        Point mouse;
         if (mouse2 == null) {
-            mouse2 = new Point(0, 0);
+            mouse = new Point(0, 0);
         }
-        return mouse2;
+        else{
+            mouse = new Point(mouse2.x-7,mouse2.y-30);
+        }
+        return mouse;
     }
 
     public void checkCollision() {
@@ -181,13 +197,11 @@ public class PokemonBattle {
                             indexC = i;
                             if (getDead()){
                                 pokeSwitch(indexC);
-                                System.out.println("hi");
                             }
                             else{
                                 cPokes = true;
                                 setChoice("none");
                                 doneTurn = true;
-                                System.out.println("pokemon");
                             }
                         }
                     }
@@ -196,6 +210,21 @@ public class PokemonBattle {
             if (backArrowRect.contains(mouse)) {
                 if (getDead() == false) {
                     setChoice("none");
+                }
+            }
+        }
+        else if (getChoice().equals("bag")){
+            for (int i = 0; i < 6; i++){
+                if (bagRects[i].contains(mouse)){
+                    System.out.println(numItems[i]);
+                    System.out.println(i);
+                    if (numItems[i] > 0){
+                        myItems.use(myCurPoke, i);
+                        cBag = true;
+                        itemC = i;
+                        setChoice("none");
+                        doneTurn = true;
+                    }
                 }
             }
         }
@@ -338,7 +367,20 @@ public class PokemonBattle {
         }
         else if (choice.equals("bag")) {
             g.drawImage(itemMenu, 0, 0, null);
-            Player.drawItems(g);
+            for (int i = 0; i < 6; i++){
+                myItems.draw(g,i);
+            }
+            g.setFont(bigFont);
+            g.drawString("BAG",140,87);
+            for (Rectangle item : bagRects) {
+                if (item.contains(mouse)) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setStroke(new BasicStroke(3));
+                    g2d.setColor(Color.BLACK);
+                    g2d.drawRect(item.x, item.y, item.width, item.height);
+                    g2d.setStroke(new BasicStroke(1));
+                }
+            }
         }
     }
 
@@ -365,69 +407,82 @@ public class PokemonBattle {
             return "loss";
         }
     }
-
-    public void myTurn() {
+    public void myTurnRun() {
         if (fleeable) {
             MasseyMon.inBattle = false;
         } else {
             System.out.println("You couldn't run away");
         }
     }
-
-    public void myTurn(Attack atk) {
+    public void myTurnAttack() {
         Pokemon enemyPoke = enemyPokes.get(0);
-        myPokes.get(0).doAttack(atk, enemyPoke);
+        myPokes.get(0).doAttack(attackC,enemyPoke);
     }
-
-    public void myTurn(int i) {
-        pokeSwitch(i);
+    public void myTurnSwitch() {
+        pokeSwitch(indexC);
     }
-
-    public void Start(Graphics g) {
+    public void myTurnBag(){
+        myItems.use(myCurPoke,itemC);
+    }
+    public void Start(Graphics g){
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
         if (doneTurn) {
             if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed()) {
-                AITurn(enemyCurPoke);//pokemon should do this
+                AITurn(enemyCurPoke);
                 if (myCurPoke.getHP() > 0){
                     if (cFight) {
-                        myTurn(attackC);
+                        myTurnAttack();
                         cFight = false;
                     } else if (cPokes) {
-                        myTurn(indexC);
+                        myTurnSwitch();
                         cPokes = false;
                     } else if (cRun) {
-                        myTurn();
+                        myTurnRun();
                         cRun = false;
                     }
-                }
-                else{
-                    setDead(true);
+                    else if(cBag) {
+                        myTurnBag();
+                        cBag = false;
+                    }
                 }
             }
             else {
                 if (cFight) {
-                    myTurn(attackC);
+                    myTurnAttack();
                     cFight = false;
                 } else if (cPokes) {
-                    myTurn(indexC);
+                    myTurnSwitch();
                     cPokes = false;
                 } else if (cRun) {
-                    myTurn();
+                    myTurnRun();
                     cRun = false;
+                }
+                else if(cBag){
+                    myTurnBag();
+                    cBag = false;
+                    System.out.println("bagged");
                 }
                 if (enemyCurPoke.getHP() > 0){
                     AITurn(enemyCurPoke);
                 }
-                else{
-                    AISwitch();
-                }
+            }
+            if (myCurPoke.getHP() <= 0){
+                setDead(true);
+            }
+            if (enemyCurPoke.getHP() <= 0){
+                AISwitch();
             }
             doneTurn = false;
         }
         draw(g);
+        update();
         if (battleOver().equals("") == false){
             MasseyMon.inBattle = false;
         }
+    }
+    public void update(){
+        numItems = curGuy.getNumItems();
+        myItems = curGuy.getItems();
     }
 }

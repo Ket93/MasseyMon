@@ -6,9 +6,18 @@ import javax.imageio.*;
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
 	public static int [] items = new int [7];
+	private Potion myPotion = new Potion();
+	private SuperPotion mySuperPotion = new SuperPotion();
+	private HyperPotion myHyperPotion = new HyperPotion();
+	private MaxPotion myMaxPotion = new MaxPotion();
+	private FullRestore myFullRestore = new FullRestore();
+	private Revive myRevive = new Revive();
+	private MaxRevive myMaxRevive = new MaxRevive();
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
-	public Player(int gen) {
+	private Items myItems;
+	private int[] numItems = new int[7];
+	public Player(int gen) throws IOException {
 		worldX = 289;
 		worldY = 285;
 		screenY = 285;
@@ -17,6 +26,10 @@ public class Player {
 		extra = 0;
 		wait = 0;
 		delay = 30;
+		myItems = new Items();
+		for (int i = 0; i < 7; i++){
+			numItems[i] = 0;
+		}
 		if (gen == BOY) {
 			load(BOY);
 		} else {
@@ -26,8 +39,12 @@ public class Player {
 			items[i] = 1;
 		}
 	}
-	public int[] getItems(){
-		return items;
+	public int[] getNumItems(){
+		numItems = myItems.getNums();
+		return numItems;
+	}
+	public Items getItems(){
+		return myItems;
 	}
 	public void load(int gen) {
 		sprites = new Image[12];
@@ -44,19 +61,11 @@ public class Player {
 			}
 		}
 	}
-	public static void drawItems(Graphics g){
-		Potion.drawMenu(g);
-		SuperPotion.drawMenu(g);
-		HyperPotion.drawMenu(g);
-		MaxPotion.drawMenu(g);
-		FullRestore.drawMenu(g);
-	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);
 	}
 
 	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) {
-
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
 				screenY -=7;
