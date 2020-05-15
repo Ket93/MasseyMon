@@ -20,7 +20,7 @@ public class MaxPotion {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,75+75*order,null);
+        g.drawImage(pic,400,77+75*order,null);
         g.drawString("Max Potion",500,120+75*order);
         g.drawString("x"+Player.items[order],825,120+75*order);
     }

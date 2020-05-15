@@ -25,8 +25,8 @@ public class SuperPotion {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,70+75*order,null);
-        g.drawString("Super Potion",500,110+75*order);
-        g.drawString("x"+Player.items[order],825,115+75*order);
+        g.drawImage(pic,400,67+75*order,null);
+        g.drawString("Super Potion",500,105+75*order);
+        g.drawString("x"+Player.items[order],825,110+75*order);
     }
 }

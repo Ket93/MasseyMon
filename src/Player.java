@@ -15,7 +15,9 @@ public class Player {
 	private MaxRevive myMaxRevive = new MaxRevive();
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
-	public Player(int gen) {
+	private Items myItems;
+	private int[] numItems = new int[7];
+	public Player(int gen) throws IOException {
 		worldX = 289;
 		worldY = 285;
 		screenY = 285;
@@ -24,6 +26,10 @@ public class Player {
 		extra = 0;
 		wait = 0;
 		delay = 30;
+		myItems = new Items();
+		for (int i = 0; i < 7; i++){
+			numItems[i] = 0;
+		}
 		if (gen == BOY) {
 			load(BOY);
 		} else {
@@ -33,29 +39,12 @@ public class Player {
 			items[i] = 1;
 		}
 	}
-	public Potion getMyPotion(){
-		return myPotion;
+	public int[] getNumItems(){
+		numItems = myItems.getNums();
+		return numItems;
 	}
-	public SuperPotion getMySuperPotion(){
-		return mySuperPotion;
-	}
-	public HyperPotion getMyHyperPotion() {
-		return myHyperPotion;
-	}
-	public MaxPotion getMyMaxPotion(){
-		return myMaxPotion;
-	}
-	public FullRestore getMyFullRestore() {
-		return myFullRestore;
-	}
-	public Revive getMyRevive() {
-		return myRevive;
-	}
-	public MaxRevive getMyMaxRevive() {
-		return myMaxRevive;
-	}
-	public int[] getItems(){
-		return items;
+	public Items getItems(){
+		return myItems;
 	}
 	public void load(int gen) {
 		sprites = new Image[12];
@@ -71,13 +60,6 @@ public class Player {
 			} catch (IOException e) {
 			}
 		}
-	}
-	public void drawItems(Graphics g){
-		getMyPotion().drawMenu(g);
-		getMySuperPotion().drawMenu(g);
-		getMyHyperPotion().drawMenu(g);
-		getMyMaxPotion().drawMenu(g);
-		getMyFullRestore().drawMenu(g);
 	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);

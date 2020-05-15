@@ -20,7 +20,7 @@ public class FullRestore {
         }
     }
     public static void drawMenu(Graphics g){
-        g.drawImage(pic,400,80+75*order,null);
+        g.drawImage(pic,400,82+75*order,null);
         g.drawString("Full Restore",500,120+75*order);
         g.drawString("x"+Player.items[order],825,125+75*order);
     }

@@ -35,8 +35,8 @@ public class MasseyMon extends JFrame {
 		frame = new MasseyMon();
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
-		pokeBattle = new PokemonBattle();
-		pokeBattle.Start(g, myGuy);
+		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
+		pokeBattle.Start(g);
 	}
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
@@ -116,6 +116,9 @@ class GamePanel extends JPanel {
 	private boolean ready = true;
 	private static boolean mini;
 	private boolean[] keys;
+	private boolean animating;
+	private float frame;
+	private Composite var;
 	pokeMap myMap;
 	pokeMapMini myMiniMap;
 	Textbox myTextBox;
@@ -146,6 +149,7 @@ class GamePanel extends JPanel {
 		myTextBox = new Textbox();
 		myMap = (MasseyMon.getMap(picIndex));
 		started = false;
+		frame = (float)(frame);
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
@@ -157,20 +161,36 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void paintComponent(Graphics g) {
-		movable = true;
+		g.setColor(Color.BLACK);
+		g.fillRect(0,0,getWidth(),getHeight());
+		Graphics2D g2d = (Graphics2D) g;
+		var = g2d.getComposite();
 		if (MasseyMon.inBattle){
 			if (started == false){
-				try {
-					MasseyMon.frame.startBattle(g, myGuy);
+				System.out.println(frame);
+				if (frame == (float)(.60)){
+					try {
+						MasseyMon.frame.startBattle(g,myGuy);
+						started = true;
+					}
+					catch (IOException e) {}
 				}
-				catch (IOException e) {}
-				started = true;
+				else{
+					g2d.setColor(Color.green);
+					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,frame));
+					g2d.drawRect(0,0,getWidth(),getHeight());
+					if (frame < (float)(1)){
+						frame += 0.005;
+					}
+				}
+				frame = (float)(Math.round(frame*1000.0)/1000.0);
 			}
 			else{
-				MasseyMon.frame.getPokeBattle().Start(g, myGuy);
+				MasseyMon.frame.getPokeBattle().Start(g);
 			}
 		}
 		else{
+			movable = true;
 			g.setColor(new Color(0,0,0));
 			g.fillRect(0,0,956,795);
 			offsetX = 0;
@@ -235,7 +255,7 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
-			if (MasseyMon.inBattle){
+			if (MasseyMon.inBattle && frame == (float)(0.60)){
 				MasseyMon.frame.getPokeBattle().checkCollision();
 			}
 		}

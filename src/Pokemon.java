@@ -117,7 +117,6 @@ class Pokemon{
 			defender.setHP(0);
 		}
 		setAtkPP(atkDone,atkDone.getPP()-1);
-		System.out.println(name + damageDone);
 	}
 	public void loadImage() throws IOException {
 		String path = String.format("Sprites/Pokemon/P%dM.png",num);
@@ -135,6 +134,15 @@ class Pokemon{
 		float max = (float) maxHP;
 		float cur = (float) hp;
 		return (int)((cur/max)*i);
+	}
+	public void heal(int i){
+		hp += i;
+		if (hp > maxHP){
+			hp = maxHP;
+		}
+	}
+	public void revive(double d){
+		hp = (int)(maxHP*d);
 	}
 	public void drawGood(Graphics g){
 		g.setColor(Color.GREEN);
