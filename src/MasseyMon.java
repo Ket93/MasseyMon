@@ -41,7 +41,7 @@ public class MasseyMon extends JFrame {
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 11; i++) {
+		for (int i = 0; i < 12; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -52,7 +52,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <11;k++) {
+		for (int k = 0; k <12;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -409,7 +409,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 290) {
+							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -560,7 +560,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 290) {
+							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -644,8 +644,8 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 650) {
-								myGuy.setScreenY(398);
+							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 ) {
+								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
 							} else {
@@ -675,8 +675,8 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 650) {
-								myGuy.setScreenY(398);
+							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 ) {
+								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
 							} else {
