@@ -29,7 +29,7 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = true;
+		inBattle = false;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
@@ -41,7 +41,7 @@ public class MasseyMon extends JFrame {
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
 	public void load() throws IOException {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 12; i++) {
+		for (int i = 0; i < 13; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -52,7 +52,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <12;k++) {
+		for (int k = 0; k <13;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -320,7 +320,8 @@ class GamePanel extends JPanel {
 	public void move() {
 		if (!menu) {
 			if (movable) {
-				if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)) {
+				if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
+						&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
 					direction = UP;
 					myGuy.move(direction, picIndex, miniPicIndex, mini);
 					if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
@@ -365,7 +366,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900) {
+							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900 || myGuy.getWorldY() == 860) {
 								myGuy.setScreenY(398);
 							}
 
@@ -393,7 +394,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300) {
+							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300 || myGuy.getWorldY() == 420) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -414,7 +415,8 @@ class GamePanel extends JPanel {
 						}
 					}
 
-				} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)) {
+				} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)
+						&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27))){
 					direction = DOWN;
 					myGuy.move(direction, picIndex, miniPicIndex, mini);
 
@@ -544,7 +546,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300) {
+							if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300 || myGuy.getWorldY() == 420) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -570,7 +572,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900) {
+							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900 || myGuy.getWorldY() == 860) {
 								myGuy.setScreenY(398);
 							}
 
@@ -594,7 +596,8 @@ class GamePanel extends JPanel {
 						}
 					}
 
-				} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)) {
+				} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)
+						&& checkLedgeLeft(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && checkLedgeRight(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20))) {
 					direction = RIGHT;
 					myGuy.move(direction, picIndex, miniPicIndex, mini);
 
@@ -604,7 +607,11 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-							if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
+							if (myGuy.getWorldY() == 860) {
+								myGuy.setScreenY(398);
+							}
+
+							else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
 
 							} else {
@@ -628,7 +635,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 ) {
+							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 || myGuy.getWorldY() == 420 ) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -650,7 +657,8 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 						}
 					}
-				} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)) {
+				} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)
+						&& checkLedgeLeft(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20) && checkLedgeRight(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20))) {
 					direction = LEFT;
 					myGuy.move(direction, picIndex, miniPicIndex, mini);
 
@@ -659,7 +667,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 ) {
+							if (myGuy.getWorldY() == 650 || myGuy.getWorldY() == 300 || myGuy.getWorldY() == 420) {
 								myGuy.setScreenY(300);
 							} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 								myGuy.setScreenY(0);
@@ -687,7 +695,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900) {
+							if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900 || myGuy.getWorldY() == 860) {
 								myGuy.setScreenY(398);
 							}
 
@@ -857,6 +865,50 @@ class GamePanel extends JPanel {
 		}
 		else{
 			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_LEFT]|| keys[KeyEvent.VK_A] || keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkLedgeLeft(int x, int y, int x2, int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF8080FF;
+		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+			return false;
+		}
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		if (c!= WALL && d!= WALL){
+			return true;
+		}
+		else{
+			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_DOWN]|| keys[KeyEvent.VK_S] || keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean checkLedgeRight(int x, int y, int x2, int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFFFF8080;
+		if (x < 0 || x >= maskPic.getWidth(null) + posX || y < 0 || y >= maskPic.getHeight(null) + posY) {
+			return false;
+		}
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		if (c!= WALL && d!= WALL){
+			return true;
+		}
+		else{
+			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_LEFT]|| keys[KeyEvent.VK_A] || keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]){
 				return false;
 			}
 		}
