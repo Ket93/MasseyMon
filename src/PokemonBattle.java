@@ -2,62 +2,106 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class PokemonBattle {
+    public static boolean fleeable;
     private TypeChart myChart = new TypeChart();
-    private Rectangle fightButton, bagButton, pokeButton, runButton, myPokeHealth, enemyPokeHealth, backArrowRect;
-    private Image pokeArenaBack, pokeBox, backArrow, itemMenu, switchBackground;
+    private Rectangle fightButton, bagButton, pokeButton, runButton, backArrowRect, upArrowRect, downArrowRect;
+    private Image pokeArenaBack, pokeBox, backArrow, itemMenu, switchBackground, pokeArrowUp, pokeArrowDown;
     private Font gameFont, smallerGameFont, switchFont, bigFont;
     private ArrayList<Rectangle> rectButtons;
-    private Rectangle[] bagRects = new Rectangle[6];
-    private Rectangle[] switchPokeRects = new Rectangle[6];
-    private boolean fleeable, cFight, cPokes, cBag, cRun, doneTurn;
+    private Rectangle[] bagRects = new Rectangle[9];
+    private Rectangle[] switchPokeRects = new Rectangle[7];
+    private boolean cFight, cPokes, cBag, cRun, doneTurn, captured;
     private Attack attackC;
-    private int indexC;
+    private int indexC,itemC,level;
     private String choice, text;
-    private int itemC;
-    private int HPRectWidths;
     private boolean dead;
     private Player curGuy;
     private Pokemon myCurPoke, enemyCurPoke;
-    private ArrayList <Pokemon> allPokemon, enemyPokes, myPokes;
-    private ArrayList <Attack> allAttacks;
+    private ArrayList <Pokemon> allPokemon = new ArrayList<Pokemon>();
+    private ArrayList <Pokemon> enemyPokes = new ArrayList<Pokemon>();
+    private ArrayList <Pokemon> myPokes = new ArrayList<Pokemon>();
+    private ArrayList <Attack> allAttacks = new ArrayList<Attack>();
     private int[] numItems = new int[7];
     private Items myItems;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
+        myPokes = myPokes2;
+        enemyPokes = enemyPokes2;
+        curGuy = curGuy2;
+        load();
+        loadImageFont();
+    }
+    public void load() throws FileNotFoundException {
+        Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
+        String dumInp = inFile.nextLine();
+        while (inFile.hasNext()) {
+            String line = inFile.nextLine();
+            Pokemon newPoke = new Pokemon(line);
+            allPokemon.add(newPoke);
+        }
+        for (int i = 0; i < 6; i++) {
+            myPokes.add(allPokemon.get(i));
+            enemyPokes.add(allPokemon.get(i + 6));
+        }
+        inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
+        while (inFile.hasNext()) {
+            String line = inFile.nextLine();
+            Attack newAtk = new Attack(line);
+            allAttacks.add(newAtk);
+        }
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 4; j++) {
+                myPokes.get(i).learnMove(allAttacks.get(j));
+                enemyPokes.get(i).learnMove(allAttacks.get(i));
+            }
+        }
         fightButton = new Rectangle(464, 584, 236, 86);
         bagButton = new Rectangle(701, 584, 236, 86);
         pokeButton = new Rectangle(464, 675, 236, 86);
         runButton = new Rectangle(701, 671, 236, 86);
-        HPRectWidths = 182;
+        upArrowRect = new Rectangle(265,285,49,25);
+        downArrowRect = new Rectangle(265,335,49,25);
         backArrowRect = new Rectangle(10, 10, 58, 62);
-        dead = false;
-        myPokes = myPokes2;
-        enemyPokes = enemyPokes2;
-        curGuy = curGuy2;
-        curGuy = curGuy2;
-        allPokemon = new ArrayList<Pokemon>();
-        allAttacks = new ArrayList<Attack>();
-        numItems = curGuy.getNumItems();
-        load();
-        for (int i = 0; i < 6; i++) {
-            bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
-            switchPokeRects[i] = new Rectangle(143, 20 + 105 * i, 650, 105);
-        }
         rectButtons = new ArrayList<Rectangle>();
         rectButtons.add(fightButton);
         rectButtons.add(bagButton);
         rectButtons.add(pokeButton);
         rectButtons.add(runButton);
         choice = "none";
+        fleeable = true;
+        for (int i = 0; i < 6; i++) {
+            bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
+            switchPokeRects[i] = new Rectangle(143, 20 + 105 * i, 650, 105);
+        }
+        switchPokeRects[6] = backArrowRect;
+        bagRects[6] = upArrowRect;
+        bagRects[7] = downArrowRect;
+        bagRects[8] = backArrowRect;
+        dead = false;
+        allPokemon = new ArrayList<Pokemon>();
+        allAttacks = new ArrayList<Attack>();
+        numItems = curGuy.getNumItems();
+        level = 0;
+    }
+    public void capture(){
+        if (myPokes.size() < 6){
+            myPokes.add(enemyCurPoke);
+
+        }
+    }
+    public void loadImageFont(){
         try {
             pokeArenaBack = ImageIO.read(new File("Images/Battles/PokeBattle2.jpg"));
             switchBackground = ImageIO.read(new File("Images/Battles/switchBackground.png"));
             pokeBox = ImageIO.read(new File("Images/Battles/pokeBox.png"));
             backArrow = ImageIO.read(new File("Images/Battles/arrow.png"));
             itemMenu = ImageIO.read(new File("Images/Battles/itemMenu.png"));
+            pokeArrowDown = ImageIO.read(new File("Images/Battles/pokeArrowDown.png"));
+            pokeArrowDown = pokeArrowDown.getScaledInstance(50,25,Image.SCALE_SMOOTH);
+            pokeArrowUp = ImageIO.read(new File("Images/Battles/pokeArrowUp.png"));
+            pokeArrowUp = pokeArrowUp.getScaledInstance(50,25,Image.SCALE_SMOOTH);
             pokeArenaBack = pokeArenaBack.getScaledInstance(945, 770, Image.SCALE_SMOOTH);
             gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
             gameFont = gameFont.deriveFont(40f);
@@ -65,8 +109,8 @@ public class PokemonBattle {
             smallerGameFont = gameFont.deriveFont(35f);
             switchFont = gameFont.deriveFont(45f);
             bigFont = gameFont.deriveFont(70f);
-        } catch (IOException | FontFormatException e) {
         }
+        catch (IOException | FontFormatException e) { }
     }
     public void setDoneTurn(boolean d){
         doneTurn = d;
@@ -92,19 +136,15 @@ public class PokemonBattle {
     public void setDead(boolean d) {
         dead = d;
     }
-
     public ArrayList<Pokemon> getMyPokes() {
         return myPokes;
     }
-
     public ArrayList<Pokemon> getEnemyPokes() {
         return enemyPokes;
     }
-
     public ArrayList<Attack> getAllAttacks() {
         return allAttacks;
     }
-
     public void AISwitch() {
         ArrayList<Double> vals = new ArrayList<Double>();
         for (Pokemon poke : enemyPokes) {
@@ -143,7 +183,6 @@ public class PokemonBattle {
                     Pokemon switchPoke = enemyPokes.get(index);
                     enemyPokes.set(0, switchPoke);
                     enemyPokes.set(index, curPoke);
-                    System.out.println("switched to a different pokemon cause dead");
                 }
             }
         }
@@ -152,8 +191,6 @@ public class PokemonBattle {
             Pokemon switchPoke = enemyPokes.get(index);
             enemyPokes.set(0, switchPoke);
             enemyPokes.set(index, curPoke);
-            System.out.println(index);
-            System.out.println("switched to a different pokemon");
         }
     }
 
@@ -168,7 +205,6 @@ public class PokemonBattle {
         }
         return mouse;
     }
-
     public void checkCollision() {
         cFight = false;
         cPokes = false;
@@ -216,16 +252,27 @@ public class PokemonBattle {
         else if (getChoice().equals("bag")){
             for (int i = 0; i < 6; i++){
                 if (bagRects[i].contains(mouse)){
-                    System.out.println(numItems[i]);
-                    System.out.println(i);
                     if (numItems[i] > 0){
-                        myItems.use(myCurPoke, i);
+                        myItems.use(myCurPoke, i+(level*6));
                         cBag = true;
                         itemC = i;
                         setChoice("none");
                         doneTurn = true;
                     }
                 }
+            }
+            if (bagRects[6].contains(mouse)){
+                if (level > 0){
+                    level--;
+                }
+            }
+            else if(bagRects[7].contains(mouse)){
+                if (level < 1){
+                    level++;
+                }
+            }
+            else if (backArrowRect.contains(mouse)) {
+                setChoice("none");
             }
         }
         else if (getChoice().equals("run")) {
@@ -240,26 +287,24 @@ public class PokemonBattle {
                 setChoice("bag");
             } else if (pokeButton.contains(mouse)) {
                 setChoice("pokemon");
-                System.out.println("switched");
             } else if (runButton.contains(mouse)) {
                 setChoice("run");
             }
         }
     }
-
     public void AITurn(Pokemon enemyPoke) {
         if (isBad()) {
             AISwitch();
         }
         else {
-            if ((float) enemyPoke.getHP() / (float) enemyPoke.getMaxHP() <= 0.20) {
-                heal(enemyPoke);
-            } else {
+            if ((float) enemyPoke.getHP() / (float) enemyPoke.getMaxHP() <= 0.20 && enemyPoke.getHealed() == false) {
+                enemyPoke.heal();
+            }
+            else {
                 AIAttack(enemyPoke);
             }
         }
     }
-
     public void AIAttack(Pokemon enemyPoke) {
         ArrayList<Attack> enemyAttacks = new ArrayList<Attack>();
         enemyAttacks = getEnemyPokes().get(0).getMoves();
@@ -276,11 +321,6 @@ public class PokemonBattle {
         }
         enemyPoke.doAttack(enemyAttacks.get(index), myPoke);
     }
-
-    public void heal(Pokemon poke) {
-        System.out.println("healed" + poke.getName());
-    }
-
     public void pokeSwitch(int i) {
         Pokemon curPoke = myPokes.get(0);
         Pokemon switchPoke = myPokes.get(i);
@@ -292,34 +332,6 @@ public class PokemonBattle {
             setChoice("none");
         }
     }
-
-    public void load() throws FileNotFoundException {
-        Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-        String dumInp = inFile.nextLine();
-        while (inFile.hasNext()) {
-            String line = inFile.nextLine();
-            Pokemon newPoke = new Pokemon(line);
-            allPokemon.add(newPoke);
-        }
-        for (int i = 0; i < 6; i++) {
-            myPokes.add(allPokemon.get(i));
-            enemyPokes.add(allPokemon.get(i + 6));
-            System.out.println(allPokemon.get(i + 6).getName());
-        }
-        inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
-        while (inFile.hasNext()) {
-            String line = inFile.nextLine();
-            Attack newAtk = new Attack(line);
-            allAttacks.add(newAtk);
-        }
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 4; j++) {
-                myPokes.get(i).learnMove(allAttacks.get(j));
-                enemyPokes.get(i).learnMove(allAttacks.get(i));
-            }
-        }
-    }
-
     public boolean isBad() {
         Pokemon myPoke = myPokes.get(0);
         Pokemon enemyPoke = enemyPokes.get(0);
@@ -367,7 +379,10 @@ public class PokemonBattle {
         }
         else if (choice.equals("bag")) {
             g.drawImage(itemMenu, 0, 0, null);
-            for (int i = 0; i < 6; i++){
+            g.drawImage(backArrow, backArrowRect.x,backArrowRect.y,null);
+            g.drawImage(pokeArrowUp, 265,285,null);
+            g.drawImage(pokeArrowDown, 265,335,null);
+            for (int i = 0+6*level; i < 6+6*level; i++){
                 myItems.draw(g,i);
             }
             g.setFont(bigFont);

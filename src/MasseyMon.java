@@ -29,7 +29,7 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = false;
+		inBattle = true;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
@@ -161,29 +161,13 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void paintComponent(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0,0,getWidth(),getHeight());
-		Graphics2D g2d = (Graphics2D) g;
-		var = g2d.getComposite();
 		if (MasseyMon.inBattle){
 			if (started == false){
-				System.out.println(frame);
-				if (frame == (float)(.60)){
-					try {
-						MasseyMon.frame.startBattle(g,myGuy);
-						started = true;
-					}
-					catch (IOException e) {}
+				try {
+					MasseyMon.frame.startBattle(g,myGuy);
+					started = true;
 				}
-				else{
-					g2d.setColor(Color.green);
-					g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,frame));
-					g2d.drawRect(0,0,getWidth(),getHeight());
-					if (frame < (float)(1)){
-						frame += 0.005;
-					}
-				}
-				frame = (float)(Math.round(frame*1000.0)/1000.0);
+				catch (IOException e) {}
 			}
 			else{
 				MasseyMon.frame.getPokeBattle().Start(g);
@@ -262,7 +246,7 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
-			if (MasseyMon.inBattle && frame == (float)(0.60)){
+			if (MasseyMon.inBattle){
 				MasseyMon.frame.getPokeBattle().checkCollision();
 			}
 		}

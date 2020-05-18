@@ -7,6 +7,7 @@ import java.util.ArrayList;
 class Pokemon{
 	private int hp,maxHP,num,atk,def,spatk,spdef,speed,extra,level;
 	private String type1,type2,resistance,weakness,name;
+	private boolean healed;
 	private ArrayList<Attack> pokeAttacks = new ArrayList<Attack>();
 	private Image myPokeImage,enemyPokeImage,displayImage;
 	private Font gameFont,smallerGameFont,switchFont;
@@ -29,6 +30,7 @@ class Pokemon{
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
 		level = 10;
+		healed = false;
 		for (int i = 0; i < 4; i++){
 			pokeAttacks.add(null);
 		}
@@ -42,6 +44,11 @@ class Pokemon{
 		}
 		catch (IOException | FontFormatException e) {}
 	}
+	public void heal(){
+		healed = true;
+		hp = maxHP;
+	}
+	public boolean getHealed(){ return healed; }
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
 	public String getType1(){
