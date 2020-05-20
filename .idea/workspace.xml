@@ -20,14 +20,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Images/Backgrounds/Background12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/Masks/Background12Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/PlayerPositions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/PlayerPositions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/miniPlayerPositions" beforeDir="false" afterPath="$PROJECT_DIR$/Data/miniPlayerPositions" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background10Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background10Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background11Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background11Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background9Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background9Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background12.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background12Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background12Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,19 +65,19 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 2" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 5" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 0" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\PalletTown" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Masks" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Backgrounds" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\NPCs" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 5" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 5" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 2" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 5" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 0" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\PalletTown" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MasseyMon">
@@ -129,14 +125,8 @@
       <workItem from="1589218540655" duration="26138000" />
       <workItem from="1589387508336" duration="6204000" />
       <workItem from="1589656458875" duration="10396000" />
-      <workItem from="1589748267692" duration="8346000" />
-    </task>
-    <task id="LOCAL-00013" summary="fixed sprites">
-      <created>1586357493755</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1586357493755</updated>
+      <workItem from="1589748267692" duration="9634000" />
+      <workItem from="1589912090573" duration="9173000" />
     </task>
     <task id="LOCAL-00014" summary="Added Pokemon sprites">
       <created>1586400216621</created>
@@ -474,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589753993562</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="fixed mt Moon and added Cerulean City">
+      <created>1589836642259</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1589836642260</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -494,7 +491,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added players house" />
     <MESSAGE value="Fixed Masks" />
     <MESSAGE value="committed shit" />
     <MESSAGE value="i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda i love linda" />
@@ -519,7 +515,8 @@
     <MESSAGE value="Merge branch 'master' of https://github.com/Ket93/PokemonFSE&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml&#10;#&#9;src/Pokemon.java" />
     <MESSAGE value="Added Nurse joy and shop clerk" />
     <MESSAGE value="Finished clerk and added route 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished clerk and added route 4" />
+    <MESSAGE value="fixed mt Moon and added Cerulean City" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed mt Moon and added Cerulean City" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1589248220912">
@@ -543,10 +540,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1589753992127">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1589941456264">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589753992127" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1589941456264" />
     <state x="147" y="65" key="DiffContextDialog" timestamp="1589650173108">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -555,25 +552,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1589833122205">
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom" timestamp="1589929692050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589833122205" />
+    <state width="1493" height="208" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1589929692050" />
     <state width="1877" height="250" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589526222623" />
-    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1589833122205">
+    <state width="1493" height="208" key="GridCell.Tab.0.center" timestamp="1589929692050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589833122205" />
+    <state width="1493" height="208" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1589929692050" />
     <state width="1877" height="250" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589526222623" />
-    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1589833122205">
+    <state width="1493" height="208" key="GridCell.Tab.0.left" timestamp="1589929692050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589833122205" />
+    <state width="1493" height="208" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1589929692050" />
     <state width="1877" height="250" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589526222623" />
-    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1589833122205">
+    <state width="1493" height="208" key="GridCell.Tab.0.right" timestamp="1589929692050">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589833122205" />
+    <state width="1493" height="208" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1589929692050" />
     <state width="1877" height="250" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589526222623" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1589659441985">
       <screen x="0" y="0" width="1536" height="824" />
@@ -617,9 +614,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="178" key="extract.method.dialog/0.0.1536.824@0.0.1536.824" timestamp="1588040004205" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1589158524363">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="493" y="190" key="run.anything.popup" timestamp="1589915026021">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
+    <state x="493" y="190" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1589915026021" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589158524363" />
     <state x="498" y="178" width="672" height="538" key="search.everywhere.popup" timestamp="1588964056523">
       <screen x="0" y="0" width="1536" height="824" />

@@ -229,6 +229,10 @@ class GamePanel extends JPanel {
 		if (pokeShop()){
 			g.drawImage(MasseyMon.getTrainers(2).getSprite(),358,350,this);
 		}
+		//if (pokeHouse()){
+		//	g.drawImage(MasseyMon.getTrainers(randint(3,3)).getSprite(),400,400,this);
+		//	g.drawImage(MasseyMon.getTrainers(randint(3,3)).getSprite(),500,500,this);
+		//}
 	}
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
@@ -518,7 +522,6 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX5());
 						}
 					} else if (checkExit5(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
-						System.out.println(MasseyMon.getMap(picIndex).getStartPosX6());
 						mini = false;
 						miniPicIndex -= 5;
 						myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX6());
@@ -607,7 +610,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 						if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-							if (myGuy.getWorldY() == 860) {
+							if (myGuy.getWorldY() == 860 || myGuy.getWorldY() == 740) {
 								myGuy.setScreenY(398);
 							}
 
@@ -1031,6 +1034,10 @@ class GamePanel extends JPanel {
 		return menu;
 	}
 
+	public static int randint(int low, int high){
+		return (int)(Math.random()*(high-low+1)+low);
+	}
+
 	public boolean pokeCenter (){
 		if (picIndex == 2 && miniPicIndex == 0 || picIndex == 6 && miniPicIndex == 0 || picIndex == 8 && miniPicIndex == 0){
 			return true;
@@ -1041,6 +1048,20 @@ class GamePanel extends JPanel {
 	public boolean pokeShop(){
 		if (picIndex == 2 && miniPicIndex == 1 || picIndex == 6 && miniPicIndex == 1){
 			return true;
+		}
+		return false;
+	}
+
+	public boolean pokeHouse(){
+		if (picIndex == 2){
+			if (miniPicIndex == 2 || miniPicIndex == 3){
+				return true;
+			}
+		}
+		if (picIndex == 6){
+			if (miniPicIndex == 2 || miniPicIndex == 3){
+				return true;
+			}
 		}
 		return false;
 	}
