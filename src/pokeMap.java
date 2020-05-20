@@ -6,7 +6,7 @@ public class pokeMap {
 
     private Image map;
     private BufferedImage mask;
-    private int startPosX, startPosX2, startPosY, startPosY2,startPosX3,startPosY3, mapX, mapY, mapHeight, mapWidth;
+    private int startPosX, startPosX2, startPosY, startPosY2,startPosX3,startPosY3,startPosX4,startPosY4,startPosX5,startPosY5,startPosX6,startPosY6,startPosX7,startPosY7, mapX, mapY, mapHeight, mapWidth;
 
 
     public pokeMap(Image background, BufferedImage backgroundMask, String line) throws FileNotFoundException {
@@ -20,6 +20,14 @@ public class pokeMap {
         startPosY2 = Integer.parseInt(pos[3]);
         startPosX3 = Integer.parseInt(pos[4]);
         startPosY3 = Integer.parseInt(pos[5]);
+        startPosX4 = Integer.parseInt(pos[6]);
+        startPosY4 = Integer.parseInt(pos[7]);
+        startPosX5 = Integer.parseInt(pos[8]);
+        startPosY5 = Integer.parseInt(pos[9]);
+        startPosX6 = Integer.parseInt(pos[10]);
+        startPosY6 = Integer.parseInt(pos[11]);
+        startPosX7 = Integer.parseInt(pos[12]);
+        startPosY7 = Integer.parseInt(pos[13]);
         mapX = (956 - background.getWidth(null)) / 2;
         if (background.getWidth(null) > 956) {
             mapX = 0;
@@ -63,6 +71,38 @@ public class pokeMap {
 
     public int getStartPosY3() {
         return startPosY3;
+    }
+
+    public int getStartPosX4() {
+        return startPosX4;
+    }
+
+    public int getStartPosY4() {
+        return startPosY4;
+    }
+
+    public int getStartPosX5() {
+        return startPosX5;
+    }
+
+    public int getStartPosY5() {
+        return startPosY5;
+    }
+
+    public int getStartPosX6() {
+        return startPosX6;
+    }
+
+    public int getStartPosY6() {
+        return startPosY6;
+    }
+
+    public int getStartPosX7() {
+        return startPosX7;
+    }
+
+    public int getStartPosY7() {
+        return startPosY7;
     }
 
     public int getMapX() {

@@ -1,15 +1,24 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 class Pokemon{
 	private int hp,maxHP,num,atk,def,spatk,spdef,speed,extra,level;
 	private String type1,type2,resistance,weakness,name;
+	private boolean healed;
 	private ArrayList<Attack> pokeAttacks = new ArrayList<Attack>();
+	private Image myPokeImage,enemyPokeImage,displayImage;
+	private Font gameFont,smallerGameFont,switchFont;
+	private int levelProg, levelGoal;
+
+	private boolean finalEvo;
 	public Pokemon(String line){
 		String [] stats = line.split(",");
 		extra = 0;
 		type2 = "N/A";
-		if (stats.length == 10){
+		if (stats.length == 11){
 			extra = 1;
 			type2 = stats[3];
 		}
@@ -23,11 +32,35 @@ class Pokemon{
 		spatk = Integer.parseInt(stats[6+extra]);
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
+		String last = stats[9+extra];
+		if (last.equals("F")){
+			finalEvo = false;
+		}
+		else{
+			finalEvo = true;
+		}
 		level = 10;
+		levelProg = 0;
+		levelGoal = 4*level;
+		healed = false;
 		for (int i = 0; i < 4; i++){
 			pokeAttacks.add(null);
 		}
+		try{
+			gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
+			gameFont = gameFont.deriveFont(40f);
+			smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
+			smallerGameFont = gameFont.deriveFont(35f);
+			switchFont = gameFont.deriveFont(45f);
+			loadImage();
+		}
+		catch (IOException | FontFormatException e) {}
 	}
+	public void heal(){
+		healed = true;
+		hp = maxHP;
+	}
+	public boolean getHealed(){ return healed; }
 	public int getNum(){return num;}
 	public int getHP(){return hp;}
 	public String getType1(){
@@ -44,6 +77,7 @@ class Pokemon{
 	public int getDefence(){return def;}
 	public int getMaxHP(){return maxHP;}
 	public int getLevel(){return level;}
+	public int getSpeed(){return speed;}
 	public void setAtkPP(Attack atk, int p){
 		atk.setPP(p);
 	}
@@ -67,7 +101,6 @@ class Pokemon{
 		return pokeAttacks;
 	}
 	public void doAttack(Attack atkDone, Pokemon defender){
-		System.out.println(atkDone.getName());
 		TypeChart myChart = new TypeChart();
 		int myRandInt = randint(1,100);
 		double mod,STAB,crit,rand,typeMult;
@@ -82,7 +115,6 @@ class Pokemon{
 		myRandInt = randint(0,15);
 		rand = 1+myRandInt/100.0;
 		typeMult = myChart.getEffect(atkDone,defender);
-		System.out.println(typeMult);
 		mod = crit*rand*STAB*typeMult;
 		int atkDmg, defDef;
 		if (atkDone.getDmgType().equals("Physical")){
@@ -100,74 +132,95 @@ class Pokemon{
 		double damageDone = ((((2.0*((float)level)/5.0+2)*((float)atkDone.getDmg())*((float)atkDmg)/((float)defDef))+2)/50.0);
 		damageDone *= mod;
 		defender.setHP((int)(defender.getHP()-damageDone));
+		if (defender.getHP() < 0){
+			defender.setHP(0);
+		}
 		setAtkPP(atkDone,atkDone.getPP()-1);
 	}
-}
-class TypeChart{
-	private double [][] types;
-	private ArrayList<String> typeVals;
-	public TypeChart(){
-	    double[][] doubles = {{1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5,0.0,1.0},
-				  			  {1.0,0.5,0.5,1.0,2.0,2.0,1.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5},
-				              {1.0,2.0,0.5,1.0,0.5,1.0,1.0,1.0,2.0,1.0,1.0,1.0,2.0,1.0,0.5},
-				              {1.0,1.0,2.0,0.5,0.5,1.0,1.0,1.0,0.0,2.0,1.0,1.0,1.0,1.0,0.5},
-				              {1.0,0.5,2.0,1.0,0.5,1.0,1.0,0.5,2.0,0.5,1.0,0.5,2.0,1.0,0.5},
-				              {1.0,1.0,0.5,1.0,2.0,0.5,1.0,1.0,2.0,2.0,1.0,1.0,1.0,1.0,2.0},
-				              {2.0,1.0,1.0,1.0,1.0,2.0,1.0,0.5,1.0,0.5,0.5,0.5,2.0,0.0,1.0},
-				              {1.0,1.0,1.0,1.0,2.0,1.0,1.0,0.5,0.5,1.0,1.0,2.0,0.5,0.5,1.0},
-				              {1.0,2.0,1.0,2.0,0.5,1.0,1.0,2.0,1.0,0.0,1.0,0.5,2.0,1.0,1.0},
-				              {1.0,1.0,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0,1.0,2.0,0.5,1.0,1.0},
-				              {1.0,1.0,1.0,1.0,1.0,1.0,2.0,2.0,1.0,1.0,0.5,1.0,1.0,1.0,1.0},
-				              {1.0,0.5,1.0,1.0,2.0,1.0,0.5,2.0,1.0,0.5,2.0,1.0,1.0,0.5,1.0},
-				              {1.0,2.0,1.0,1.0,1.0,2.0,0.5,1.0,0.5,2.0,1.0,2.0,1.0,1.0,1.0},
-				              {0.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.0,1.0,1.0,2.0,1.0},
-				              {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,2.0}};
-		ArrayList<String> Ts = new ArrayList<String>();
-		String [] Ts2 = {"Normal","Fire","Water","Electric","Grass","Ice","Fighting","Poison","Ground","Flying","Psychic","Bug","Rock","Ghost","Dragon"};
-		for (String item : Ts2){
-			Ts.add(item);
+	public void loadImage() throws IOException {
+		String path = String.format("Sprites/Pokemon/P%dM.png",num);
+		Image pic = ImageIO.read(new File(path));
+		pic = pic.getScaledInstance(300,233,Image.SCALE_SMOOTH);
+		myPokeImage = pic;
+		String path2 = String.format("Sprites/Pokemon/P%d.png",num);
+		Image pic2 = ImageIO.read(new File(path2));
+		pic2 = pic2.getScaledInstance(220,180,Image.SCALE_SMOOTH);
+		enemyPokeImage = pic2;
+		pic2 = pic2.getScaledInstance(122,100,Image.SCALE_SMOOTH);
+		displayImage = pic2;
+	}
+	public int getHPWidth(int i){
+		float max = (float) maxHP;
+		float cur = (float) hp;
+		return (int)((cur/max)*i);
+	}
+	public int getEXWidth(){
+		float max = (float) levelGoal;
+		float cur = (float) levelProg;
+		return (int)((cur/max)*359);
+	}
+	public void updateLevel(){
+		while (levelProg >= levelGoal){
+			level++;
+			levelProg -= levelGoal;
+			levelGoal = 4*level;
 		}
-		types = doubles;
-		typeVals = Ts;
 	}
-	public double getEffect(Attack atk, Pokemon def){
-		double tot;
-		int index1 = typeVals.indexOf(atk.getType());
-		int index2 = typeVals.indexOf(def.getType1());
-		tot = types[index1][index2];
-		if (def.getType2().equals("N/A") == false){
-			System.out.println("hi");
-			int index3 = typeVals.get(index1).indexOf(def.getType2());
-			tot *= types[index3][index1];
+	public void heal(int i){
+		hp += i;
+		if (hp > maxHP){
+			hp = maxHP;
 		}
-		return tot;
 	}
-}
-class Attack{
-	private String name,dmgType,type;
-	private int dmg,accuracy,times,pp,maxPP,num;
-	String[] stats = new String[7];
-	public Attack(String line){
-		stats = line.split(",");
-		name = stats[0];
-		type = stats[1];
-		dmgType = stats[2];
-		dmg = Integer.parseInt(stats[3]);
-		accuracy = Integer.parseInt(stats[4]);
-		pp = Integer.parseInt(stats[5]);
-		maxPP = Integer.parseInt(stats[5]);
+	public void revive(double d){
+		hp = (int)(maxHP*d);
 	}
-	public String getName(){
-		return name;
+	public void gainXP(int i){
+		levelProg += i;
+		updateLevel();
 	}
-	public String getType(){
-		return type;
+	public void drawGood(Graphics g){
+		g.setColor(Color.GREEN);
+		g.drawImage(myPokeImage,92,370,null);
+		g.fillRect(749,478,getHPWidth(182),18);
+		g.setColor(Color.BLACK);
+		g.setFont(gameFont);
+		g.drawString(name,570,455);
+		g.drawString(""+level,872,459);
+		g.setColor(Color.BLUE);
+		g.fillRect(575,556,getEXWidth(),10);
 	}
-	public int getDmg(){
-		return dmg;
+	public void drawBad(Graphics g){
+		g.setColor(Color.GREEN);
+		g.drawImage(enemyPokeImage,620,175,null);
+		g.fillRect(188,149,getHPWidth(182),18);
+		g.setColor(Color.BLACK);
+		g.setFont(gameFont);
+		g.drawString(name,15,125);
+		g.drawString(""+level,308,130);
 	}
-	public int getPP(){return pp;}
-	public int getMaxPP(){return maxPP;}
-	public String getDmgType(){return dmgType;}
-	public void setPP(int p){pp = p;}
+	public void drawDisplay(Graphics g, int i){
+		g.drawImage(displayImage,143,20+105*i,null);
+		g.setColor(Color.BLACK);
+		g.setFont(switchFont);
+		g.drawString(name,273,65+105*i);
+		g.drawString(""+hp+"/"+maxHP,543,105+105*i);
+		g.setColor(Color.GREEN);
+		g.fillRect(333,80+105*i,getHPWidth(200),25);
+	}
+	public void drawNone(Graphics g){
+		String text = String.format("What will %s do?",name);
+		g.drawString(text,50,640);
+	}
+	public void drawMoves(Graphics g){
+		g.setFont(gameFont);
+		String text = String.format("What attack will %s\nuse?",name);
+		g.drawString(text,50,640);
+		g.setFont(smallerGameFont);
+		for (int i = 0; i < 4; i++){
+			if (pokeAttacks.get(i) != null){
+				pokeAttacks.get(i).draw(g,i);
+			}
+		}
+	}
 }
