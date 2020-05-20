@@ -4,8 +4,8 @@ public class Attack{
     private String name,dmgType,type;
     private int dmg,accuracy,times,pp,maxPP,num;
     String[] stats = new String[7];
-    private int [] xcords = {485,721,484,721};
-    private int [] ycords = {627,627,713,713};
+    private int [] xcords = {495,732,495,732};
+    private int [] ycords = {645,645,732,732};
     public Attack(String line){
         stats = line.split(",");
         name = stats[0];

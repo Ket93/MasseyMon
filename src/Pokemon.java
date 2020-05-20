@@ -11,11 +11,14 @@ class Pokemon{
 	private ArrayList<Attack> pokeAttacks = new ArrayList<Attack>();
 	private Image myPokeImage,enemyPokeImage,displayImage;
 	private Font gameFont,smallerGameFont,switchFont;
+	private int levelProg, levelGoal;
+
+	private boolean finalEvo;
 	public Pokemon(String line){
 		String [] stats = line.split(",");
 		extra = 0;
 		type2 = "N/A";
-		if (stats.length == 10){
+		if (stats.length == 11){
 			extra = 1;
 			type2 = stats[3];
 		}
@@ -29,7 +32,16 @@ class Pokemon{
 		spatk = Integer.parseInt(stats[6+extra]);
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
+		String last = stats[9+extra];
+		if (last.equals("F")){
+			finalEvo = false;
+		}
+		else{
+			finalEvo = true;
+		}
 		level = 10;
+		levelProg = 0;
+		levelGoal = 4*level;
 		healed = false;
 		for (int i = 0; i < 4; i++){
 			pokeAttacks.add(null);
@@ -142,6 +154,18 @@ class Pokemon{
 		float cur = (float) hp;
 		return (int)((cur/max)*i);
 	}
+	public int getEXWidth(){
+		float max = (float) levelGoal;
+		float cur = (float) levelProg;
+		return (int)((cur/max)*359);
+	}
+	public void updateLevel(){
+		while (levelProg >= levelGoal){
+			level++;
+			levelProg -= levelGoal;
+			levelGoal = 4*level;
+		}
+	}
 	public void heal(int i){
 		hp += i;
 		if (hp > maxHP){
@@ -151,21 +175,29 @@ class Pokemon{
 	public void revive(double d){
 		hp = (int)(maxHP*d);
 	}
+	public void gainXP(int i){
+		levelProg += i;
+		updateLevel();
+	}
 	public void drawGood(Graphics g){
 		g.setColor(Color.GREEN);
-		g.drawImage(myPokeImage,90,355,null);
-		g.fillRect(740,460,getHPWidth(182),18);
+		g.drawImage(myPokeImage,92,370,null);
+		g.fillRect(749,478,getHPWidth(182),18);
 		g.setColor(Color.BLACK);
 		g.setFont(gameFont);
-		g.drawString(name,560,440);
+		g.drawString(name,570,455);
+		g.drawString(""+level,872,459);
+		g.setColor(Color.BLUE);
+		g.fillRect(575,556,getEXWidth(),10);
 	}
 	public void drawBad(Graphics g){
 		g.setColor(Color.GREEN);
 		g.drawImage(enemyPokeImage,620,175,null);
-		g.fillRect(185,143,getHPWidth(182),18);
+		g.fillRect(188,149,getHPWidth(182),18);
 		g.setColor(Color.BLACK);
 		g.setFont(gameFont);
 		g.drawString(name,15,125);
+		g.drawString(""+level,308,130);
 	}
 	public void drawDisplay(Graphics g, int i){
 		g.drawImage(displayImage,143,20+105*i,null);
@@ -182,7 +214,7 @@ class Pokemon{
 	}
 	public void drawMoves(Graphics g){
 		g.setFont(gameFont);
-		String text = String.format("What attack will %s use?",name);
+		String text = String.format("What attack will %s\nuse?",name);
 		g.drawString(text,50,640);
 		g.setFont(smallerGameFont);
 		for (int i = 0; i < 4; i++){

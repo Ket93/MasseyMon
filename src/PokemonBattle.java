@@ -57,10 +57,10 @@ public class PokemonBattle {
                 enemyPokes.get(i).learnMove(allAttacks.get(i));
             }
         }
-        fightButton = new Rectangle(464, 584, 236, 86);
-        bagButton = new Rectangle(701, 584, 236, 86);
-        pokeButton = new Rectangle(464, 675, 236, 86);
-        runButton = new Rectangle(701, 671, 236, 86);
+        fightButton = new Rectangle(471, 608, 238, 90);
+        bagButton = new Rectangle(710, 608, 238, 90);
+        pokeButton = new Rectangle(471, 699, 238, 90);
+        runButton = new Rectangle(710, 699, 238, 90);
         upArrowRect = new Rectangle(265,285,49,25);
         downArrowRect = new Rectangle(265,335,49,25);
         backArrowRect = new Rectangle(10, 10, 58, 62);
@@ -94,6 +94,7 @@ public class PokemonBattle {
     public void loadImageFont(){
         try {
             pokeArenaBack = ImageIO.read(new File("Images/Battles/PokeBattle2.jpg"));
+            pokeArenaBack = pokeArenaBack.getScaledInstance(956,800,Image.SCALE_SMOOTH);
             switchBackground = ImageIO.read(new File("Images/Battles/switchBackground.png"));
             pokeBox = ImageIO.read(new File("Images/Battles/pokeBox.png"));
             backArrow = ImageIO.read(new File("Images/Battles/arrow.png"));
@@ -201,8 +202,9 @@ public class PokemonBattle {
             mouse = new Point(0, 0);
         }
         else{
-            mouse = new Point(mouse2.x-7,mouse2.y-30);
+            mouse = new Point(mouse2.x-7,mouse2.y-31);
         }
+        System.out.println(mouse);
         return mouse;
     }
     public void checkCollision() {
@@ -370,10 +372,10 @@ public class PokemonBattle {
         }
         else if (choice.equals(("none"))) {
             g.setFont(gameFont);
-            g.drawString("Fight", 555, 640);
-            g.drawString("Bag", 795, 640);
-            g.drawString("Pokemon", 535, 726);
-            g.drawString("Run", 795, 726);
+            g.drawString("Fight", 562, 660);
+            g.drawString("Bag", 805, 660);
+            g.drawString("Pokemon", 542, 747);
+            g.drawString("Run", 805, 747);
         } else if (choice.equals("fight")) {
             myCurPoke.drawMoves(g);
         }
@@ -486,6 +488,7 @@ public class PokemonBattle {
                 setDead(true);
             }
             if (enemyCurPoke.getHP() <= 0){
+                upgradeTeam();
                 AISwitch();
             }
             doneTurn = false;
@@ -494,6 +497,16 @@ public class PokemonBattle {
         update();
         if (battleOver().equals("") == false){
             MasseyMon.inBattle = false;
+        }
+    }
+    public void upgradeTeam(){
+        for (Pokemon item: myPokes){
+            if (item == myCurPoke){
+                item.gainXP(enemyCurPoke.getLevel());
+            }
+            else{
+                item.gainXP(enemyCurPoke.getLevel()/2);
+            }
         }
     }
     public void update(){
