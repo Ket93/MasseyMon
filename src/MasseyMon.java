@@ -29,7 +29,7 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = true;
+		inBattle = false;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
@@ -68,7 +68,7 @@ public class MasseyMon extends JFrame {
 			}
 		}
 
-		for (int i =0; i<3;i++){
+		for (int i =0; i<18;i++){
 			String path = String.format("%s/%s/%s%d.png", "Images", "NPCs", "Trainer", i);
 			Image pic = ImageIO.read(new File(path));
 			try {
@@ -107,7 +107,7 @@ public class MasseyMon extends JFrame {
 
 class GamePanel extends JPanel {
 	private static int offsetX,offsetY;
-	private int mx,my,picIndex,miniPicIndex;
+	private int mx,my,picIndex,miniPicIndex,npc1,npc2;
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
@@ -229,10 +229,10 @@ class GamePanel extends JPanel {
 		if (pokeShop()){
 			g.drawImage(MasseyMon.getTrainers(2).getSprite(),358,350,this);
 		}
-		//if (pokeHouse()){
-		//	g.drawImage(MasseyMon.getTrainers(randint(3,3)).getSprite(),400,400,this);
-		//	g.drawImage(MasseyMon.getTrainers(randint(3,3)).getSprite(),500,500,this);
-		//}
+		if (pokeHouse()){
+			g.drawImage(MasseyMon.getTrainers(npc1).getSprite(),407,385,this);
+			g.drawImage(MasseyMon.getTrainers(npc2).getSprite(),612,360,this);
+		}
 	}
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
@@ -331,7 +331,8 @@ class GamePanel extends JPanel {
 					if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 2;
-
+						npc1 = randint (3,17);
+						npc2 = randint(3,17);
 						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
@@ -339,6 +340,8 @@ class GamePanel extends JPanel {
 					} else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 1;
+						npc1 = randint (3,17);
+						npc2 = randint(3,17);
 						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
@@ -346,6 +349,8 @@ class GamePanel extends JPanel {
 					} else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 3;
+						npc1 = randint (3,17);
+						npc2 = randint(3,17);
 						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
@@ -353,6 +358,8 @@ class GamePanel extends JPanel {
 					} else if (checkBuilding4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 4;
+						npc1 = randint (3,17);
+						npc2 = randint(3,17);
 						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
@@ -360,6 +367,8 @@ class GamePanel extends JPanel {
 					} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 5;
+						npc1 = randint (3,17);
+						npc2 = randint(3,17);
 						myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
