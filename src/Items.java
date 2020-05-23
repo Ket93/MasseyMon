@@ -11,6 +11,7 @@ public class Items {
     private Image[] itemPics = new Image[12];
     private int[] nums = new int[12];
     private int [] offsets = {0,4,10,14,19,24,0,3,9,15,21,25};
+    private String justUsed;
     private String [] itemNames = {"Potion","Super Potion","Hyper Potion","Max Potion","Full Restore","Revive","Max Revive","Poke Ball","Great Ball","Ultra Ball","Master Ball","???"};
     public Items () throws IOException {
         posX = 533;
@@ -20,12 +21,14 @@ public class Items {
         bagBackground = ImageIO.read(new File("Images/Menu/BagBackground.png"));
         for (int i = 1; i < 13; i++){
             String path = String.format("Images/Battles/Items/Item%d.png",i);
-            System.out.println(i);
             Image pic = ImageIO.read(new File(path));
             pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
             itemPics[i-1] = pic;
             nums[i-1] = 999;
         }
+    }
+    public String getUsed(){
+        return justUsed;
     }
     public int[] getNums(){
         return nums;
@@ -73,6 +76,7 @@ public class Items {
                 poke.heal(scale);
             }
         }
+        justUsed = itemNames[i];
         nums[i] --;
     }
     public static void display (Graphics g){

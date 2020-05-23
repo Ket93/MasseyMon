@@ -53,7 +53,7 @@ public class TypeChart{
         if (index3 != -1){
             tot*= types[index3][index2];
         }
-        if (index4 != -1){
+        if (index4 != -1 && index3 != -1){
             tot*= types[index3][index4];
             tot*= types[index1][index4];
         }

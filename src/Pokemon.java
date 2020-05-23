@@ -12,8 +12,8 @@ class Pokemon{
 	private Image myPokeImage,enemyPokeImage,displayImage;
 	private Font gameFont,smallerGameFont,switchFont;
 	private int levelProg, levelGoal;
-
 	private boolean finalEvo;
+	private String effect;
 	public Pokemon(String line){
 		String [] stats = line.split(",");
 		extra = 0;
@@ -33,6 +33,7 @@ class Pokemon{
 		spdef = Integer.parseInt(stats[7+extra]);
 		speed = Integer.parseInt(stats[8+extra]);
 		String last = stats[9+extra];
+		effect = "";
 		if (last.equals("F")){
 			finalEvo = false;
 		}
@@ -55,6 +56,12 @@ class Pokemon{
 			loadImage();
 		}
 		catch (IOException | FontFormatException e) {}
+	}
+	public void setEffect(String s){
+		effect = s;
+	}
+	public String getEffect(){
+		return effect;
 	}
 	public void heal(){
 		healed = true;
@@ -94,6 +101,20 @@ class Pokemon{
 			}
 		}
 	}
+	public void setString(double d){
+		if (d == 0.0){
+			setEffect("It had no effect!");
+		}
+		else if (d == 2.0){
+			setEffect("It's super effective!");
+		}
+		else if (d == 4.0){
+			setEffect("It's super effective");
+		}
+		else{
+			setEffect("It's effective!");
+		}
+	}
 	public static int randint(int low, int high){
 		return (int)(Math.random()*(high-low+1)+low);
 	}
@@ -115,6 +136,7 @@ class Pokemon{
 		myRandInt = randint(0,15);
 		rand = 1+myRandInt/100.0;
 		typeMult = myChart.getEffect(atkDone,defender);
+		setString(typeMult);
 		mod = crit*rand*STAB*typeMult;
 		int atkDmg, defDef;
 		if (atkDone.getDmgType().equals("Physical")){
@@ -213,9 +235,6 @@ class Pokemon{
 		g.drawString(text,50,640);
 	}
 	public void drawMoves(Graphics g){
-		g.setFont(gameFont);
-		String text = String.format("What attack will %s\nuse?",name);
-		g.drawString(text,50,640);
 		g.setFont(smallerGameFont);
 		for (int i = 0; i < 4; i++){
 			if (pokeAttacks.get(i) != null){

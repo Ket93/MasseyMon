@@ -6,13 +6,6 @@ import javax.imageio.*;
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
 	public static int [] items = new int [7];
-	private Potion myPotion = new Potion();
-	private SuperPotion mySuperPotion = new SuperPotion();
-	private HyperPotion myHyperPotion = new HyperPotion();
-	private MaxPotion myMaxPotion = new MaxPotion();
-	private FullRestore myFullRestore = new FullRestore();
-	private Revive myRevive = new Revive();
-	private MaxRevive myMaxRevive = new MaxRevive();
 	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
 	private Image[] sprites;
 	private Items myItems;

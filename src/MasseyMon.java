@@ -1,3 +1,5 @@
+import jdk.swing.interop.SwingInterOpUtils;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -18,7 +20,7 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
 	PokemonBattle pokeBattle;
-	public MasseyMon() throws IOException {
+	public MasseyMon() throws IOException{
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myTimer = new javax.swing.Timer(10,new TickListener());
@@ -33,6 +35,9 @@ public class MasseyMon extends JFrame {
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
+	}
+	public JTextArea getTextArea2(){
+		return game.getTextArea();
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
 		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
@@ -79,7 +84,6 @@ public class MasseyMon extends JFrame {
 			}
 		}
 	}
-
 	public static NPC getTrainers(int n){
 		return trainers.get(n);
 	}
@@ -129,7 +133,19 @@ class GamePanel extends JPanel {
 	NPC myNPC;
 	private boolean started;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
-	public GamePanel() throws IOException {
+	private JTextArea myArea;
+	public GamePanel() throws IOException{
+		setLayout(null);
+		myArea = new JTextArea();
+		myArea.setBackground(new Color(0,0,0,0));
+		myArea.setBounds(40,635,390,125);
+		myArea.setVisible(true);
+		myArea.setEditable(false);
+		myArea.setHighlighter(null);
+		myArea.setWrapStyleWord(true);
+		myArea.setLineWrap(true);
+		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
+		add(myArea);
 		movable = false;
 		offsetX = 0;
 		offsetY = 0;
@@ -159,6 +175,9 @@ class GamePanel extends JPanel {
 		super.addNotify();
 		requestFocus();
 		ready = true;
+	}
+	public JTextArea getTextArea(){
+		return myArea;
 	}
 	public void paintComponent(Graphics g) {
 		if (MasseyMon.inBattle){
@@ -251,13 +270,19 @@ class GamePanel extends JPanel {
 			mx = e.getX();
 			my = e.getY();
 			if (MasseyMon.inBattle){
-				MasseyMon.frame.getPokeBattle().checkCollision();
+				if (!MasseyMon.frame.getPokeBattle().getStopGame()){
+					MasseyMon.frame.getPokeBattle().checkCollision();
+				}
 			}
 		}
 	}
 
 	class moveListener implements KeyListener {
-		public void keyTyped(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {
+			if (keys[KeyEvent.VK_SPACE]){
+				MasseyMon.frame.getPokeBattle().goNext();
+			}
+		}
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false) {
 				menu = true;
@@ -311,7 +336,6 @@ class GamePanel extends JPanel {
 			if (e.getKeyCode () == KeyEvent.VK_SPACE){
 				spacePressed = true;
 			}
-
 			keys[e.getKeyCode()] = true;
 		}
 
