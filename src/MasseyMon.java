@@ -121,10 +121,10 @@ class GamePanel extends JPanel {
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
-	private boolean spacePressed,movable,talking,starter;
+	private boolean spacePressed,movable,talking,startGame;
 	private int direction;
 	private boolean ready = true;
-	private static boolean mini;
+	private static boolean mini,starter;
 	private boolean[] keys;
 	private Image [] starters;
 	private Image selectBox;
@@ -166,6 +166,7 @@ class GamePanel extends JPanel {
 		menu = false;
 		mini = false;
 		talking = false;
+		startGame = true;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -241,9 +242,15 @@ class GamePanel extends JPanel {
 					}
 				}
 			}
-			if (Textbox.getTextWriting()) {
-				//Textbox.display(g, 0, spacePressed);
-				//movable = false;
+			if (startGame) {
+				if (Textbox.getTextWriting()) {
+					Textbox.display(g, 0, spacePressed);
+					movable = false;
+					spacePressed = false;
+				} else {
+					talking = false;
+					startGame = false;
+				}
 			}
 
 			if (picIndex == 0 && miniPicIndex == 1){
@@ -255,18 +262,35 @@ class GamePanel extends JPanel {
 						}
 					}
 				else{
-					talking = false;
-					if (!spacePressed) {
-						starter = true;
-						g.setColor(new Color(255,255,255));
-						g.fillRect(350,250,300,300);
-						g.drawImage(selectBox,350,250,this);
-						g.drawImage(starters[starterIndex], 420, 300, this);
-						movable = false;
+					if (!movable) {
+						talking = false;
+						starter = false;
+						g.setColor(new Color(0,0,0));
+						g.fillRect(0,0,956,795);
+						g.drawImage(MasseyMon.getMiniMap(0,1).getMap(),MasseyMon.getMiniMap(0,1).getMapX(),MasseyMon.getMiniMap(0,1).getMapY(),this);
+						if (!spacePressed) {
+							starter = true;
+							g.setColor(new Color(255, 255, 255));
+							g.fillRect(350, 250, 300, 300);
+							g.drawImage(selectBox, 350, 250, this);
+							g.drawImage(starters[starterIndex], 420, 300, this);
+						    movable = false;
+							}
 						}
 					}
 				}
-			starter = false;
+			if (pokeCenter()){
+				if (Textbox.getTextWriting()){
+					if (talking){
+						Textbox.display(g,2,spacePressed);
+						movable = false;
+						spacePressed = false;
+					}
+					else{
+						talking = false;
+					}
+				}
+			}
 		}
 
 		if (movable) {
@@ -284,6 +308,7 @@ class GamePanel extends JPanel {
 				g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
 			}
 		}
+		spacePressed = false;
 	}
 	class clickListener implements MouseListener {
 		public void mouseEntered(MouseEvent e) {
@@ -408,6 +433,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						Textbox.setTextWriting(true);
 					} else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 1;
@@ -417,6 +443,7 @@ class GamePanel extends JPanel {
 						myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
+						Textbox.setTextWriting(true);
 					} else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 						mini = true;
 						miniPicIndex += 3;
@@ -1147,5 +1174,9 @@ class GamePanel extends JPanel {
 			}
 		}
 		return false;
+	}
+
+	public static void setStarter(boolean temp){
+		starter = temp;
 	}
 }

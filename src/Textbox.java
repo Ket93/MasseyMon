@@ -10,8 +10,8 @@ public class Textbox {
     private static int count, textX, textY,pauseCount,box,arraySize,temp;
     private static boolean boxFull,textWriting;
     private static Image textBox;
-    private static String[][] words = new String[2][2];
-    private static int [] wordLen = new int [4];
+    private static String[][] words = new String[3][2];
+    private static int [] wordLen = new int [6];
 
     public Textbox() throws IOException {
         arraySize = 0;
@@ -25,7 +25,7 @@ public class Textbox {
         textBox = ImageIO.read(new File("Images/Text/Textbox.png"));
 
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Textbox")));
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             for (int k = 0; k<2; k++) {
                 String line = inFile.nextLine();
                 words[i][k] = line;
@@ -33,7 +33,7 @@ public class Textbox {
         }
 
         Scanner myFile = new Scanner(new BufferedReader(new FileReader("Data/TextboxCharacterLength")));
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             int val = myFile.nextInt();
             wordLen[i] = val;
         }
@@ -50,8 +50,13 @@ public class Textbox {
 
         arraySize = words[index].length;
 
-        if (box == arraySize -1 && space && count == wordLen[box + index * 2]){
+        if (box-index*2 == arraySize -1 && space && count == wordLen[box+index*2]){
+            count = 0;
+            box = 0;
             textWriting = false;
+            if (index ==1){
+                GamePanel.setStarter(true);
+            }
         }
 
         for (int i = 0; i < count; i++) {
@@ -69,14 +74,13 @@ public class Textbox {
                         textY = 640;
                         box +=1;
                         count = 0;
-                        System.out.println("SDF");
                     }
                 }
                 textX = 1;
                     }
                 }
                 if (pauseCount%5 == 0) {
-                    if (count < wordLen[box + index*2]) {
+                    if (count < wordLen[box+index*2]) {
                         if (boxFull == false) {
                             count += 1;
 
@@ -89,5 +93,8 @@ public class Textbox {
             public static boolean getTextWriting(){
                 return textWriting;
             }
+            public static void setTextWriting(boolean temp){
+                textWriting = temp;
+    }
         }
 
