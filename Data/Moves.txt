@@ -3,7 +3,7 @@ Acid,Poison,Special,40,100,30
 Aurora Beam,Ice,Special,65,100,20
 Barrage,Normal,Physical,15,85,20
 Bind,Normal,Physical,15,85,20
-Bite,Dark,Physical,60,100,25
+Bite,Ghost,Physical,60,100,25
 Blizzard,Ice,Special,110,70,5
 Body Slam,Normal,Physical,85,100,15
 Bone Club,Ground,Physical,65,85,20

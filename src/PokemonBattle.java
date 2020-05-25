@@ -123,7 +123,6 @@ public class PokemonBattle {
             pokeArrowDown = pokeArrowDown.getScaledInstance(50,25,Image.SCALE_SMOOTH);
             pokeArrowUp = ImageIO.read(new File("Images/Battles/pokeArrowUp.png"));
             pokeArrowUp = pokeArrowUp.getScaledInstance(50,25,Image.SCALE_SMOOTH);
-            pokeArenaBack = pokeArenaBack.getScaledInstance(945, 770, Image.SCALE_SMOOTH);
             gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
             gameFont = gameFont.deriveFont(40f);
             smallerGameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
@@ -300,7 +299,6 @@ public class PokemonBattle {
             for (int i = 0; i < 6; i++){
                 if (bagRects[i].contains(mouse)){
                     if (numItems[i] > 0){
-                        myItems.use(myCurPoke, i+(level*6));
                         cBag = true;
                         itemC = i;
                         setChoice("none");
