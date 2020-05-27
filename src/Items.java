@@ -50,9 +50,7 @@ public class Items {
     }
     public void use(Pokemon poke, int i){
         if (i == 7){
-            if (PokemonBattle.fleeable){
                 int x = randint(1,4);
-            }
         }
         if (i == 6){
             if (poke.getHP() <= 0){
