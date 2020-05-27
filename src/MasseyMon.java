@@ -231,7 +231,6 @@ class GamePanel extends JPanel {
 						g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
 					}
 				}
-				myGuy.draw(g);
 				if (menu) {
 					Menu.display(g);
 					if (bag) {
@@ -280,18 +279,40 @@ class GamePanel extends JPanel {
 					}
 				}
 			if (pokeCenter()){
-				if (Textbox.getTextWriting()){
-					if (talking){
-						Textbox.display(g,2,spacePressed);
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 2, spacePressed);
 						movable = false;
 						spacePressed = false;
 					}
+				}
 					else{
+						g.setColor(new Color(0,0,0));
+						g.fillRect(0,0,956,795);
+						g.drawImage(MasseyMon.getMiniMap(2,0).getMap(),MasseyMon.getMiniMap(2,0).getMapX(),MasseyMon.getMiniMap(2,0).getMapY(),this);
 						talking = false;
+						movable = true;
 					}
+			}
+
+			if (pokeShop()){
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 3, spacePressed);
+						movable = false;
+						spacePressed = false;
+					}
+				}
+				else{
+					g.setColor(new Color(0,0,0));
+					g.fillRect(0,0,956,795);
+					g.drawImage(MasseyMon.getMiniMap(2,1).getMap(),MasseyMon.getMiniMap(2,1).getMapX(),MasseyMon.getMiniMap(2,1).getMapY(),this);
+					talking = false;
+					movable = true;
 				}
 			}
 		}
+		myGuy.draw(g);
 
 		if (movable) {
 			if (picIndex == 0 && miniPicIndex == 1) {

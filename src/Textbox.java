@@ -10,8 +10,8 @@ public class Textbox {
     private static int count, textX, textY,pauseCount,box,arraySize,temp;
     private static boolean boxFull,textWriting;
     private static Image textBox;
-    private static String[][] words = new String[3][2];
-    private static int [] wordLen = new int [6];
+    private static String[][] words = new String[4][2];
+    private static int [] wordLen = new int [8];
 
     public Textbox() throws IOException {
         arraySize = 0;
@@ -25,7 +25,7 @@ public class Textbox {
         textBox = ImageIO.read(new File("Images/Text/Textbox.png"));
 
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Textbox")));
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             for (int k = 0; k<2; k++) {
                 String line = inFile.nextLine();
                 words[i][k] = line;
@@ -33,7 +33,7 @@ public class Textbox {
         }
 
         Scanner myFile = new Scanner(new BufferedReader(new FileReader("Data/TextboxCharacterLength")));
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 8; i++) {
             int val = myFile.nextInt();
             wordLen[i] = val;
         }
@@ -47,10 +47,9 @@ public class Textbox {
         g.drawImage(textBox, 222, 595, null);
         textX = 0;
         textWriting = true;
-
         arraySize = words[index].length;
 
-        if (box-index*2 == arraySize -1 && space && count == wordLen[box+index*2]){
+        if (box == arraySize -1 && space && count == wordLen[box+index*2]){
             count = 0;
             box = 0;
             textWriting = false;
@@ -66,7 +65,6 @@ public class Textbox {
             }
             else {
                 textY += 30;
-                g2d.drawString(String.valueOf(words[index][box].charAt(i)), 250, textY);
                 if (textY == 760 && textX == 38) {
                     boxFull = true;
                     if (space){
@@ -75,6 +73,9 @@ public class Textbox {
                         box +=1;
                         count = 0;
                     }
+                }
+                else {
+                    g2d.drawString(String.valueOf(words[index][box].charAt(i)), 250, textY);
                 }
                 textX = 1;
                     }
