@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class PokemonBattle {
     private ArrayList<String> myTexts = new ArrayList<String>();
     private int textIndex;
-    public static boolean fleeable;
+    private boolean fleeable;
     private TypeChart myChart = new TypeChart();
     private Rectangle fightButton, bagButton, pokeButton, runButton, backArrowRect, upArrowRect, downArrowRect;
     private Image pokeArenaBack, pokeBox, backArrow, itemMenu, switchBackground, pokeArrowUp, pokeArrowDown;
@@ -32,6 +32,8 @@ public class PokemonBattle {
     private JTextArea myArea;
     private boolean stopGame, tryingRun;
     private Attack attackUsed;
+    private boolean choosing, waiting;
+    private Pokemon pokeC;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         myArea = MasseyMon.frame.getTextArea2();
         myPokes = myPokes2;
@@ -57,8 +59,6 @@ public class PokemonBattle {
             String line = inFile.nextLine();
             Attack newAtk = new Attack(line);
             allAttacks.add(newAtk);
-            System.out.println(newAtk.getDmg());
-            System.out.println(newAtk.getName());
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 4; j++) {
@@ -74,7 +74,6 @@ public class PokemonBattle {
         fillTextArray(text2);
         String text3 = String.format("What will %s do?",myPokes.get(0).getName());
         fillTextArray(text3);
-        System.out.println(myTexts.size());
         myArea.setText(myTexts.get(textIndex));
         fightButton = new Rectangle(471, 608, 238, 90);
         bagButton = new Rectangle(710, 608, 238, 90);
@@ -198,6 +197,7 @@ public class PokemonBattle {
                 Pokemon switchPoke = enemyPokes.get(index);
                 enemyPokes.set(0, switchPoke);
                 enemyPokes.set(index, curPoke);
+                enemyCurPoke = enemyPokes.get(0);
             }
         }
         else if (index == -1) {
@@ -209,6 +209,9 @@ public class PokemonBattle {
             enemyPokes.set(0, switchPoke);
             enemyPokes.set(index, curPoke);
         }
+    }
+    public boolean getChoosing(){
+        return choosing;
     }
     public boolean switchable(){
         ArrayList<Double> vals = new ArrayList<Double>();
@@ -241,6 +244,9 @@ public class PokemonBattle {
         }
         return mouse;
     }
+    public void setChoosing(boolean c){
+        choosing = c;
+    }
     public boolean getStopGame(){
         return stopGame;
     }
@@ -257,9 +263,11 @@ public class PokemonBattle {
                     if (myPokes.get(0).getMoves().get(rectButtons.indexOf(item)) != null) {
                         Pokemon atker = myPokes.get(0);
                         attackC = atker.getMoves().get(rectButtons.indexOf(item));
-                        cFight = true;
-                        setChoice("none");
-                        doneTurn = true;
+                        if (attackC.getPP() > 0){
+                            cFight = true;
+                            setChoice("none");
+                            doneTurn = true;
+                        }
                     }
                 }
             }
@@ -296,31 +304,72 @@ public class PokemonBattle {
             }
         }
         else if (getChoice().equals("bag")){
-            for (int i = 0; i < 6; i++){
-                if (bagRects[i].contains(mouse)){
-                    if (numItems[i] > 0){
-                        cBag = true;
-                        itemC = i;
-                        setChoice("none");
-                        doneTurn = true;
+            if (getChoosing() == false){
+                for (int i = 0; i < 6; i++){
+                    if (bagRects[i].contains(mouse)){
+                        if (numItems[i] > 0){
+                            itemC = i+6*level;
+                            if (itemC > 6){
+                                if (fleeable){
+                                    cBag = true;
+                                    setChoice("none");
+                                    pokeC = myCurPoke;
+                                    doneTurn = false;
+                                }
+                            }
+                            else{
+                                setChoosing(true);
+                            }
+                        }
                     }
                 }
-            }
-            if (bagRects[6].contains(mouse)){
-                if (level > 0){
-                    level--;
+                if (bagRects[6].contains(mouse)){
+                    if (level == 1){
+                        level--;
+                    }
+                }
+                else if(bagRects[7].contains(mouse)){
+                    if (level == 0){
+                        level++;
+                    }
+                }
+                else if (backArrowRect.contains(mouse)) {
+                    setChoice("none");
+                    myTexts.add(String.format("What will %s do?",myCurPoke.getName()));
+                    textIndex++;
+                    myArea.setText(myTexts.get(textIndex));
                 }
             }
-            else if(bagRects[7].contains(mouse)){
-                if (level < 1){
-                    level++;
+            else{
+                for (int i = 0; i < 6; i++) {
+                    if (switchPokeRects[i].contains(mouse)) {
+                        System.out.println(itemC);
+                        Pokemon myPoke = getMyPokes().get(i);
+                        int myPokeHP = getMyPokes().get(i).getHP();
+                        int myPokeMaxHP = getMyPokes().get(i).getMaxHP();
+                        if (itemC >= 0 && itemC <= 4){
+                            if (myPokeHP > 0 && myPokeHP < myPokeMaxHP){
+                                pokeC = myPoke;
+                                cBag = true;
+                                doneTurn = true;
+                                setChoice("none");
+                                setChoosing(false);
+                            }
+                        }
+                        else if(itemC == 5 || itemC == 6){
+                            if (myPokeHP <= 0){
+                                pokeC = myPoke;
+                                cBag = true;
+                                doneTurn = true;
+                                setChoice("none");
+                                setChoosing(false);
+                            }
+                        }
+                    }
                 }
-            }
-            else if (backArrowRect.contains(mouse)) {
-                setChoice("none");
-                myTexts.add(String.format("What will %s do?",myCurPoke.getName()));
-                textIndex++;
-                myArea.setText(myTexts.get(textIndex));
+                if (backArrowRect.contains(mouse)) {
+                    setChoosing(false);
+                }
             }
         }
         else if (getChoice().equals("run")) {
@@ -429,7 +478,10 @@ public class PokemonBattle {
         Point mouse = getMousePosition2();
         g.drawImage(pokeArenaBack, 0, -5, null);
         myCurPoke.drawGood(g);
-        enemyCurPoke.drawBad(g);
+        if (!waiting){
+            enemyCurPoke.drawBad(g);
+        }
+        g.setColor(Color.BLACK);
         if (choice.equals("pokemon") || getDead() && stopGame == false){
             myArea.setVisible(false);
             g.drawImage(switchBackground, 0, 0, null);
@@ -465,23 +517,47 @@ public class PokemonBattle {
             myCurPoke.drawMoves(g);
         }
         else if (choice.equals("bag")) {
-            myArea.setVisible(false);
-            g.drawImage(itemMenu, 0, 0, null);
-            g.drawImage(backArrow, backArrowRect.x,backArrowRect.y,null);
-            g.drawImage(pokeArrowUp, 265,285,null);
-            g.drawImage(pokeArrowDown, 265,335,null);
-            for (int i = 0+6*level; i < 6+6*level; i++){
-                myItems.draw(g,i);
+            if (getChoosing() == false){
+                myArea.setVisible(false);
+                g.drawImage(itemMenu, 0, 0, null);
+                g.drawImage(backArrow, backArrowRect.x,backArrowRect.y,null);
+                g.drawImage(pokeArrowUp, 265,285,null);
+                g.drawImage(pokeArrowDown, 265,335,null);
+                for (int i = 0+6*level; i < 6+6*level; i++){
+                    myItems.draw(g,i);
+                }
+                g.setFont(bigFont);
+                g.drawString("BAG",140,87);
+                for (Rectangle item : bagRects) {
+                    if (item.contains(mouse)) {
+                        Graphics2D g2d = (Graphics2D) g;
+                        g2d.setStroke(new BasicStroke(3));
+                        g2d.setColor(Color.BLACK);
+                        g2d.drawRect(item.x, item.y, item.width, item.height);
+                        g2d.setStroke(new BasicStroke(1));
+                    }
+                }
             }
-            g.setFont(bigFont);
-            g.drawString("BAG",140,87);
-            for (Rectangle item : bagRects) {
-                if (item.contains(mouse)) {
-                    Graphics2D g2d = (Graphics2D) g;
-                    g2d.setStroke(new BasicStroke(3));
-                    g2d.setColor(Color.BLACK);
-                    g2d.drawRect(item.x, item.y, item.width, item.height);
-                    g2d.setStroke(new BasicStroke(1));
+            else{
+                myArea.setVisible(false);
+                g.drawImage(switchBackground, 0, 0, null);
+                g.drawImage(pokeBox, 231, 650, null);
+                g.drawImage(backArrow, 10, 10, null);
+                g.setColor(Color.BLACK);
+                g.setFont(smallerGameFont);
+                g.drawString("What Pokemon will you use your item on?", 275, 710);
+                for (int i = 0; i < myPokes.size(); i++) {
+                    myPokes.get(i).drawDisplay(g, i);
+                    g.drawString("HP: ", 273, 100 + 105 * i);
+                }
+                for (Rectangle item : switchPokeRects) {
+                    if (item.contains(mouse)) {
+                        Graphics2D g2d = (Graphics2D) g;
+                        g2d.setStroke(new BasicStroke(3));
+                        g2d.setColor(Color.BLACK);
+                        g2d.drawRect(item.x, item.y, item.width, item.height);
+                        g2d.setStroke(new BasicStroke(1));
+                    }
                 }
             }
         }
@@ -492,6 +568,9 @@ public class PokemonBattle {
             myArea.setText(myTexts.get(textIndex));
         }
         if (textIndex+1 == myTexts.size()){
+            if (waiting){
+                waiting = false;
+            }
             stopGame = false;
         }
     }
@@ -536,24 +615,21 @@ public class PokemonBattle {
         fillTextArray(text);
         fillTextArray(myCurPoke.getEffect());
     }
-    public void setString(String s){
-        text = s;
-    }
     public void myTurnSwitch() {
         pokeSwitch(indexC);
         String text = String.format("You switched out into %s!",myCurPoke.getName());
         fillTextArray(text);
     }
     public void myTurnBag(){
-        myItems.use(myCurPoke,itemC);
-        String text = String.format("You used a %s!",curGuy.getItems().getUsed());
+        myItems.use(pokeC,itemC);
+        String text = String.format("You used a %s on %s!",curGuy.getItems().getUsed(),pokeC.getName());
         fillTextArray(text);
     }
     public void Start(Graphics g){
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
         if (doneTurn) {
-            if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed()) {
+            if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed() && cBag == false) {
                 AITurn(enemyCurPoke);
                 draw(g);
                 if (myCurPoke.getHP() > 0){
@@ -599,9 +675,12 @@ public class PokemonBattle {
             }
             if (enemyCurPoke.getHP() <= 0){
                 upgradeTeam();
-                AISwitch();
                 String text = String.format("The enemy %s fainted!",enemyCurPoke.getName());
                 fillTextArray(text);
+                AISwitch();
+                String text2 = String.format("The enemy trainer sent out %s!",enemyCurPoke.getName());
+                fillTextArray(text2);
+                waiting = true;
             }
             doneTurn = false;
             if (myCurPoke.getHP() > 0){
@@ -630,5 +709,7 @@ public class PokemonBattle {
     public void update(){
         numItems = curGuy.getNumItems();
         myItems = curGuy.getItems();
+        myCurPoke = myPokes.get(0);
+        enemyCurPoke = enemyPokes.get(0);
     }
 }
