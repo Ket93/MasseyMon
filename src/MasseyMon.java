@@ -18,6 +18,7 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>();
 	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>();
 	public static ArrayList<NPC> trainers = new ArrayList<NPC>();
+	public static ArrayList<ArrayList<NPC>> battleTrainers  = new ArrayList<ArrayList<NPC>>();
 	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
 	public static Image [] starters = new Image [3];
@@ -33,7 +34,7 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = true;
+		inBattle = false;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
@@ -83,8 +84,7 @@ public class MasseyMon extends JFrame {
 			String path = String.format("%s/%s/%s%d.png", "Images", "NPCs", "Trainer", i);
 			Image pic = ImageIO.read(new File(path));
 			try {
-				trainers.add(new NPC (pic));
-
+				trainers.add(new NPC(pic));
 			}
 			catch (Exception e) {
 			}
@@ -98,8 +98,12 @@ public class MasseyMon extends JFrame {
 		return maps.get(n);
 	}
 
-	public static pokeMapMini getMiniMap( int n ,int k ){
+	public static pokeMapMini getMiniMap( int n ,int k ) {
 		return miniMaps.get(n).get(k);
+	}
+
+	public static NPC getBattleTrainers(int n,int v){
+		return battleTrainers.get(n).get(v);
 	}
 
 	public void start(){
@@ -166,7 +170,7 @@ class GamePanel extends JPanel {
 		menu = false;
 		mini = false;
 		talking = false;
-		startGame = true;
+		startGame = false;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -193,19 +197,7 @@ class GamePanel extends JPanel {
 		return myArea;
 	}
 	public void paintComponent(Graphics g) {
-		if (MasseyMon.inBattle){
-			if (started == false){
-				try {
-					MasseyMon.frame.startBattle(g,myGuy);
-					started = true;
-				}
-				catch (IOException e) {}
-			}
-			else{
-				MasseyMon.frame.getPokeBattle().Start(g);
-			}
-		}
-		else{
+		if (!MasseyMon.inBattle) {
 			if (!talking && !starter) {
 				movable = true;
 				g.setColor(new Color(0, 0, 0));
@@ -252,81 +244,94 @@ class GamePanel extends JPanel {
 				}
 			}
 
-			if (picIndex == 0 && miniPicIndex == 1){
-					if (Textbox.getTextWriting()) {
-						if (talking){
+			if (picIndex == 0 && miniPicIndex == 1) {
+				if (Textbox.getTextWriting()) {
+					if (talking) {
 						Textbox.display(g, 1, spacePressed);
 						movable = false;
 						spacePressed = false;
-						}
 					}
-				else{
+				} else {
 					if (!movable) {
 						talking = false;
 						starter = false;
-						g.setColor(new Color(0,0,0));
-						g.fillRect(0,0,956,795);
-						g.drawImage(MasseyMon.getMiniMap(0,1).getMap(),MasseyMon.getMiniMap(0,1).getMapX(),MasseyMon.getMiniMap(0,1).getMapY(),this);
+						g.setColor(new Color(0, 0, 0));
+						g.fillRect(0, 0, 956, 795);
+						g.drawImage(MasseyMon.getMiniMap(0, 1).getMap(), MasseyMon.getMiniMap(0, 1).getMapX(), MasseyMon.getMiniMap(0, 1).getMapY(), this);
 						if (!spacePressed) {
 							starter = true;
 							g.setColor(new Color(255, 255, 255));
 							g.fillRect(350, 250, 300, 300);
 							g.drawImage(selectBox, 350, 250, this);
 							g.drawImage(starters[starterIndex], 420, 300, this);
-						    movable = false;
-							}
+							movable = false;
 						}
 					}
 				}
-			if (pokeCenter()){
+			}
+			if (pokeCenter()) {
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 2, spacePressed);
 						movable = false;
 						spacePressed = false;
 					}
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(2, 0).getMap(), MasseyMon.getMiniMap(2, 0).getMapX(), MasseyMon.getMiniMap(2, 0).getMapY(), this);
+					talking = false;
+					movable = true;
 				}
-					else{
-						g.setColor(new Color(0,0,0));
-						g.fillRect(0,0,956,795);
-						g.drawImage(MasseyMon.getMiniMap(2,0).getMap(),MasseyMon.getMiniMap(2,0).getMapX(),MasseyMon.getMiniMap(2,0).getMapY(),this);
-						talking = false;
-						movable = true;
-					}
 			}
 
-			if (pokeShop()){
+			if (pokeShop()) {
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 3, spacePressed);
 						movable = false;
 						spacePressed = false;
 					}
-				}
-				else{
-					g.setColor(new Color(0,0,0));
-					g.fillRect(0,0,956,795);
-					g.drawImage(MasseyMon.getMiniMap(2,1).getMap(),MasseyMon.getMiniMap(2,1).getMapX(),MasseyMon.getMiniMap(2,1).getMapY(),this);
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(2, 1).getMap(), MasseyMon.getMiniMap(2, 1).getMapX(), MasseyMon.getMiniMap(2, 1).getMapY(), this);
 					talking = false;
 					movable = true;
 				}
 			}
-		}
-		myGuy.draw(g);
+			myGuy.draw(g);
 
-		if (movable) {
-			if (picIndex == 0 && miniPicIndex == 1) {
-				g.drawImage(MasseyMon.getTrainers(0).getSprite(), 475, 300, this);
+			if (movable) {
+				if (picIndex == 0 && miniPicIndex == 1) {
+					g.drawImage(MasseyMon.getTrainers(0).getSprite(), 475, 300, this);
+				}
+				if (pokeCenter()) {
+					g.drawImage(MasseyMon.getTrainers(1).getSprite(), 462, 290, this);
+				}
+				if (pokeShop()) {
+					g.drawImage(MasseyMon.getTrainers(2).getSprite(), 358, 350, this);
+				}
+				if (pokeHouse()) {
+					g.drawImage(MasseyMon.getTrainers(npc1).getSprite(), 407, 385, this);
+					g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
+				}
+
+			//	if (picIndex == 1 || picIndex == 3 || picIndex == 4 || picIndex == 5 || picIndex == 7 || picIndex == 9 || picIndex == 10 || picIndex == 11)
+				//	g.drawImage(MasseyMon.getBattleTrainers(picIndex, 0).getSprite(), MasseyMon.getBattleTrainers(picIndex, 0).getPositionX(), MasseyMon.getBattleTrainers(picIndex, 0).getPositionY(), this);
+				//g.drawImage(MasseyMon.getBattleTrainers(picIndex, 1).getSprite(), MasseyMon.getBattleTrainers(picIndex, 1).getPositionX(), MasseyMon.getBattleTrainers(picIndex, 1).getPositionY(), this);
 			}
-			if (pokeCenter()) {
-				g.drawImage(MasseyMon.getTrainers(1).getSprite(), 462, 290, this);
+		}
+		else{
+			if (started == false){
+				try {
+					MasseyMon.frame.startBattle(g,myGuy);
+					started = true;
+				}
+				catch (IOException e) {}
 			}
-			if (pokeShop()) {
-				g.drawImage(MasseyMon.getTrainers(2).getSprite(), 358, 350, this);
-			}
-			if (pokeHouse()) {
-				g.drawImage(MasseyMon.getTrainers(npc1).getSprite(), 407, 385, this);
-				g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
+			else{
+				MasseyMon.frame.getPokeBattle().Start(g);
 			}
 		}
 		spacePressed = false;
@@ -1196,6 +1201,7 @@ class GamePanel extends JPanel {
 		}
 		return false;
 	}
+
 
 	public static void setStarter(boolean temp){
 		starter = temp;
