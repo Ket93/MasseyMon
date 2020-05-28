@@ -21,18 +21,21 @@
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/PlayerPositions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/PlayerPositions.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background1.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background10.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background10.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Textbox" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Textbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/TextboxCharacterLength" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TextboxCharacterLength" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background11.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background11.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background3.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background4.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background4.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background5.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background5.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background7.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background7.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Backgrounds/Background9.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Backgrounds/Background9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background10Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background10Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background11Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background11Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background1Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background1Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background3Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background3Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background4Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background4Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background5Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background5Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background7Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background7Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Images/Masks/Background9Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background9Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/NPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/NPC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +63,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/Backgrounds" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/Masks" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -81,11 +84,11 @@
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Masks" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Backgrounds" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\NPCs" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 12" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 6" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 8" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MasseyMon">
@@ -143,14 +146,8 @@
       <workItem from="1590360550329" duration="17845000" />
       <workItem from="1590436140551" duration="2427000" />
       <workItem from="1590514803713" duration="8707000" />
-      <workItem from="1590611741903" duration="13367000" />
-    </task>
-    <task id="LOCAL-00019" summary="Added Items screen">
-      <created>1586558156819</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1586558156819</updated>
+      <workItem from="1590611741903" duration="25128000" />
+      <workItem from="1590702235160" duration="1051000" />
     </task>
     <task id="LOCAL-00020" summary="Added Items screen">
       <created>1586571552433</created>
@@ -488,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590441822371</updated>
     </task>
-    <option name="localTasksCounter" value="68" />
+    <task id="LOCAL-00068" summary="Added Trainers">
+      <created>1590628351690</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1590628351691</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -508,7 +512,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="scrolling in progress" />
     <MESSAGE value="scrolling more progress" />
     <MESSAGE value="finally finished scrolling" />
     <MESSAGE value="Added previous route" />
@@ -533,13 +536,14 @@
     <MESSAGE value="Added Cerulean City houses" />
     <MESSAGE value="added starter pokemon" />
     <MESSAGE value="Fixed text boxes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed text boxes" />
+    <MESSAGE value="Added Trainers" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Trainers" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590521926152">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590704341475">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590521926152" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590704341475" />
     <state x="528" y="215" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1590616186234">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -557,10 +561,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1590441821445">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1590628348812">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590441821445" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590628348812" />
     <state x="147" y="65" key="DiffContextDialog" timestamp="1589650173108">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -569,25 +573,25 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="205" key="GridCell.Tab.0.bottom" timestamp="1590627896871">
+    <state width="1493" height="205" key="GridCell.Tab.0.bottom" timestamp="1590704461207">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590627896871" />
+    <state width="1493" height="205" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590704461207" />
     <state width="1877" height="201" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590566120754" />
-    <state width="1493" height="205" key="GridCell.Tab.0.center" timestamp="1590627896871">
+    <state width="1493" height="205" key="GridCell.Tab.0.center" timestamp="1590704461207">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590627896871" />
+    <state width="1493" height="205" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590704461207" />
     <state width="1877" height="201" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590566120754" />
-    <state width="1493" height="205" key="GridCell.Tab.0.left" timestamp="1590627896871">
+    <state width="1493" height="205" key="GridCell.Tab.0.left" timestamp="1590704461207">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590627896871" />
+    <state width="1493" height="205" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590704461207" />
     <state width="1877" height="201" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590566120754" />
-    <state width="1493" height="205" key="GridCell.Tab.0.right" timestamp="1590627896871">
+    <state width="1493" height="205" key="GridCell.Tab.0.right" timestamp="1590704461207">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590627896871" />
+    <state width="1493" height="205" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590704461207" />
     <state width="1877" height="201" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590566120754" />
     <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1589659441985">
       <screen x="0" y="0" width="1536" height="824" />

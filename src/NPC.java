@@ -13,14 +13,12 @@ import java.util.Scanner;
 public class NPC{
     private Image sprite;
     private boolean battlable;
-    private int positionX,positionY;
+    private boolean talkable;
 
     public NPC(Image pic) {
-       // String positions [] = line.split(",");
         sprite = pic;
         battlable = true;
-      //  positionX = Integer.parseInt(positions[0]);
-      //  positionY = Integer.parseInt(positions[1]);
+        talkable = true;
     }
 
     public Image getSprite() {
@@ -29,13 +27,5 @@ public class NPC{
 
     public boolean getBattlable() {
         return battlable;
-    }
-
-    public int getPositionX(){
-        return positionX;
-    }
-
-    public int getPositionY(){
-        return positionY;
     }
 }
