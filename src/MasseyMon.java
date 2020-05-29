@@ -327,6 +327,7 @@ class GamePanel extends JPanel {
 				try {
 					MasseyMon.frame.startBattle(g,myGuy);
 					started = true;
+					Sound pokeMusic = new Sound("Music/Battle/pokeBattleMusic.mp3",1);
 				}
 				catch (IOException e) {}
 			}
@@ -365,6 +366,9 @@ class GamePanel extends JPanel {
 			if (keys[KeyEvent.VK_SPACE]){
 				if (MasseyMon.inBattle) {
 					MasseyMon.frame.getPokeBattle().goNext();
+				}
+				else{
+					MasseyMon.frame.inBattle = true;
 				}
 			}
 		}
