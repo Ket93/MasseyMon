@@ -34,6 +34,7 @@ public class PokemonBattle {
     private Attack attackUsed;
     private boolean choosing, waiting;
     private Pokemon pokeC;
+    private Sound pressingSound;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         myArea = MasseyMon.frame.getTextArea2();
         myPokes = myPokes2;
@@ -87,6 +88,7 @@ public class PokemonBattle {
         rectButtons.add(bagButton);
         rectButtons.add(pokeButton);
         rectButtons.add(runButton);
+        pressingSound = new Sound("Music/Battle/pressingSound.wav",75);
         stopGame = true;
         choice = "none";
         fleeable = true;
@@ -267,6 +269,7 @@ public class PokemonBattle {
                             cFight = true;
                             setChoice("none");
                             doneTurn = true;
+                            pressingSound.play();
                         }
                     }
                 }
@@ -290,6 +293,7 @@ public class PokemonBattle {
                                 setChoice("none");
                                 doneTurn = true;
                             }
+                            pressingSound.play();
                         }
                     }
                 }
@@ -300,6 +304,7 @@ public class PokemonBattle {
                     myTexts.add(String.format("What will %s do?",myCurPoke.getName()));
                     textIndex++;
                     myArea.setText(myTexts.get(textIndex));
+                    pressingSound.play();
                 }
             }
         }
@@ -315,10 +320,12 @@ public class PokemonBattle {
                                     setChoice("none");
                                     pokeC = myCurPoke;
                                     doneTurn = false;
+                                    pressingSound.play();
                                 }
                             }
                             else{
                                 setChoosing(true);
+                                pressingSound.play();
                             }
                         }
                     }
@@ -326,11 +333,13 @@ public class PokemonBattle {
                 if (bagRects[6].contains(mouse)){
                     if (level == 1){
                         level--;
+                        pressingSound.play();
                     }
                 }
                 else if(bagRects[7].contains(mouse)){
                     if (level == 0){
                         level++;
+                        pressingSound.play();
                     }
                 }
                 else if (backArrowRect.contains(mouse)) {
@@ -338,12 +347,12 @@ public class PokemonBattle {
                     myTexts.add(String.format("What will %s do?",myCurPoke.getName()));
                     textIndex++;
                     myArea.setText(myTexts.get(textIndex));
+                    pressingSound.play();
                 }
             }
             else{
                 for (int i = 0; i < 6; i++) {
                     if (switchPokeRects[i].contains(mouse)) {
-                        System.out.println(itemC);
                         Pokemon myPoke = getMyPokes().get(i);
                         int myPokeHP = getMyPokes().get(i).getHP();
                         int myPokeMaxHP = getMyPokes().get(i).getMaxHP();
@@ -354,6 +363,7 @@ public class PokemonBattle {
                                 doneTurn = true;
                                 setChoice("none");
                                 setChoosing(false);
+                                pressingSound.play();
                             }
                         }
                         else if(itemC == 5 || itemC == 6){
@@ -363,12 +373,14 @@ public class PokemonBattle {
                                 doneTurn = true;
                                 setChoice("none");
                                 setChoosing(false);
+                                pressingSound.play();
                             }
                         }
                     }
                 }
                 if (backArrowRect.contains(mouse)) {
                     setChoosing(false);
+                    pressingSound.play();
                 }
             }
         }
@@ -376,6 +388,7 @@ public class PokemonBattle {
             cRun = true;
             setChoice("none");
             doneTurn = true;
+            pressingSound.play();
         }
         else if (getChoice().equals("none")) {
             if (fightButton.contains(mouse)) {
@@ -383,12 +396,16 @@ public class PokemonBattle {
                 myTexts.add(String.format("What attack will %s use?",myCurPoke.getName()));
                 textIndex++;
                 myArea.setText(myTexts.get(textIndex));
+                pressingSound.play();
             } else if (bagButton.contains(mouse)) {
                 setChoice("bag");
+                pressingSound.play();
             } else if (pokeButton.contains(mouse)) {
                 setChoice("pokemon");
+                pressingSound.play();
             } else if (runButton.contains(mouse)) {
                 setChoice("run");
+                pressingSound.play();
             }
         }
     }
@@ -566,6 +583,7 @@ public class PokemonBattle {
         if (textIndex+1 < myTexts.size()){
             textIndex++;
             myArea.setText(myTexts.get(textIndex));
+            pressingSound.play();
         }
         if (textIndex+1 == myTexts.size()){
             if (waiting){

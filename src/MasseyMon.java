@@ -143,9 +143,13 @@ class GamePanel extends JPanel {
 	Menu myMenu;
 	Player myGuy;
 	NPC myNPC;
-	private boolean started;
+	private int x,y, dir;
+	private int DIRDOWN = 1,DIRRIGHT = 2, DIRUP = 3, DIRLEFT = 4;
+	private int alpha = 0;
+	private boolean started,started2;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	private JTextArea myArea;
+	private Sound battleSound;
 	public GamePanel() throws IOException{
 		setLayout(null);
 		myArea = new JTextArea();
@@ -173,6 +177,7 @@ class GamePanel extends JPanel {
 		mini = false;
 		talking = false;
 		startGame = false;
+		started2 = false;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -189,6 +194,7 @@ class GamePanel extends JPanel {
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
+		battleSound = new Sound("Music/Battle/pokeBattleMusic.wav",75);
 	}
 	public void addNotify() {
 		super.addNotify();
@@ -337,16 +343,31 @@ class GamePanel extends JPanel {
 			}
 		}
 		else{
-			if (started == false){
-				try {
-					MasseyMon.frame.startBattle(g,myGuy);
+			if (!battleSound.isPlaying()){
+				battleSound.play();
+			}
+			if (started == false) {
+				Color myColor = new Color(0,0,0,alpha);
+				g.setColor(myColor);
+				if (alpha == 100) {
 					started = true;
-				//	Sound pokeMusic = new Sound("Music/Battle/pokeBattleMusic.mp3",1);
+				} else {
+					alpha += 1;
+					g.fillRect(0, 0, getWidth(), getHeight());
 				}
-				catch (IOException e) {}
 			}
 			else{
-				MasseyMon.frame.getPokeBattle().Start(g);
+				if (started2 == false){
+					try {
+						MasseyMon.frame.startBattle(g,myGuy);
+						started2 = true;
+					}
+					catch (IOException e) {}
+					started2 = true;
+				}
+				else{
+					MasseyMon.frame.getPokeBattle().Start(g);
+				}
 			}
 		}
 		spacePressed = false;
@@ -382,7 +403,7 @@ class GamePanel extends JPanel {
 					MasseyMon.frame.getPokeBattle().goNext();
 				}
 				else{
-					//MasseyMon.frame.inBattle = true;
+					MasseyMon.frame.inBattle = true;
 				}
 			}
 		}
