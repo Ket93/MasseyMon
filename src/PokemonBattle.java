@@ -34,6 +34,7 @@ public class PokemonBattle {
     private Attack attackUsed;
     private boolean choosing, waiting;
     private Pokemon pokeC;
+    private Sound pressingSound;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         myArea = MasseyMon.frame.getTextArea2();
         myPokes = myPokes2;
@@ -87,6 +88,7 @@ public class PokemonBattle {
         rectButtons.add(bagButton);
         rectButtons.add(pokeButton);
         rectButtons.add(runButton);
+        pressingSound = new Sound("Music/Battle/pressingSound.wav",75);
         stopGame = true;
         choice = "none";
         fleeable = true;
