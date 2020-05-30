@@ -10,8 +10,8 @@ public class Textbox {
     private static int count, textX, textY,pauseCount,box,arraySize,temp;
     private static boolean boxFull,textWriting;
     private static Image textBox;
-    private static String[][] words = new String[5][2];
-    private static int [] wordLen = new int [10];
+    private static String[][] words = new String[11][2];
+    private static int [] wordLen = new int [22];
 
     public Textbox() throws IOException {
         arraySize = 0;
@@ -25,7 +25,7 @@ public class Textbox {
         textBox = ImageIO.read(new File("Images/Text/Textbox.png"));
 
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Textbox")));
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 11; i++) {
             for (int k = 0; k<2; k++) {
                 String line = inFile.nextLine();
                 words[i][k] = line;
@@ -33,7 +33,7 @@ public class Textbox {
         }
 
         Scanner myFile = new Scanner(new BufferedReader(new FileReader("Data/TextboxCharacterLength")));
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 22; i++) {
             int val = myFile.nextInt();
             wordLen[i] = val;
         }
@@ -48,7 +48,14 @@ public class Textbox {
         textX = 0;
         textWriting = true;
         arraySize = words[index].length;
-
+        if (words[index][1] != null) {
+            if (words[index][1].length() < 2) {
+                words[index][1] = null;
+            }
+        }
+        if (words[index][1] == null){
+            arraySize -= 1;
+        }
         if (box == arraySize -1 && space && count == wordLen[box+index*2]){
             count = 0;
             box = 0;
