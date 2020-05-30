@@ -309,7 +309,7 @@ class GamePanel extends JPanel {
 					movable = true;
 				}
 			}
-
+			/*
 			if (trainerText){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
@@ -322,6 +322,8 @@ class GamePanel extends JPanel {
 					movable = true;
 				}
 			}
+
+			 */
 
 			if (movable) {
 				if (picIndex == 0 && miniPicIndex == 1) {
@@ -590,31 +592,34 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 						}
 					}
-					if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					/*
+					else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+
+					 */
+					else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
@@ -800,25 +805,25 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 						}
 					}
-					if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
@@ -886,19 +891,19 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 						}
 					}
-					if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
@@ -965,7 +970,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 						}
 					}
-					if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						talking = true;
 						trainerText = true;
 						Textbox.setTextWriting(true);
