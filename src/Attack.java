@@ -33,7 +33,6 @@ public class Attack{
         int x = xcords[i];
         int y = ycords[i];
         g.drawString(name,x,y);
-        g.drawString(type,x+110,y);
         g.drawString("DMG: "+dmg,x,y+30);
         g.drawString("PP: "+pp+"/"+maxPP,x+100,y+30);
     }
