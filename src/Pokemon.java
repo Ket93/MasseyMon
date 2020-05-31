@@ -40,7 +40,6 @@ class Pokemon{
 		else{
 			finalEvo = true;
 		}
-		level = 10;
 		levelProg = 0;
 		levelGoal = 4*level;
 		healed = false;
@@ -59,6 +58,9 @@ class Pokemon{
 	}
 	public void setEffect(String s){
 		effect = s;
+	}
+	public void setLevel(int l){
+		level = l;
 	}
 	public String getEffect(){
 		return effect;

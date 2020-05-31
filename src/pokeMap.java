@@ -1,16 +1,15 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
 
 public class pokeMap {
 
     private Image map;
     private BufferedImage mask;
     private int startPosX, startPosX2, startPosY, startPosY2,startPosX3,startPosY3,startPosX4,startPosY4,startPosX5,startPosY5,startPosX6,startPosY6,startPosX7,startPosY7, mapX, mapY, mapHeight, mapWidth;
-
-
-    public pokeMap(Image background, BufferedImage backgroundMask, String line) throws FileNotFoundException {
-
+    private ArrayList<ArrayList<Pokemon>> trainerPokes;
+    public pokeMap(Image background, BufferedImage backgroundMask, String line,ArrayList<ArrayList<Pokemon>> enemyTrainers) throws FileNotFoundException {
         String[] pos = line.split(",");
         map = background;
         mask = backgroundMask;
@@ -28,6 +27,7 @@ public class pokeMap {
         startPosY6 = Integer.parseInt(pos[11]);
         startPosX7 = Integer.parseInt(pos[12]);
         startPosY7 = Integer.parseInt(pos[13]);
+        trainerPokes = enemyTrainers;
         mapX = (956 - background.getWidth(null)) / 2;
         if (background.getWidth(null) > 956) {
             mapX = 0;
@@ -40,11 +40,15 @@ public class pokeMap {
         mapWidth = background.getWidth(null);
 
     }
-
+    public ArrayList<Pokemon> getEnemyTrainers(int i){
+        return trainerPokes.get(i);
+    }
     public Image getMap() {
         return map;
     }
-
+    public void addTrainerPokes(ArrayList<Pokemon> pokes){
+        trainerPokes.add(pokes);
+    }
     public BufferedImage getMask() {
         return mask;
     }
