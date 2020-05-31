@@ -92,6 +92,7 @@ public class PokemonBattle {
         stopGame = true;
         choice = "none";
         fleeable = true;
+        waiting = false;
         for (int i = 0; i < 6; i++) {
             bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
             switchPokeRects[i] = new Rectangle(143, 20 + 105 * i, 650, 105);
