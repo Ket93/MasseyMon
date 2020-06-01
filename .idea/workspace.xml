@@ -21,10 +21,6 @@
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/PokemonBattle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonBattle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,14 +132,7 @@
       <workItem from="1590436140551" duration="2427000" />
       <workItem from="1590514803713" duration="8707000" />
       <workItem from="1590611741903" duration="25128000" />
-      <workItem from="1590702235160" duration="41434000" />
-    </task>
-    <task id="LOCAL-00025" summary="Finished Masks for first screen">
-      <created>1586659570328</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1586659570328</updated>
+      <workItem from="1590702235160" duration="42233000" />
     </task>
     <task id="LOCAL-00026" summary="Finished Masks for first screen (for real)">
       <created>1586710158736</created>
@@ -481,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591030980442</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="dimitris code doesn't work">
+      <created>1591035675964</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1591035675964</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -501,7 +497,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Viridian City" />
     <MESSAGE value="Added Viridian City 2" />
     <MESSAGE value="tried to fix Viridian city" />
     <MESSAGE value="Almost finished viridian city" />
@@ -526,7 +521,8 @@
     <MESSAGE value="Added Gym trainers" />
     <MESSAGE value="Finished gym trainers and added wild checks" />
     <MESSAGE value="read dimitris code" />
-    <option name="LAST_COMMIT_MESSAGE" value="read dimitris code" />
+    <MESSAGE value="dimitris code doesn't work" />
+    <option name="LAST_COMMIT_MESSAGE" value="dimitris code doesn't work" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590704341475">
@@ -550,10 +546,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591030978538">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591035673988">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591030978538" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591035673988" />
     <state x="147" y="65" key="DiffContextDialog" timestamp="1589650173108">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
