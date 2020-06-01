@@ -133,10 +133,8 @@ public class MasseyMon extends JFrame {
 		return game.getTextArea();
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
+		System.out.println(myPokes.size());
 		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
-		for (int i =0;i<6;i++){
-			myPokes.add(pokeBattle.getAllPokemon().get(i));
-		}
 		pokeBattle.Start(g);
 	}
 	public void setEnemyPokes(ArrayList<Pokemon> newPokes){
@@ -228,6 +226,15 @@ public class MasseyMon extends JFrame {
 	}
 	public ArrayList<Pokemon> getMyPokes(){
 		return myPokes;
+	}
+	public Pokemon getBulbasaur(){
+		return bulbasaur;
+	}
+	public Pokemon getCharmander(){
+		return charmander;
+	}
+	public Pokemon getSquirtle(){
+		return squirtle;
 	}
 
 	public void start(){
@@ -432,6 +439,19 @@ class GamePanel extends JPanel {
 						g.drawImage(starters[starterIndex], 420, 300, this);
 						movable = false;
 						hasStarter = true;
+					}
+					if (spacePressed){
+						Pokemon select = null;
+						if (starterIndex == 0){
+							select = MasseyMon.frame.getBulbasaur();
+						}
+						else if (starterIndex == 1){
+							select = MasseyMon.frame.getCharmander();
+						}
+						else if (starterIndex == 2){
+							select = MasseyMon.frame.getSquirtle();
+						}
+						MasseyMon.frame.getMyPokes().add(select);
 					}
 				}
 			}
@@ -764,7 +784,7 @@ class GamePanel extends JPanel {
 						myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 						myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 					} else if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-						//if (hasStarter) {
+						if (MasseyMon.frame.getMyPokes().size() != 0){
 							picIndex += 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
@@ -789,7 +809,7 @@ class GamePanel extends JPanel {
 								}
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
-						//	}
+							}
 						}
 					}
 					else if (checkPrevRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {

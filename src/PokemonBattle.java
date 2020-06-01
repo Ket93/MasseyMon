@@ -60,16 +60,12 @@ public class PokemonBattle {
             allAttacks.add(newAtk);
         }
         inFile.close();
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 4; j++) {
-                Attack newAttack = allAttacks.get(j);
-                myPokes.get(i).learnMove(newAttack);
-            }
-        }
+
         textIndex = 0;
         fillTextArray("You are battling PKMN Trainer Ronald!");
         String text = String.format("The enemy trainer sent out %s!",enemyPokes.get(0).getName());
         fillTextArray(text);
+        System.out.println(myPokes.get(0).getName());
         String text2 = String.format("You sent out %s!",myPokes.get(0).getName());
         fillTextArray(text2);
         String text3 = String.format("What will %s do?",myPokes.get(0).getName());
