@@ -44,9 +44,6 @@ class Pokemon{
 		levelProg = 0;
 		levelGoal = 4*level;
 		healed = false;
-		for (int i = 0; i < 4; i++){
-			pokeAttacks.add(null);
-		}
 		try{
 			gameFont = Font.createFont(Font.TRUETYPE_FONT, new File("Font/gameFont.ttf"));
 			gameFont = gameFont.deriveFont(40f);
@@ -254,10 +251,8 @@ class Pokemon{
 	}
 	public void drawMoves(Graphics g){
 		g.setFont(smallerGameFont);
-		for (int i = 0; i < 4; i++){
-			if (pokeAttacks.get(i) != null){
-				pokeAttacks.get(i).draw(g,i);
-			}
+		for (Attack atk: pokeAttacks){
+			atk.draw(g,pokeAttacks.indexOf(atk));
 		}
 	}
 	public void setEvolveAtEnd(boolean b){

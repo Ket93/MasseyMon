@@ -24,7 +24,7 @@ public class MasseyMon extends JFrame {
 	private Pokemon bulbasaur,charmander,squirtle;
 	public static Image [] starters = new Image [3];
 	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
-	PokemonBattle pokeBattle;
+	private PokemonBattle pokeBattle;
 	public MasseyMon() throws IOException{
 		super("MasseyMon");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,6 +43,9 @@ public class MasseyMon extends JFrame {
 	}
 	public ArrayList<ArrayList<Pokemon>> getAllEncounters(){
 		return allEncounters;
+	}
+	public ArrayList<Pokemon> getEnemyPokes(){
+		return enemyPokes;
 	}
 	public ArrayList<ArrayList<Pokemon>> makeEncounters() throws FileNotFoundException {
 		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
@@ -95,7 +98,7 @@ public class MasseyMon extends JFrame {
 				squirtle.learnMove(tackle);
 				squirtle.learnMove(bubble);
 			}
-			Pokemon newPoke = new Pokemon(line3);
+			count++;
 		}
 		String line = inFile2.nextLine();
 		for (int i = 0; i < 19; i++){
@@ -133,8 +136,17 @@ public class MasseyMon extends JFrame {
 		return game.getTextArea();
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
-		System.out.println(myPokes.size());
+		for (Pokemon item: myPokes){
+			System.out.println(item.getName());
+		}
 		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
+		for (ArrayList<Pokemon> item: allEncounters){
+			for (Pokemon item2: item){
+				if(item2 == enemyPokes.get(0)){
+					pokeBattle.setFleeable(true);
+				}
+			}
+		}
 		pokeBattle.Start(g);
 	}
 	public void setEnemyPokes(ArrayList<Pokemon> newPokes){
@@ -357,16 +369,21 @@ class GamePanel extends JPanel {
 	public void checkGrass(){
 		int x = randint(1,20);
 		if (x == 1){
+			for (Pokemon item: MasseyMon.frame.getAllEncounters().get(picIndex)){
+				item.setHP(item.getMaxHP());
+				for (Attack atk: item.getMoves()){
+					atk.setPP(atk.getMaxPP());
+				}
+			}
 			int y = randint(0,3);
 			ArrayList<Pokemon> enemyPoke = new ArrayList<Pokemon>();
 			enemyPoke.add(MasseyMon.frame.getAllEncounters().get(picIndex).get(y));
 			int increment = (picIndex-1)/2;
-			int low = 4+(increment)*5;
-			int high = 8+(increment)*5;
+			int low = 3+(increment)*5;
+			int high = 6+(increment)*5;
 			int random = randint(low,high);
 			enemyPoke.get(0).setLevel(random);
 			MasseyMon.frame.setEnemyPokes(enemyPoke);
-			System.out.println("Hi");
 			MasseyMon.frame.inBattle = true;
 		}
 	}
@@ -447,10 +464,12 @@ class GamePanel extends JPanel {
 						}
 						else if (starterIndex == 1){
 							select = MasseyMon.frame.getCharmander();
+							System.out.println(MasseyMon.frame.getCharmander().getName());
 						}
 						else if (starterIndex == 2){
 							select = MasseyMon.frame.getSquirtle();
 						}
+						System.out.println(starterIndex);
 						MasseyMon.frame.getMyPokes().add(select);
 					}
 				}
