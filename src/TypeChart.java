@@ -28,7 +28,8 @@ public class TypeChart{
     }
     public double getEffect(Attack atk, Pokemon def){
         double tot;
-        System.out.println(atk.getType());
+        System.out.println(def.getName());
+        System.out.println(atk);
         int index1 = typeVals.indexOf(atk.getType());
         int index2 = typeVals.indexOf(def.getType1());
         tot = types[index1][index2];

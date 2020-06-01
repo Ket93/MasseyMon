@@ -1,8 +1,8 @@
 #,Name,Type,1,Type,2,HP,Attack,Defense,Sp.,Atk,Sp.,Def,Speed
-1,Bulbasaur,Grass,Poison,45,1000,49,1000,65,1000,F
+1,Bulbasaur,Grass,Poison,45,49,49,65,65,45,F
 2,Ivysaur,Grass,Poison,60,64,64,80,80,60,F
 3,Venusaur,Grass,Poison,80,82,83,100,100,80,T
-4,Charmander,Fire,39,1000,43,1000,50,65,F
+4,Charmander,Fire,39,52,43,60,50,65,F
 5,Charmeleon,Fire,58,67,58,80,65,80,F
 6,Charizard,Fire,Flying,78,84,78,109,85,100,T
 7,Squirtle,Water,44,48,65,50,64,43,F

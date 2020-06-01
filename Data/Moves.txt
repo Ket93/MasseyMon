@@ -27,7 +27,7 @@ Earthquake,Ground,Physical,100,100,10
 Egg Bomb,Normal,Physical,100,75,10
 Ember,Fire,Special,40,100,25
 Explosion,Normal,Physical,250,100,5
-Fire Blast,Fire,Speical,110,85,5
+Fire Blast,Fire,Special,110,85,5
 Fire Punch,Fire,Physical,75,100,15
 Fire Spin,Fire,Special,35,85,15
 Flamethrower,Fire,Special,90,100,15

@@ -424,6 +424,9 @@ public class PokemonBattle {
         myTexts.add(s);
         stopGame = true;
     }
+    public void setFleeable(boolean b){
+        fleeable = b;
+    }
     public void AITurn(Pokemon enemyPoke) {
         if (isBad() && isLastAlive() == false && switchable()) {
             AISwitch();
@@ -431,7 +434,7 @@ public class PokemonBattle {
             fillTextArray(text);
         }
         else {
-            if ((float) enemyPoke.getHP() / (float) enemyPoke.getMaxHP() <= 0.20 && enemyPoke.getHealed() == false) {
+            if ((float) enemyPoke.getHP() / (float) enemyPoke.getMaxHP() <= 0.20 && enemyPoke.getHealed() == false && fleeable == false) {
                 enemyPoke.heal();
                 String text = String.format("The Enemy Trainer used a Max Potion!",enemyPokes.get(0).getName());
                 fillTextArray(text);
@@ -452,10 +455,12 @@ public class PokemonBattle {
         int index = 0;
         double highest = 0.0;
         for (Attack atk : enemyAttacks) {
-            double val = myChart.getEffect(atk, myPoke);
-            atkMults.add(val);
-            if (val > highest) {
-                index = enemyAttacks.indexOf(atk);
+            if (!(atk == null)){
+                double val = myChart.getEffect(atk, myPoke);
+                atkMults.add(val);
+                if (val > highest) {
+                    index = enemyAttacks.indexOf(atk);
+                }
             }
         }
         setAttack(enemyAttacks.get(index));
@@ -714,7 +719,8 @@ public class PokemonBattle {
                     evolutions.add(item);
                 }
             }
-            MasseyMon.inBattle = false;
+            MasseyMon.frame.inBattle = false;
+            textIndex = myTexts.size()-1;
         }
     }
     public void upgradeTeam(){
