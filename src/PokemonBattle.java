@@ -34,7 +34,7 @@ public class PokemonBattle {
     private Attack attackUsed;
     private boolean choosing, waiting;
     private Pokemon pokeC;
-    private Sound pressingSound;
+    private Sound pressingSound,evolutionMusic;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         myArea = MasseyMon.frame.getTextArea2();
         myPokes = myPokes2;
@@ -89,6 +89,7 @@ public class PokemonBattle {
         rectButtons.add(pokeButton);
         rectButtons.add(runButton);
         pressingSound = new Sound("Music/Battle/pressingSound.wav",75);
+        evolutionMusic = new Sound("Music/Battle/evolutionMusic.wav",75);
         stopGame = true;
         choice = "none";
         fleeable = true;
@@ -644,7 +645,7 @@ public class PokemonBattle {
         String text = String.format("You used a %s on %s!",curGuy.getItems().getUsed(),pokeC.getName());
         fillTextArray(text);
     }
-    public void Start(Graphics g){
+    public void Start(Graphics g) throws IOException {
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
         if (doneTurn) {
@@ -722,6 +723,16 @@ public class PokemonBattle {
             }
             else{
                 item.gainXP(enemyCurPoke.getLevel()/2);
+            }
+            if (item.getLevel() == 15){
+                if (item.shouldEvolve()){
+                    item.setEvolveAtEnd(true);
+                }
+            }
+            else if(item.getLevel() == 30){
+                if (item.shouldEvolve()){
+                    item.setEvolveAtEnd(true);
+                }
             }
         }
     }

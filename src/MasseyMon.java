@@ -34,7 +34,7 @@ public class MasseyMon extends JFrame {
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = false;
+		inBattle = true;
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
@@ -398,7 +398,13 @@ class GamePanel extends JPanel {
 					started2 = true;
 				}
 				else{
-					MasseyMon.frame.getPokeBattle().Start(g);
+					try {
+						MasseyMon.frame.getPokeBattle().Start(g);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
