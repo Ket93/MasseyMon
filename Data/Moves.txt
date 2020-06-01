@@ -81,7 +81,7 @@ Struggle,Normal,Physical,50,100,1
 Submission,Fighting,Physical,80,80,20
 Surf,Water,Special,90,100,15
 Swift,Normal,Special,60,100,20
-Tackel,Normal,Physical,40,100,35
+Tackle,Normal,Physical,40,100,35
 Take Down,Normal,Physical,90,85,20
 Thrash,Noormal,Physical,120,100,10
 Thunder,Electric,Special,110,70,10

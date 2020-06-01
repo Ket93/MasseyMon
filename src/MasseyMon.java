@@ -19,9 +19,10 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>();
 	public static ArrayList<NPC> trainers = new ArrayList<NPC>();
 	public static ArrayList<ArrayList<NPC>> battleTrainers  = new ArrayList<ArrayList<NPC>>();
-	public static ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
-	public static ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+	private ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
+	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
 	public static Image [] starters = new Image [3];
+	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 	PokemonBattle pokeBattle;
 	public MasseyMon() throws IOException{
 		super("MasseyMon");
@@ -38,6 +39,63 @@ public class MasseyMon extends JFrame {
 	}
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
+	}
+	public ArrayList<ArrayList<Pokemon>> getAllEncounters(){
+		return allEncounters;
+	}
+	public ArrayList<ArrayList<Pokemon>> makeEncounters() throws FileNotFoundException {
+		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
+		ArrayList<Pokemon> firstEncounters = new ArrayList<Pokemon>();
+		ArrayList<Pokemon> secondEncounters = new ArrayList<Pokemon>();
+		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
+		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
+		Attack tackle = null,peck = null,pin = null, bite = null;
+		for (int i = 0; i < 84; i++){
+			String line2 = inFile.nextLine();
+			if (i == 5){
+				bite = new Attack(line2);
+			}
+			else if (i == 53){
+				peck = new Attack(line2);
+			}
+			else if (i == 55){
+				pin = new Attack(line2);
+			}
+			else if (i == 83){
+				tackle = new Attack(line2);
+			}
+		}
+		String line = inFile2.nextLine();
+		for (int i = 0; i < 19; i++){
+			line = inFile2.nextLine();
+			if (i == 9){
+				Pokemon newPoke = new Pokemon(line);
+				newPoke.learnMove(tackle);
+				newPoke.learnMove(pin);
+				secondEncounters.add(newPoke);
+			}
+			else if (i == 12){
+				Pokemon newPoke = new Pokemon(line);
+				newPoke.learnMove(tackle);
+				newPoke.learnMove(pin);
+				secondEncounters.add(newPoke);
+			}
+			else if (i == 15){
+				Pokemon newPoke = new Pokemon(line);
+				newPoke.learnMove(tackle);
+				newPoke.learnMove(peck);
+				secondEncounters.add(newPoke);
+			}
+			else if (i == 18){
+				Pokemon newPoke = new Pokemon(line);
+				newPoke.learnMove(tackle);
+				newPoke.learnMove(bite);
+				secondEncounters.add(newPoke);
+			}
+		}
+		allEncounters.add(firstEncounters);
+		allEncounters.add(secondEncounters);
+		return allEncounters;
 	}
 	public JTextArea getTextArea2(){
 		return game.getTextArea();
@@ -78,7 +136,7 @@ public class MasseyMon extends JFrame {
 		starters [0] = ImageIO.read(new File("Sprites/Pokemon/P1.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [1] = ImageIO.read(new File("Sprites/Pokemon/P4.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [2] = ImageIO.read(new File("Sprites/Pokemon/P7.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
-
+		allEncounters = makeEncounters();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
 		for (int i = 0; i < 13; i++) {
 			String line = inFile.nextLine();
@@ -130,7 +188,6 @@ public class MasseyMon extends JFrame {
 	public static pokeMapMini getMiniMap( int n ,int k ) {
 		return miniMaps.get(n).get(k);
 	}
-
 	public static NPC getBattleTrainers(int n,int v){
 		return battleTrainers.get(n).get(v);
 	}
@@ -142,6 +199,9 @@ public class MasseyMon extends JFrame {
 		public void actionPerformed(ActionEvent evt){
 			if(game!= null){
 				game.move();
+				if (game.inGrass){
+					game.checkGrass();
+				}
 				game.repaint();
 			}
 		}
@@ -149,18 +209,20 @@ public class MasseyMon extends JFrame {
 }
 
 class GamePanel extends JPanel {
+	public static final int INTERVAL = 5, STARTING = 114;
 	private static int offsetX,offsetY;
-	private int mx,my,picIndex,miniPicIndex,npc1,npc2,starterIndex,trainerTextIndex;
+	private int mx,my,picIndex,miniPicIndex,npc1,npc2,starterIndex,trainerTextIndex,progress;
 	private boolean pokemon;
 	private boolean bag;
 	private boolean menu;
-	private boolean spacePressed,movable,talking,startGame,hasStarter,trainerText,inGrass;
-	private int direction;
+	public static boolean inGrass;
+	private boolean spacePressed,movable,talking,startGame,hasStarter,trainerText;
+	private int direction,frameEvo;
 	private boolean ready = true;
 	private static boolean mini,starter;
 	private boolean[] keys;
 	private Image [] starters;
-	private Image selectBox;
+	private Image selectBox,evoBack;
 	private boolean animating;
 	private float frame;
 	private Composite var;
@@ -175,10 +237,10 @@ class GamePanel extends JPanel {
 	private int x,y, dir;
 	private int DIRDOWN = 1,DIRRIGHT = 2, DIRUP = 3, DIRLEFT = 4;
 	private int alpha = 0;
-	private boolean started,started2;
+	private boolean started,started2,started3,doneEvo;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
-	private JTextArea myArea;
-	private Sound battleSound;
+	private JTextArea myArea, myArea2;
+	private Sound battleSound,evolutionMusic;
 	public GamePanel() throws IOException{
 		setLayout(null);
 		myArea = new JTextArea();
@@ -191,6 +253,16 @@ class GamePanel extends JPanel {
 		myArea.setLineWrap(true);
 		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
 		add(myArea);
+		myArea2 = new JTextArea();
+		myArea2.setBackground(new Color(0,0,0,0));
+		myArea2.setBounds(40,635,600,125);
+		myArea2.setVisible(false);
+		myArea2.setEditable(false);
+		myArea2.setHighlighter(null);
+		myArea2.setWrapStyleWord(true);
+		myArea2.setLineWrap(true);
+		myArea2.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
+		add(myArea2);
 		movable = false;
 		offsetX = 0;
 		offsetY = 0;
@@ -207,7 +279,9 @@ class GamePanel extends JPanel {
 		talking = false;
 		startGame = false;
 		started2 = false;
+		started3 = false;
 		inGrass = false;
+		doneEvo = false;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -220,158 +294,234 @@ class GamePanel extends JPanel {
 		started = false;
 		frame = (float)(frame);
 		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
-		selectBox = ImageIO.read(new File("Images/Text/SelectBox.jpg")).getScaledInstance(300,300,Image.SCALE_SMOOTH);;
+		selectBox = ImageIO.read(new File("Images/Text/SelectBox.jpg")).getScaledInstance(300,300,Image.SCALE_SMOOTH);
+		evoBack = ImageIO.read(new File("Images/Battles/evoBack.png")).getScaledInstance(956,790,Image.SCALE_SMOOTH);
 		setPreferredSize(new Dimension(956,795));
 		addMouseListener(new clickListener());
 		addKeyListener(new moveListener());
 		battleSound = new Sound("Music/Battle/pokeBattleMusic.wav",75);
+		evolutionMusic = new Sound("Music/Battle/evolutionMusic.wav",75);
 	}
 	public void addNotify() {
 		super.addNotify();
 		requestFocus();
 		ready = true;
 	}
+	public void checkGrass(){
+		int x = randint(1,20);
+		if (x == 1){
+			int y = randint(0,3);
+			ArrayList<Pokemon> enemyPoke = new ArrayList<Pokemon>();
+			enemyPoke.add(MasseyMon.frame.getAllEncounters().get(picIndex).get(y));
+			int increment = (picIndex-1)/2;
+			int low = 4+(increment)*5;
+			int high = 8+(increment)*5;
+			int random = randint(low,high);
+			enemyPoke.get(0).setLevel(random);
+			MasseyMon.frame.setEnemyPokes(enemyPoke);
+			MasseyMon.frame.inBattle = true;
+		}
+	}
+	public void draw(Graphics g){
+		if (!talking && !starter) {
+			movable = true;
+			g.setColor(new Color(0, 0, 0));
+			g.fillRect(0, 0, 956, 795);
+			offsetX = 0;
+			offsetY = 0;
+			if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+				offsetX = myGuy.getScreenX() - myGuy.getWorldX();
+			}
+			if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+				offsetY = myGuy.getScreenY() - myGuy.getWorldY();
+			}
+			if (mini) {
+				g.drawImage(MasseyMon.getMiniMap(picIndex, miniPicIndex).getMap(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapX(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapY(), this);
+			} else {
+				if (offsetX == 0 && offsetY == 0) {
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
+				} else if (offsetX != 0 && offsetY == 0) {
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
+				} else if (offsetX == 0 && offsetY != 0) {
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
+				} else {
+					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
+				}
+			}
+			if (menu) {
+				Menu.display(g);
+				if (bag) {
+					Items.display(g);
+				}
+				if (pokemon) {
+					PokemonMenu.display(g);
+				}
+			}
+		}
+		if (startGame) {
+			if (Textbox.getTextWriting()) {
+				Textbox.display(g, 0, spacePressed);
+				movable = false;
+				spacePressed = false;
+			} else {
+				talking = false;
+				startGame = false;
+			}
+		}
+		myGuy.draw(g);
+		if (picIndex == 0 && miniPicIndex == 1) {
+			if (Textbox.getTextWriting()) {
+				if (talking) {
+					Textbox.display(g, 1, spacePressed);
+					movable = false;
+					spacePressed = false;
+				}
+			} else {
+				if (!movable) {
+					talking = false;
+					starter = false;
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(0, 1).getMap(), MasseyMon.getMiniMap(0, 1).getMapX(), MasseyMon.getMiniMap(0, 1).getMapY(), this);
+					if (!spacePressed) {
+						starter = true;
+						g.setColor(new Color(255, 255, 255));
+						g.fillRect(350, 250, 300, 300);
+						g.drawImage(selectBox, 350, 250, this);
+						g.drawImage(starters[starterIndex], 420, 300, this);
+						movable = false;
+						hasStarter = true;
+					}
+				}
+			}
+		}
+		if (pokeCenter()) {
+			if (Textbox.getTextWriting()) {
+				if (talking) {
+					Textbox.display(g, 2, spacePressed);
+					movable = false;
+					spacePressed = false;
+				}
+			} else {
+				g.setColor(new Color(0, 0, 0));
+				g.fillRect(0, 0, 956, 795);
+				g.drawImage(MasseyMon.getMiniMap(2, 0).getMap(), MasseyMon.getMiniMap(2, 0).getMapX(), MasseyMon.getMiniMap(2, 0).getMapY(), this);
+				talking = false;
+				movable = true;
+			}
+		}
+
+		if (pokeShop()) {
+			if (Textbox.getTextWriting()) {
+				if (talking) {
+					Textbox.display(g, 3, spacePressed);
+					movable = false;
+					spacePressed = false;
+				}
+			} else {
+				g.setColor(new Color(0, 0, 0));
+				g.fillRect(0, 0, 956, 795);
+				g.drawImage(MasseyMon.getMiniMap(2, 1).getMap(), MasseyMon.getMiniMap(2, 1).getMapX(), MasseyMon.getMiniMap(2, 1).getMapY(), this);
+				talking = false;
+				movable = true;
+			}
+		}
+				/*
+				if (trainerText){
+					if (Textbox.getTextWriting()) {
+						if (talking) {
+							Textbox.display(g,trainerTextIndex, spacePressed);
+							movable = false;
+							spacePressed = false;
+						}
+					}
+					else {
+						talking = false;
+						movable = true;
+					}
+				}
+			 	*/
+
+		if (movable) {
+			if (picIndex == 0 && miniPicIndex == 1) {
+				g.drawImage(MasseyMon.getTrainers(0).getSprite(), 475, 300, this);
+			}
+			if (pokeCenter()) {
+				g.drawImage(MasseyMon.getTrainers(1).getSprite(), 462, 290, this);
+				myGuy.draw(g);
+			}
+			if (pokeShop()) {
+				g.drawImage(MasseyMon.getTrainers(2).getSprite(), 358, 350, this);
+				myGuy.draw(g);
+			}
+			if (pokeHouse()) {
+				g.drawImage(MasseyMon.getTrainers(npc1).getSprite(), 407, 385, this);
+				g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
+				myGuy.draw(g);
+			}
+		}
+	}
 	public JTextArea getTextArea(){
 		return myArea;
 	}
 	public void paintComponent(Graphics g) {
 		if (!MasseyMon.inBattle) {
-			if (!talking && !starter) {
-				movable = true;
-				g.setColor(new Color(0, 0, 0));
-				g.fillRect(0, 0, 956, 795);
-				offsetX = 0;
-				offsetY = 0;
-				if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
-					offsetX = myGuy.getScreenX() - myGuy.getWorldX();
-				}
-				if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
-					offsetY = myGuy.getScreenY() - myGuy.getWorldY();
-				}
-				if (mini) {
-					g.drawImage(MasseyMon.getMiniMap(picIndex, miniPicIndex).getMap(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapX(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapY(), this);
-				} else {
-					if (offsetX == 0 && offsetY == 0) {
-						g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
-					} else if (offsetX != 0 && offsetY == 0) {
-						g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, MasseyMon.getMap(picIndex).getMapY(), this);
-					} else if (offsetX == 0 && offsetY != 0) {
-						g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), offsetY, this);
-					} else {
-						g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
-					}
-				}
-				if (menu) {
-					Menu.display(g);
-					if (bag) {
-						Items.display(g);
-					}
-					if (pokemon) {
-						PokemonMenu.display(g);
-					}
-				}
+			if (battleSound.isPlaying()){
+				battleSound.stop();
 			}
-			if (startGame) {
-				if (Textbox.getTextWriting()) {
-					Textbox.display(g, 0, spacePressed);
-					movable = false;
-					spacePressed = false;
-				} else {
-					talking = false;
-					startGame = false;
+			if (MasseyMon.frame.getPokeBattle() != null){
+				if (MasseyMon.frame.getPokeBattle().getEvolutions().size() == 0){
+					draw(g);
 				}
-			}
-			myGuy.draw(g);
-			if (picIndex == 0 && miniPicIndex == 1) {
-				if (Textbox.getTextWriting()) {
-					if (talking) {
-						Textbox.display(g, 1, spacePressed);
-						movable = false;
-						spacePressed = false;
+				else{
+					if (battleSound.isPlaying()){
+						battleSound.stop();
 					}
-				} else {
-					if (!movable) {
-						talking = false;
-						starter = false;
-						g.setColor(new Color(0, 0, 0));
-						g.fillRect(0, 0, 956, 795);
-						g.drawImage(MasseyMon.getMiniMap(0, 1).getMap(), MasseyMon.getMiniMap(0, 1).getMapX(), MasseyMon.getMiniMap(0, 1).getMapY(), this);
-						if (!spacePressed) {
-							starter = true;
-							g.setColor(new Color(255, 255, 255));
-							g.fillRect(350, 250, 300, 300);
-							g.drawImage(selectBox, 350, 250, this);
-							g.drawImage(starters[starterIndex], 420, 300, this);
-							movable = false;
-							hasStarter = true;
+					g.drawImage(evoBack,0,0,this);
+					Pokemon pokeEvo = MasseyMon.frame.getPokeBattle().getEvolutions().get(0);
+					if (!started3){
+						String myString = String.format("What?\n%s is evolving!",pokeEvo.getName());
+						myArea2.setVisible(true);
+						myArea2.setText(myString);
+						progress = 0;
+						frameEvo = 1;
+						evolutionMusic.play();
+						started3 = true;
+						doneEvo = false;
+					}
+					else{
+						if (doneEvo){
+							if (!evolutionMusic.isPlaying()){
+								MasseyMon.frame.getPokeBattle().getEvolutions().remove(0);
+								started3 = false;
+								evolutionMusic.stop();
+							}
+						}
+						if (!(progress ==STARTING)){
+							if (frameEvo%(STARTING-progress) == 0){
+								progress+= 3;
+								pokeEvo.drawEvoNext(g);
+								if (progress == STARTING){
+									String curName = pokeEvo.getName();
+									try { pokeEvo.evolve();}
+									catch (IOException e) {}
+									String myString = String.format("%s evolved into %s!",curName,pokeEvo.getName());
+									myArea2.setText(myString);
+								}
+							}
+							else{
+								pokeEvo.drawEvo(g);
+							}
+							frameEvo++;
+						}
+						else{
+							pokeEvo.drawEvoNext(g);
 						}
 					}
 				}
 			}
-			if (pokeCenter()) {
-				if (Textbox.getTextWriting()) {
-					if (talking) {
-						Textbox.display(g, 2, spacePressed);
-						movable = false;
-						spacePressed = false;
-					}
-				} else {
-					g.setColor(new Color(0, 0, 0));
-					g.fillRect(0, 0, 956, 795);
-					g.drawImage(MasseyMon.getMiniMap(2, 0).getMap(), MasseyMon.getMiniMap(2, 0).getMapX(), MasseyMon.getMiniMap(2, 0).getMapY(), this);
-					talking = false;
-					movable = true;
-				}
-			}
-
-			if (pokeShop()) {
-				if (Textbox.getTextWriting()) {
-					if (talking) {
-						Textbox.display(g, 3, spacePressed);
-						movable = false;
-						spacePressed = false;
-					}
-				} else {
-					g.setColor(new Color(0, 0, 0));
-					g.fillRect(0, 0, 956, 795);
-					g.drawImage(MasseyMon.getMiniMap(2, 1).getMap(), MasseyMon.getMiniMap(2, 1).getMapX(), MasseyMon.getMiniMap(2, 1).getMapY(), this);
-					talking = false;
-					movable = true;
-				}
-			}
-			/*
-			if (trainerText){
-				if (Textbox.getTextWriting()) {
-					if (talking) {
-						Textbox.display(g,trainerTextIndex, spacePressed);
-						movable = false;
-						spacePressed = false;
-					}
-				} else {
-					talking = false;
-					movable = true;
-				}
-			}
-
-			 */
-
-			if (movable) {
-				if (picIndex == 0 && miniPicIndex == 1) {
-					g.drawImage(MasseyMon.getTrainers(0).getSprite(), 475, 300, this);
-				}
-				if (pokeCenter()) {
-					g.drawImage(MasseyMon.getTrainers(1).getSprite(), 462, 290, this);
-					myGuy.draw(g);
-				}
-				if (pokeShop()) {
-					g.drawImage(MasseyMon.getTrainers(2).getSprite(), 358, 350, this);
-					myGuy.draw(g);
-				}
-				if (pokeHouse()) {
-					g.drawImage(MasseyMon.getTrainers(npc1).getSprite(), 407, 385, this);
-					g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
-					myGuy.draw(g);
-				}
+			else{
+				draw(g);
 			}
 		}
 		else{
@@ -435,6 +585,9 @@ class GamePanel extends JPanel {
 					if (started2){
 						MasseyMon.frame.getPokeBattle().goNext();
 					}
+				}
+				if (!evolutionMusic.isPlaying()){
+					doneEvo = true;
 				}
 			}
 		}
@@ -516,7 +669,6 @@ class GamePanel extends JPanel {
 	public void move() {
 		if (!menu) {
 			if (movable) {
-				inGrass = false;
 				if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
 						&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
 					direction = UP;
@@ -657,8 +809,11 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
+					}
+					else{
+						inGrass = false;
 					}
 				}
 
@@ -867,8 +1022,11 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
+					}
+					else{
+						inGrass = false;
 					}
 
 
@@ -952,8 +1110,11 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
+					}
+					else{
+						inGrass = false;
 					}
 				}
 
@@ -1025,8 +1186,11 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
+					}
+					else{
+						inGrass = false;
 					}
 				}
 

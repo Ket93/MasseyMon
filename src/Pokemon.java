@@ -1,18 +1,18 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 class Pokemon{
 	private int hp,maxHP,num,atk,def,spatk,spdef,speed,extra,level;
 	private String type1,type2,resistance,weakness,name;
 	private boolean healed;
 	private ArrayList<Attack> pokeAttacks = new ArrayList<Attack>();
-	private Image myPokeImage,enemyPokeImage,displayImage;
+	private Image myPokeImage,enemyPokeImage,displayImage,evoImageNext;
 	private Font gameFont,smallerGameFont,switchFont;
 	private int levelProg, levelGoal;
-	private boolean finalEvo;
+	private boolean finalEvo,evolveAtEnd;
 	private String effect;
 	public Pokemon(String line){
 		String [] stats = line.split(",");
@@ -40,6 +40,7 @@ class Pokemon{
 		else{
 			finalEvo = true;
 		}
+		level = 5;
 		levelProg = 0;
 		levelGoal = 4*level;
 		healed = false;
@@ -117,6 +118,12 @@ class Pokemon{
 			setEffect("It's effective!");
 		}
 	}
+	public void drawEvo(Graphics g){
+		g.drawImage(enemyPokeImage,350,200,null);
+	}
+	public void drawEvoNext(Graphics g){
+		g.drawImage(evoImageNext,350,200,null);
+	}
 	public static int randint(int low, int high){
 		return (int)(Math.random()*(high-low+1)+low);
 	}
@@ -172,6 +179,10 @@ class Pokemon{
 		enemyPokeImage = pic2;
 		pic2 = pic2.getScaledInstance(122,100,Image.SCALE_SMOOTH);
 		displayImage = pic2;
+		if (!finalEvo){
+			String path3 = String.format("Sprites/Pokemon/P%d.png",num+1);
+			evoImageNext = ImageIO.read(new File(path3)).getScaledInstance(220,180,Image.SCALE_SMOOTH);
+		}
 	}
 	public int getHPWidth(int i){
 		float max = (float) maxHP;
@@ -243,5 +254,52 @@ class Pokemon{
 				pokeAttacks.get(i).draw(g,i);
 			}
 		}
+	}
+	public void setEvolveAtEnd(boolean b){
+		evolveAtEnd = b;
+	}
+	public boolean getEvolveAtEnd(){
+		return evolveAtEnd;
+	}
+	public boolean shouldEvolve(){
+		if (!finalEvo){
+			return true;
+		}
+		return false;
+	}
+	public void evolve() throws IOException {
+		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
+		String line = "";
+		line = inFile.nextLine();
+		for (int i = 0; i < num+1; i++){
+			line = inFile.nextLine();
+		}
+		String [] stats = line.split(",");
+		extra = 0;
+		type2 = "N/A";
+		if (stats.length == 11){
+			extra = 1;
+			type2 = stats[3];
+		}
+		num = Integer.parseInt(stats[0]);
+		name = stats[1];
+		type1 = (stats[2]);
+		hp = Integer.parseInt(stats[3+extra]);
+		maxHP = Integer.parseInt(stats[3+extra]);
+		atk = Integer.parseInt(stats[4+extra]);
+		def = Integer.parseInt(stats[5+extra]);
+		spatk = Integer.parseInt(stats[6+extra]);
+		spdef = Integer.parseInt(stats[7+extra]);
+		speed = Integer.parseInt(stats[8+extra]);
+		String last = stats[9+extra];
+		effect = "";
+		if (last.equals("F")){
+			finalEvo = false;
+		}
+		else{
+			finalEvo = true;
+		}
+		levelProg = 0;
+		levelGoal = 4*level;
 	}
 }
