@@ -52,15 +52,14 @@ public class PokemonBattle {
             Pokemon newPoke = new Pokemon(line);
             allPokemon.add(newPoke);
         }
-        for (int i = 0; i < 6; i++) {
-            myPokes.add(allPokemon.get(i));
-        }
+        inFile.close();
         inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
         while (inFile.hasNext()) {
             String line = inFile.nextLine();
             Attack newAtk = new Attack(line);
             allAttacks.add(newAtk);
         }
+        inFile.close();
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 4; j++) {
                 Attack newAttack = allAttacks.get(j);

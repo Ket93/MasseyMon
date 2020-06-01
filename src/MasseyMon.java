@@ -21,6 +21,7 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<ArrayList<NPC>> battleTrainers  = new ArrayList<ArrayList<NPC>>();
 	private ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+	private Pokemon bulbasaur,charmander,squirtle;
 	public static Image [] starters = new Image [3];
 	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 	PokemonBattle pokeBattle;
@@ -49,11 +50,20 @@ public class MasseyMon extends JFrame {
 		ArrayList<Pokemon> secondEncounters = new ArrayList<Pokemon>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		Attack tackle = null,peck = null,pin = null, bite = null;
+		Attack tackle = null,peck = null,pin = null, bite = null, absorb = null, ember = null, bubble = null;
 		for (int i = 0; i < 84; i++){
 			String line2 = inFile.nextLine();
-			if (i == 5){
+			if (i == 0){
+				absorb = new Attack(line2);
+			}
+			else if (i == 5){
 				bite = new Attack(line2);
+			}
+			else if (i == 11){
+				bubble = new Attack(line2);
+			}
+			else if (i == 27){
+				ember = new Attack(line2);
 			}
 			else if (i == 53){
 				peck = new Attack(line2);
@@ -64,6 +74,28 @@ public class MasseyMon extends JFrame {
 			else if (i == 83){
 				tackle = new Attack(line2);
 			}
+		}
+		Scanner inFile3 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
+		String dumInp = inFile3.nextLine();
+		int count = 0;
+		while (inFile3.hasNext()) {
+			String line3 = inFile3.nextLine();
+			if (count == 0){
+				bulbasaur = new Pokemon(line3);
+				bulbasaur.learnMove(tackle);
+				bulbasaur.learnMove(absorb);
+			}
+			else if(count == 3){
+				charmander = new Pokemon(line3);
+				charmander.learnMove(tackle);
+				charmander.learnMove(ember);
+			}
+			else if(count == 6){
+				squirtle = new Pokemon(line3);
+				squirtle.learnMove(tackle);
+				squirtle.learnMove(bubble);
+			}
+			Pokemon newPoke = new Pokemon(line3);
 		}
 		String line = inFile2.nextLine();
 		for (int i = 0; i < 19; i++){
