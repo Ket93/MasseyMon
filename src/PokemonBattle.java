@@ -54,7 +54,6 @@ public class PokemonBattle {
         }
         for (int i = 0; i < 6; i++) {
             myPokes.add(allPokemon.get(i));
-            enemyPokes.add(allPokemon.get(i + 6));
         }
         inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
         while (inFile.hasNext()) {
@@ -66,7 +65,6 @@ public class PokemonBattle {
             for (int j = 0; j < 4; j++) {
                 Attack newAttack = allAttacks.get(j);
                 myPokes.get(i).learnMove(newAttack);
-                enemyPokes.get(i).learnMove(newAttack);
             }
         }
         textIndex = 0;

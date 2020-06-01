@@ -1,12 +1,6 @@
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.image.ImageObserver;
 import java.io.*;
-import java.util.*;
-import java.awt.event.*;
-import javax.swing.Timer;
 
 public class Menu {
     private static Image pointer;

@@ -184,6 +184,11 @@ class Pokemon{
 			evoImageNext = ImageIO.read(new File(path3)).getScaledInstance(220,180,Image.SCALE_SMOOTH);
 		}
 	}
+
+	public void drawMenu(Graphics g){
+		g.drawImage(displayImage,0,0,null);
+		System.out.println("SDF");
+	}
 	public int getHPWidth(int i){
 		float max = (float) maxHP;
 		float cur = (float) hp;

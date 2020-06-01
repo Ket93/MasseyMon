@@ -102,6 +102,9 @@ public class MasseyMon extends JFrame {
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
 		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
+		for (int i =0;i<6;i++){
+			myPokes.add(pokeBattle.getAllPokemon().get(i));
+		}
 		pokeBattle.Start(g);
 	}
 	public void setEnemyPokes(ArrayList<Pokemon> newPokes){
@@ -191,6 +194,9 @@ public class MasseyMon extends JFrame {
 	public static NPC getBattleTrainers(int n,int v){
 		return battleTrainers.get(n).get(v);
 	}
+	public ArrayList<Pokemon> getMyPokes(){
+		return myPokes;
+	}
 
 	public void start(){
 		myTimer.start();
@@ -198,8 +204,10 @@ public class MasseyMon extends JFrame {
 	class TickListener implements ActionListener{
 		public void actionPerformed(ActionEvent evt){
 			if(game!= null){
-				game.move();
-				if (game.inGrass){
+				if (!inBattle) {
+					game.move();
+				}
+				if (game.inGrass && !inBattle){
 					game.checkGrass();
 				}
 				game.repaint();
@@ -319,6 +327,7 @@ class GamePanel extends JPanel {
 			int random = randint(low,high);
 			enemyPoke.get(0).setLevel(random);
 			MasseyMon.frame.setEnemyPokes(enemyPoke);
+			System.out.println("Hi");
 			MasseyMon.frame.inBattle = true;
 		}
 	}
@@ -348,6 +357,7 @@ class GamePanel extends JPanel {
 					g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
 				}
 			}
+			myGuy.draw(g);
 			if (menu) {
 				Menu.display(g);
 				if (bag) {
@@ -368,7 +378,6 @@ class GamePanel extends JPanel {
 				startGame = false;
 			}
 		}
-		myGuy.draw(g);
 		if (picIndex == 0 && miniPicIndex == 1) {
 			if (Textbox.getTextWriting()) {
 				if (talking) {
@@ -492,6 +501,7 @@ class GamePanel extends JPanel {
 					else{
 						if (doneEvo){
 							if (!evolutionMusic.isPlaying()){
+								myArea2.setVisible(false);
 								MasseyMon.frame.getPokeBattle().getEvolutions().remove(0);
 								started3 = false;
 								evolutionMusic.stop();
@@ -669,6 +679,7 @@ class GamePanel extends JPanel {
 	public void move() {
 		if (!menu) {
 			if (movable) {
+				inGrass = false;
 				if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
 						&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
 					direction = UP;
@@ -809,7 +820,7 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
 					}
 					else{
@@ -1022,7 +1033,7 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
 					}
 					else{
@@ -1110,7 +1121,7 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
 					}
 					else{
@@ -1186,7 +1197,7 @@ class GamePanel extends JPanel {
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
 					}
-					if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
 					}
 					else{
@@ -1617,4 +1628,5 @@ class GamePanel extends JPanel {
 	public static void setStarter(boolean temp){
 		starter = temp;
 	}
+
 }

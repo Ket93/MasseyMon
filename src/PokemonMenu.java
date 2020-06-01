@@ -33,7 +33,6 @@ public class PokemonMenu {
 
         g.setColor(new Color(255,0,0));
         if (!displayButton) {
-            System.out.println(posX);
             g.drawRect(posX, posY, 316, 150);
         }
 
@@ -47,6 +46,10 @@ public class PokemonMenu {
         g.drawString("4.", 500,315);
         g.drawString("6.", 500,470);
         g.drawString("Exit",600,622);
+
+        for (Pokemon Item: MasseyMon.frame.getMyPokes()){
+            Item.drawMenu(g);
+        }
 
         if (displayButton){
             g.drawImage(pointer,560,600,null);
