@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class PokemonBattle {
     private ArrayList<String> myTexts = new ArrayList<String>();
+    private ArrayList<Pokemon> evolutions = new ArrayList<Pokemon>();
     private int textIndex;
     private boolean fleeable;
     private TypeChart myChart = new TypeChart();
@@ -30,11 +31,11 @@ public class PokemonBattle {
     private int[] numItems = new int[7];
     private Items myItems;
     private JTextArea myArea;
-    private boolean stopGame, tryingRun;
+    private boolean stopGame;
     private Attack attackUsed;
     private boolean choosing, waiting;
     private Pokemon pokeC;
-    private Sound pressingSound,evolutionMusic;
+    private Sound pressingSound;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
         myArea = MasseyMon.frame.getTextArea2();
         myPokes = myPokes2;
@@ -63,8 +64,9 @@ public class PokemonBattle {
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 4; j++) {
-                myPokes.get(i).learnMove(allAttacks.get(j));
-                enemyPokes.get(i).learnMove(allAttacks.get(i));
+                Attack newAttack = allAttacks.get(j);
+                myPokes.get(i).learnMove(newAttack);
+                enemyPokes.get(i).learnMove(newAttack);
             }
         }
         textIndex = 0;
@@ -89,7 +91,6 @@ public class PokemonBattle {
         rectButtons.add(pokeButton);
         rectButtons.add(runButton);
         pressingSound = new Sound("Music/Battle/pressingSound.wav",75);
-        evolutionMusic = new Sound("Music/Battle/evolutionMusic.wav",75);
         stopGame = true;
         choice = "none";
         fleeable = true;
@@ -111,7 +112,6 @@ public class PokemonBattle {
     public void capture(){
         if (myPokes.size() < 6){
             myPokes.add(enemyCurPoke);
-
         }
     }
     public void loadImageFont(){
@@ -194,7 +194,6 @@ public class PokemonBattle {
                 myTexts.add(text);
                 textIndex++;
                 myArea.setText(myTexts.get(textIndex));
-                tryingRun = true;
             }
             else{
                 Pokemon curPoke = enemyPokes.get(0);
@@ -213,6 +212,9 @@ public class PokemonBattle {
             enemyPokes.set(0, switchPoke);
             enemyPokes.set(index, curPoke);
         }
+    }
+    public ArrayList<Pokemon> getEvolutions(){
+        return evolutions;
     }
     public boolean getChoosing(){
         return choosing;
@@ -406,8 +408,9 @@ public class PokemonBattle {
                 setChoice("pokemon");
                 pressingSound.play();
             } else if (runButton.contains(mouse)) {
-                setChoice("run");
                 pressingSound.play();
+                myArea.setVisible(false);
+                MasseyMon.frame.inBattle = false;
             }
         }
     }
@@ -609,19 +612,19 @@ public class PokemonBattle {
         }
         if (myTeamAlive == true) {
             if (enemyTeamAlive == false) {
+                myArea.setVisible(false);
                 return "win";
             } else {
                 return "";
             }
         } else {
+            myArea.setVisible(false);
             return "loss";
         }
     }
     public void myTurnRun() {
         if (fleeable) {
-            String text = "You ran away!";
-            fillTextArray(text);
-            tryingRun = true;
+            MasseyMon.frame.inBattle = false;
         }
         else {
             String text = "You couldn't run away!";
@@ -645,11 +648,11 @@ public class PokemonBattle {
         String text = String.format("You used a %s on %s!",curGuy.getItems().getUsed(),pokeC.getName());
         fillTextArray(text);
     }
-    public void Start(Graphics g) throws IOException {
+    public void Start(Graphics g){
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
         if (doneTurn) {
-            if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed() && cBag == false) {
+            if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed() && cBag == false && cPokes == false && cRun == false) {
                 AITurn(enemyCurPoke);
                 draw(g);
                 if (myCurPoke.getHP() > 0){
@@ -713,6 +716,11 @@ public class PokemonBattle {
         draw(g);
         update();
         if (battleOver().equals("") == false){
+            for (Pokemon item: myPokes){
+                if (item.getEvolveAtEnd()){
+                    evolutions.add(item);
+                }
+            }
             MasseyMon.inBattle = false;
         }
     }

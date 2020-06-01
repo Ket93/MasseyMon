@@ -9,7 +9,7 @@ class Pokemon{
 	private String type1,type2,resistance,weakness,name;
 	private boolean healed;
 	private ArrayList<Attack> pokeAttacks = new ArrayList<Attack>();
-	private Image myPokeImage,enemyPokeImage,displayImage;
+	private Image myPokeImage,enemyPokeImage,displayImage,evoImageNext;
 	private Font gameFont,smallerGameFont,switchFont;
 	private int levelProg, levelGoal;
 	private boolean finalEvo,evolveAtEnd;
@@ -40,7 +40,7 @@ class Pokemon{
 		else{
 			finalEvo = true;
 		}
-		level = 14;
+		level = 5;
 		levelProg = 0;
 		levelGoal = 4*level;
 		healed = false;
@@ -118,6 +118,12 @@ class Pokemon{
 			setEffect("It's effective!");
 		}
 	}
+	public void drawEvo(Graphics g){
+		g.drawImage(enemyPokeImage,350,200,null);
+	}
+	public void drawEvoNext(Graphics g){
+		g.drawImage(evoImageNext,350,200,null);
+	}
 	public static int randint(int low, int high){
 		return (int)(Math.random()*(high-low+1)+low);
 	}
@@ -173,6 +179,10 @@ class Pokemon{
 		enemyPokeImage = pic2;
 		pic2 = pic2.getScaledInstance(122,100,Image.SCALE_SMOOTH);
 		displayImage = pic2;
+		if (!finalEvo){
+			String path3 = String.format("Sprites/Pokemon/P%d.png",num+1);
+			evoImageNext = ImageIO.read(new File(path3)).getScaledInstance(220,180,Image.SCALE_SMOOTH);
+		}
 	}
 	public int getHPWidth(int i){
 		float max = (float) maxHP;
