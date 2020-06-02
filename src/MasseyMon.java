@@ -275,7 +275,7 @@ class GamePanel extends JPanel {
 	private boolean bag;
 	private boolean menu;
 	public static boolean inGrass;
-	private boolean spacePressed,movable,talking,startGame,hasStarter,trainerText;
+	private boolean spacePressed,movable,talking,startGame,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking;
 	private int direction,frameEvo;
 	private boolean ready = true;
 	private static boolean mini,starter;
@@ -414,15 +414,6 @@ class GamePanel extends JPanel {
 				}
 			}
 			myGuy.draw(g);
-			if (menu) {
-				Menu.display(g);
-				if (bag) {
-					Items.display(g);
-				}
-				if (pokemon) {
-					PokemonMenu.display(g);
-				}
-			}
 		}
 		if (startGame) {
 			if (Textbox.getTextWriting()) {
@@ -469,7 +460,6 @@ class GamePanel extends JPanel {
 						else if (starterIndex == 2){
 							select = MasseyMon.frame.getSquirtle();
 						}
-						System.out.println(starterIndex);
 						MasseyMon.frame.getMyPokes().add(select);
 					}
 				}
@@ -538,6 +528,15 @@ class GamePanel extends JPanel {
 				g.drawImage(MasseyMon.getTrainers(npc1).getSprite(), 407, 385, this);
 				g.drawImage(MasseyMon.getTrainers(npc2).getSprite(), 612, 360, this);
 				myGuy.draw(g);
+			}
+		}
+		if (menu) {
+			Menu.display(g);
+			if (bag) {
+				Items.display(g);
+			}
+			if (pokemon) {
+				PokemonMenu.display(g);
 			}
 		}
 	}
@@ -689,48 +688,48 @@ class GamePanel extends JPanel {
 			if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false) {
 				menu = true;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
+			if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
 				Menu.setPosY(40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
+			if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
 				Menu.setPosY(-40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && bag) {
+			if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && bag) {
 				Items.setPosY(40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && bag) {
+			if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && bag) {
 				Items.setPosY(-40);
 			}
-			if (e.getKeyCode() == KeyEvent.VK_DOWN && keys[e.getKeyCode()] == false && pokemon) {
+			if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && pokemon) {
 				PokemonMenu.setPosY();
 				PokemonMenu.setPosX();
 			}
-			if (e.getKeyCode() == KeyEvent.VK_UP && keys[e.getKeyCode()] == false && pokemon) {
+			if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && pokemon) {
 				PokemonMenu.setPosYUP();
 				PokemonMenu.setPosX();
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon && menu) {
 				PokemonMenu.resetPosXY();
 				pokemon = true;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag) {
 				Items.resetPosY();
 				bag = true;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon) {
 				Menu.resetPosY();
 				menu = false;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag) {
 				Menu.resetPosY();
 				bag = false;
 			}
 
-			if (e.getKeyCode() == KeyEvent.VK_ENTER && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon) {
 				Menu.resetPosY();
 				pokemon = false;
 			}
@@ -890,6 +889,21 @@ class GamePanel extends JPanel {
 						trainerText = true;
 						Textbox.setTextWriting(true);
 						trainerTextIndex = randint(4,10);
+					}
+					else if (checkBrock(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+						brockTalking = true;
+						talking = true;
+						Textbox.setTextWriting(true);
+					}
+					else if (checkMisty(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+						mistyTalking = true;
+						talking = true;
+						Textbox.setTextWriting(true);
+					}
+					else if (checkGiovanni(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
+						giovanniTalking = true;
+						talking = true;
+						Textbox.setTextWriting(true);
 					}
 					else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)){
 						inGrass = true;
@@ -1649,6 +1663,36 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	private boolean checkBrock ( int x, int y, int x2,int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF010100;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
+	private boolean checkMisty ( int x, int y, int x2,int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF010101;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
+	private boolean checkGiovanni ( int x, int y, int x2,int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF000101;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
 	private boolean checkWildEncounter ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -1659,6 +1703,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+
 
 	public boolean getMenu () {
 		return menu;

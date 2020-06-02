@@ -47,8 +47,8 @@ public class PokemonMenu {
         g.drawString("6.", 500,470);
         g.drawString("Exit",600,622);
 
-        for (Pokemon Item: MasseyMon.frame.getMyPokes()){
-            Item.drawMenu(g);
+        for (int i =0;i<MasseyMon.frame.getMyPokes().size();i++){
+            MasseyMon.frame.getMyPokes().get(i).drawMenu(g,i);
         }
 
         if (displayButton){

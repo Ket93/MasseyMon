@@ -182,9 +182,31 @@ class Pokemon{
 		}
 	}
 
-	public void drawMenu(Graphics g){
-		g.drawImage(displayImage,0,0,null);
-		System.out.println("SDF");
+	public void drawMenu(Graphics g, int coord){
+		ArrayList<Pokemon> myTeam = MasseyMon.frame.getMyPokes();
+		Graphics2D g2d = (Graphics2D)g;
+		Font nameFont = new Font("Consolas", 0, 25);
+		Font typeFont = new Font("Consolas", 0, 15);
+		g2d.setFont(nameFont);
+		g2d.setColor(Color.black);
+		g.drawImage(displayImage,180,150,null);
+		g.drawString(name,320,140);
+		g2d.setFont(typeFont);
+		g.drawString(type1,335,160);
+		g.drawString(type2,385,160);
+		g.drawString("Level:" + Integer.toString(level),350,180);
+		g.drawString("HP: " + Integer.toString(hp)+"/"+Integer.toString(maxHP),340,200);
+		int moveY = 220;
+		int adjustX = 0;
+		for (int i =0;i<pokeAttacks.size();i++){
+			g.drawString(pokeAttacks.get(i).getName(),315 + i*adjustX*65,moveY);
+			adjustX += 1;
+			if (i == 1){
+				moveY += 20;
+				adjustX = 0;
+			}
+		}
+
 	}
 	public int getHPWidth(int i){
 		float max = (float) maxHP;

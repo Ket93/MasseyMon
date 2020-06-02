@@ -1,20 +1,20 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class pokeMapMini {
+public class pokeMapMini { // class for mini background maps (houses, gyms, Pokemon Center, etc)
 
-    private Image map;
-    private BufferedImage mask;
+    private Image map; // image of the map
+    private BufferedImage mask; // image of the mask
     private int startPosX, startPosY, mapX, mapY, mapHeight, mapWidth;
 
-    public pokeMapMini (Image background, BufferedImage backgroundMask, String line){
+    public pokeMapMini (Image background, BufferedImage backgroundMask, String line){ // constructor
 
-        String [] pos = line.split(",");
-        map = background;
-        mask = backgroundMask;
-        startPosX = Integer.parseInt(pos[0]);
-        startPosY = Integer.parseInt(pos[1]);
-        mapX = (956 - background.getWidth(null)) / 2;
+        String [] pos = line.split(","); // splitting the line into an array to assign to variables
+        map = background; // setting map pic
+        mask = backgroundMask; // setting mask pic
+        startPosX = Integer.parseInt(pos[0]); // setting the X position where the character will spawn
+        startPosY = Integer.parseInt(pos[1]); // setting the Y position where the character will spawn
+        mapX = (956 - background.getWidth(null)) / 2; // 
         if (background.getWidth(null) > 956){
             mapX = 0;
         }
