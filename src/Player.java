@@ -6,11 +6,12 @@ import javax.imageio.*;
 public class Player {
 	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
 	public static int [] items = new int [7];
-	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
+	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY,money;
 	private Image[] sprites;
 	private Items myItems;
 	private int[] numItems = new int[7];
 	public Player(int gen) throws IOException {
+		money = 0;
 		worldX = 289;
 		worldY = 285;
 		screenY = 285;
@@ -139,5 +140,8 @@ public class Player {
 	public void setScreenX(int val){screenX = val;}
 	public int getScreenY(){return screenY;}
 	public void setScreenY(int val){screenY = val;}
+	public int getMoney(){return money;}
+	public void addMoney(int val){money+=val;}
+	public void loseMoney(int val){money-=val;}
 }
 	

@@ -14,7 +14,7 @@ public class pokeMapMini { // class for mini background maps (houses, gyms, Poke
         mask = backgroundMask; // setting mask pic
         startPosX = Integer.parseInt(pos[0]); // setting the X position where the character will spawn
         startPosY = Integer.parseInt(pos[1]); // setting the Y position where the character will spawn
-        mapX = (956 - background.getWidth(null)) / 2; // 
+        mapX = (956 - background.getWidth(null)) / 2; //
         if (background.getWidth(null) > 956){
             mapX = 0;
         }
