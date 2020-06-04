@@ -213,7 +213,7 @@ public class MasseyMon extends JFrame {
 		}
 		myPokes.add(bulbasaur);
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 13; i++) {
+		for (int i = 0; i < 15; i++) {
 			String line = inFile.nextLine();
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
@@ -226,7 +226,7 @@ public class MasseyMon extends JFrame {
 			} catch (IOException e) {}
 		}
 		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <13;k++) {
+		for (int k = 0; k <15;k++) {
 			miniMaps.add(new ArrayList<pokeMapMini>());
 			for (int i = 0; i < 5; i++) {
 				String line = inFile.nextLine();
@@ -960,7 +960,7 @@ class GamePanel extends JPanel {
 							talking = true;
 							Textbox.setTextWriting(true);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
+							//inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1160,7 +1160,7 @@ class GamePanel extends JPanel {
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
+							//inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1198,7 +1198,7 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
 						}
-						if (checkPrevRoute(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
+						else if (checkPrevRoute(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
 							picIndex -= 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
@@ -1224,7 +1224,15 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						}
+						else if (checkChampRouteBack(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
+							picIndex -= 11;
+							myGuy.setWorldX(20);
+							myGuy.setWorldY(555);
+							myGuy.setScreenX(20);
+							myGuy.setScreenY(398);
+						}
+						else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							talking = true;
 							trainerText = true;
 							Textbox.setTextWriting(true);
@@ -1240,7 +1248,7 @@ class GamePanel extends JPanel {
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
+							//inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1301,13 +1309,21 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
-						} else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						}
+						else if (checkChampRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
+							picIndex += 11;
+							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
+							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
+							myGuy.setScreenX(800);
+							myGuy.setScreenY(275);
+						}
+						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							talking = true;
 							trainerText = true;
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
+							//inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1600,6 +1616,30 @@ class GamePanel extends JPanel {
 		}
 
 		int WALL = 0xFFFF8000;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
+
+	private boolean checkChampRoute ( int x, int y, int x2,int y2){
+
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF01FFFF;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
+
+	private boolean checkChampRouteBack ( int x, int y, int x2,int y2){
+
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		int WALL = 0xFF01FF01;
 		int c = maskPic.getRGB(x - posX, y - posY);
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
