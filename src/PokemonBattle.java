@@ -60,17 +60,16 @@ public class PokemonBattle {
             allAttacks.add(newAtk);
         }
         inFile.close();
-
         textIndex = 0;
+        myTexts = new ArrayList<String>();
         fillTextArray("You are battling PKMN Trainer Ronald!");
         String text = String.format("The enemy trainer sent out %s!",enemyPokes.get(0).getName());
         fillTextArray(text);
-        System.out.println(myPokes.get(0).getName());
         String text2 = String.format("You sent out %s!",myPokes.get(0).getName());
         fillTextArray(text2);
         String text3 = String.format("What will %s do?",myPokes.get(0).getName());
         fillTextArray(text3);
-        myArea.setText(myTexts.get(textIndex));
+        myArea.setText(myTexts.get(0));
         fightButton = new Rectangle(471, 608, 238, 90);
         bagButton = new Rectangle(710, 608, 238, 90);
         pokeButton = new Rectangle(471, 699, 238, 90);
@@ -259,7 +258,7 @@ public class PokemonBattle {
         if (getChoice().equals("fight")) {
             for (Rectangle item : rectButtons) {
                 if (item.contains(mouse)) {
-                    if (myPokes.get(0).getMoves().get(rectButtons.indexOf(item)) != null) {
+                    if (rectButtons.indexOf(item) < myPokes.get(0).getMoves().size()) {
                         Pokemon atker = myPokes.get(0);
                         attackC = atker.getMoves().get(rectButtons.indexOf(item));
                         if (attackC.getPP() > 0){
@@ -610,13 +609,11 @@ public class PokemonBattle {
         }
         if (myTeamAlive == true) {
             if (enemyTeamAlive == false) {
-                myArea.setVisible(false);
                 return "win";
             } else {
                 return "";
             }
         } else {
-            myArea.setVisible(false);
             return "loss";
         }
     }
@@ -720,8 +717,10 @@ public class PokemonBattle {
                 }
             }
             MasseyMon.frame.inBattle = false;
-            textIndex = myTexts.size()-1;
         }
+    }
+    public JTextArea getMyArea(){
+        return myArea;
     }
     public void upgradeTeam(){
         for (Pokemon item: myPokes){

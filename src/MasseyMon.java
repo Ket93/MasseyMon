@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.*;
@@ -21,9 +20,11 @@ public class MasseyMon extends JFrame {
 	public static ArrayList<ArrayList<NPC>> battleTrainers  = new ArrayList<ArrayList<NPC>>();
 	private ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
 	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
+	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
+	private ArrayList<ArrayList<Pokemon>> trainerPokemon = new ArrayList<ArrayList<Pokemon>>();
+	private ArrayList<Boolean> battledTrainers = new ArrayList<Boolean>();
 	private Pokemon bulbasaur,charmander,squirtle;
 	public static Image [] starters = new Image [3];
-	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 	private PokemonBattle pokeBattle;
 	public MasseyMon() throws IOException{
 		super("MasseyMon");
@@ -41,6 +42,15 @@ public class MasseyMon extends JFrame {
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
+	public ArrayList<Boolean> getBattles(){
+		return battledTrainers;
+	}
+	public ArrayList<ArrayList<Pokemon>> getTrainerPokes(){
+		return trainerPokemon;
+	}
+	public GamePanel getGame() {
+		return game;
+	}
 	public ArrayList<ArrayList<Pokemon>> getAllEncounters(){
 		return allEncounters;
 	}
@@ -51,6 +61,8 @@ public class MasseyMon extends JFrame {
 		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList<Pokemon> firstEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> secondEncounters = new ArrayList<Pokemon>();
+		ArrayList<Pokemon> firstTrainer = new ArrayList<Pokemon>();
+		ArrayList<Pokemon> secondTrainer = new ArrayList<Pokemon>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
 		Attack tackle = null,peck = null,pin = null, bite = null, absorb = null, ember = null, bubble = null;
@@ -113,7 +125,12 @@ public class MasseyMon extends JFrame {
 				Pokemon newPoke = new Pokemon(line);
 				newPoke.learnMove(tackle);
 				newPoke.learnMove(pin);
-				secondEncounters.add(newPoke);
+				firstTrainer.add(newPoke);
+				trainerPokemon.add(firstTrainer);
+				Pokemon newPoke2 = new Pokemon(line);
+				newPoke2.learnMove(tackle);
+				newPoke2.learnMove(pin);
+				secondEncounters.add(newPoke2);
 			}
 			else if (i == 15){
 				Pokemon newPoke = new Pokemon(line);
@@ -126,6 +143,11 @@ public class MasseyMon extends JFrame {
 				newPoke.learnMove(tackle);
 				newPoke.learnMove(bite);
 				secondEncounters.add(newPoke);
+				Pokemon newPoke2 = new Pokemon(line);
+				newPoke2.learnMove(tackle);
+				newPoke.learnMove(bite);
+				secondTrainer.add(newPoke);
+				trainerPokemon.add(secondTrainer);
 			}
 		}
 		allEncounters.add(firstEncounters);
@@ -133,12 +155,16 @@ public class MasseyMon extends JFrame {
 		return allEncounters;
 	}
 	public JTextArea getTextArea2(){
+		game.makeNewArea();
 		return game.getTextArea();
 	}
+	public void setPokeBattleNull(){
+		pokeBattle = null;
+	}
+	public void setPokeBattle(PokemonBattle battle){
+		pokeBattle = battle;
+	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException {
-		for (Pokemon item: myPokes){
-			System.out.println(item.getName());
-		}
 		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
 		for (ArrayList<Pokemon> item: allEncounters){
 			for (Pokemon item2: item){
@@ -182,6 +208,10 @@ public class MasseyMon extends JFrame {
 		starters [1] = ImageIO.read(new File("Sprites/Pokemon/P4.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [2] = ImageIO.read(new File("Sprites/Pokemon/P7.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		allEncounters = makeEncounters();
+		for (int i = 0; i < 100; i++){
+			battledTrainers.add(false);
+		}
+		myPokes.add(bulbasaur);
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
 		for (int i = 0; i < 13; i++) {
 			String line = inFile.nextLine();
@@ -303,16 +333,7 @@ class GamePanel extends JPanel {
 	private Sound battleSound,evolutionMusic;
 	public GamePanel() throws IOException{
 		setLayout(null);
-		myArea = new JTextArea();
-		myArea.setBackground(new Color(0,0,0,0));
-		myArea.setBounds(40,635,390,125);
-		myArea.setVisible(true);
-		myArea.setEditable(false);
-		myArea.setHighlighter(null);
-		myArea.setWrapStyleWord(true);
-		myArea.setLineWrap(true);
-		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
-		add(myArea);
+		makeNewArea();
 		myArea2 = new JTextArea();
 		myArea2.setBackground(new Color(0,0,0,0));
 		myArea2.setBounds(40,635,600,125);
@@ -369,8 +390,8 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void checkGrass(){
-		int x = randint(1,20);
-		if (x == 1){
+		int x = randint(1,350);
+		if (x == 1 && MasseyMon.frame.inBattle == false && movable){
 			for (Pokemon item: MasseyMon.frame.getAllEncounters().get(picIndex)){
 				item.setHP(item.getMaxHP());
 				for (Attack atk: item.getMoves()){
@@ -389,7 +410,33 @@ class GamePanel extends JPanel {
 			MasseyMon.frame.inBattle = true;
 		}
 	}
+	public void makeNewArea(){
+		myArea = new JTextArea();
+		myArea.setBackground(new Color(0,0,0,0));
+		myArea.setBounds(40,635,390,125);
+		myArea.setVisible(true);
+		myArea.setEditable(false);
+		myArea.setHighlighter(null);
+		myArea.setWrapStyleWord(true);
+		myArea.setLineWrap(true);
+		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
+		myArea.setText("");
+		add(myArea);
+	}
 	public void draw(Graphics g) {
+		System.out.println(MasseyMon.frame.inBattle);
+		if (MasseyMon.frame.inBattle == false){
+			myArea.setVisible(false);
+			if (MasseyMon.frame.getPokeBattle() != null){
+				MasseyMon.frame.getPokeBattle().getMyArea().setVisible(false);
+			}
+			started = false;
+			started2 = false;
+			alpha = 0;
+			talking = false;
+			trainerText = false;
+			Textbox.setTextWriting(false);
+		}
 		if (titleScreen) {
 			TitleScreen.draw(g);
 		}
@@ -450,7 +497,6 @@ class GamePanel extends JPanel {
 								select = MasseyMon.frame.getBulbasaur();
 							} else if (starterIndex == 1) {
 								select = MasseyMon.frame.getCharmander();
-								System.out.println(MasseyMon.frame.getCharmander().getName());
 							} else if (starterIndex == 2) {
 								select = MasseyMon.frame.getSquirtle();
 							}
@@ -539,7 +585,7 @@ class GamePanel extends JPanel {
 		return myArea;
 	}
 	public void paintComponent(Graphics g) {
-		if (!MasseyMon.inBattle) {
+		if (!MasseyMon.frame.inBattle) {
 			if (battleSound.isPlaying()){
 				battleSound.stop();
 			}
@@ -594,6 +640,7 @@ class GamePanel extends JPanel {
 						}
 					}
 				}
+
 			}
 			else{
 				draw(g);
@@ -617,6 +664,7 @@ class GamePanel extends JPanel {
 				if (started2 == false){
 					try {
 						MasseyMon.frame.startBattle(g,myGuy);
+						makeNewArea();
 						started2 = true;
 					}
 					catch (IOException e) {}
@@ -645,7 +693,7 @@ class GamePanel extends JPanel {
 		public void mousePressed(MouseEvent e) {
 			mx = e.getX();
 			my = e.getY();
-			if (MasseyMon.inBattle){
+			if (MasseyMon.frame.inBattle){
 				if (!MasseyMon.frame.getPokeBattle().getStopGame()){
 					MasseyMon.frame.getPokeBattle().checkCollision();
 				}
@@ -656,7 +704,7 @@ class GamePanel extends JPanel {
 	class moveListener implements KeyListener {
 		public void keyTyped(KeyEvent e) {
 			if (keys[KeyEvent.VK_SPACE]){
-				if (MasseyMon.inBattle) {
+				if (MasseyMon.frame.inBattle) {
 					if (started2){
 						MasseyMon.frame.getPokeBattle().goNext();
 					}
@@ -868,20 +916,22 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0) == false) {
+							MasseyMon.frame.getBattles().set(0,true);
 							talking = true;
 							trainerText = true;
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 							MasseyMon.frame.inBattle = true;
-							MasseyMon.frame.setEnemyPokes(MasseyMon.getMap(picIndex).getEnemyTrainers(0));
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+							MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0));
+						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1) == false) {
+							MasseyMon.frame.getBattles().set(1,true);
 							talking = true;
 							trainerText = true;
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 							MasseyMon.frame.inBattle = true;
-							MasseyMon.frame.setEnemyPokes(MasseyMon.getMap(picIndex).getEnemyTrainers(1));
+							MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1));
 						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							talking = true;
 							trainerText = true;
