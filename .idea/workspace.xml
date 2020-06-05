@@ -20,8 +20,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Images/TItleScreen/endScreen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Images/TItleScreen/hallOfFame.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Textbox" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Textbox" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/TextboxCharacterLength" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TextboxCharacterLength" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 0/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 0/Background0Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 6/Background4Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 6/Background4Mask.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +61,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/Masks" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Images/TItleScreen" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -66,19 +74,19 @@
     <property name="settings.editor.selected.configurable" value="settings.github" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Masks" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Backgrounds" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\TItleScreen" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 2" />
-      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 6" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 2" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 5" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 0" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\PalletTown" />
       <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\TItleScreen" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Masks" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\Backgrounds" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniBackgrounds\Town 2" />
+      <recent name="C:\Users\kevin\IdeaProjects\Pokemon-FSE\Images\MiniMasks\Town 6" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MasseyMon">
@@ -139,8 +147,7 @@
       <workItem from="1590611741903" duration="25128000" />
       <workItem from="1590702235160" duration="54473000" />
       <workItem from="1591119497665" duration="13789000" />
-      <workItem from="1591233767533" duration="9253000" />
-      <workItem from="1591314418800" duration="2832000" />
+      <workItem from="1591233767533" duration="8605000" />
     </task>
     <task id="LOCAL-00029" summary="Finished Oak's Lab">
       <created>1587004388617</created>
@@ -478,12 +485,12 @@
       <option name="project" value="LOCAL" />
       <updated>1591214452664</updated>
     </task>
-    <task id="LOCAL-00077" summary="added champion area">
-      <created>1591303645169</created>
+    <task id="LOCAL-00077" summary="Made a title screen">
+      <created>1591372078629</created>
       <option name="number" value="00077" />
       <option name="presentableId" value="LOCAL-00077" />
       <option name="project" value="LOCAL" />
-      <updated>1591303645170</updated>
+      <updated>1591372078630</updated>
     </task>
     <option name="localTasksCounter" value="78" />
     <servers />
@@ -506,6 +513,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Almost finished viridian city" />
     <MESSAGE value="Finished Viridian city" />
     <MESSAGE value="Started Textbox" />
     <MESSAGE value="tried to fix scrolling bottom" />
@@ -530,8 +538,7 @@
     <MESSAGE value="dimitris code doesn't work" />
     <MESSAGE value="gym leader checks and started commenting" />
     <MESSAGE value="Made a title screen" />
-    <MESSAGE value="added champion area" />
-    <option name="LAST_COMMIT_MESSAGE" value="added champion area" />
+    <option name="LAST_COMMIT_MESSAGE" value="Made a title screen" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590704341475">
@@ -555,10 +562,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1586199963688" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591303643911">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591384458062">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591303643911" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591384458062" />
     <state x="147" y="65" key="DiffContextDialog" timestamp="1589650173108">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -567,26 +574,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="205" key="GridCell.Tab.0.bottom" timestamp="1591372544509">
+    <state width="1493" height="205" key="GridCell.Tab.0.bottom" timestamp="1591384401118">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591372544509" />
-    <state width="1877" height="201" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591254314366" />
-    <state width="1493" height="205" key="GridCell.Tab.0.center" timestamp="1591372544509">
+    <state width="1493" height="205" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
+    <state width="1877" height="201" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132815" />
+    <state width="1493" height="205" key="GridCell.Tab.0.center" timestamp="1591384401118">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591372544509" />
-    <state width="1877" height="201" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591254314366" />
-    <state width="1493" height="205" key="GridCell.Tab.0.left" timestamp="1591372544509">
+    <state width="1493" height="205" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
+    <state width="1877" height="201" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
+    <state width="1493" height="205" key="GridCell.Tab.0.left" timestamp="1591384401118">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591372544509" />
-    <state width="1877" height="201" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591254314366" />
-    <state width="1493" height="205" key="GridCell.Tab.0.right" timestamp="1591372544509">
+    <state width="1493" height="205" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
+    <state width="1877" height="201" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
+    <state width="1493" height="205" key="GridCell.Tab.0.right" timestamp="1591384401118">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="1493" height="205" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591372544509" />
-    <state width="1877" height="201" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591254314366" />
+    <state width="1493" height="205" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
+    <state width="1877" height="201" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
     <state width="1877" height="250" key="GridCell.Tab.1.bottom" timestamp="1591246097941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -611,11 +618,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586533160109" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1589650607639">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2" timestamp="1591372080719">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1589650607639" />
-    <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1589526205244" />
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1591372080719" />
     <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1589650453006">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -638,10 +645,10 @@
     </state>
     <state x="493" y="190" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1590354236784" />
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1589158524363" />
-    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup" timestamp="1588964056523">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1591342760435">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1588964056523" />
-    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1588493310873" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1591342760435" />
   </component>
 </project>
