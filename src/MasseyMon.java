@@ -960,7 +960,7 @@ class GamePanel extends JPanel {
 							talking = true;
 							Textbox.setTextWriting(true);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							//inGrass = true;
+							inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1160,7 +1160,7 @@ class GamePanel extends JPanel {
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							//inGrass = true;
+							inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1248,7 +1248,7 @@ class GamePanel extends JPanel {
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							//inGrass = true;
+							inGrass = true;
 						} else {
 							inGrass = false;
 						}
@@ -1323,7 +1323,7 @@ class GamePanel extends JPanel {
 							Textbox.setTextWriting(true);
 							trainerTextIndex = randint(4, 10);
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							//inGrass = true;
+							inGrass = true;
 						} else {
 							inGrass = false;
 						}
