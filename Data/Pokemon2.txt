@@ -31,12 +31,12 @@
 31,Nidoqueen,Poison,Ground,90,92,87,75,85,76,T
 33,Nidorino,Poison,61,72,57,55,55,65,F
 34,Nidoking,Poison,Ground,81,102,77,85,75,85,T
-35,Clefairy,Fairy,70,45,48,60,65,35,F
-36,Clefable,Fairy,95,70,73,95,90,60,T
+35,Clefairy,Normal,70,45,48,60,65,35,F
+36,Clefable,Normal,Psychic,95,70,73,95,90,60,T
 37,Vulpix,Fire,38,41,40,50,65,65,F
 38,Ninetales,Fire,73,76,75,81,100,100,T
-39,Jigglypuff,Normal,Fairy,115,45,20,45,25,20,F
-40,Wigglytuff,Normal,Fairy,140,70,45,85,50,45,T
+39,Jigglypuff,Normal,115,45,20,45,25,20,F
+40,Wigglytuff,Normal,Psychic,140,70,45,85,50,45,T
 41,Zubat,Poison,Flying,40,45,35,30,40,55,F
 42,Golbat,Poison,Flying,75,80,70,65,75,90,T
 43,Oddish,Grass,Poison,45,50,55,75,65,30,F
@@ -118,7 +118,7 @@
 119,Seaking,Water,80,92,75,65,80,78,T
 120,Staryu,Water,30,45,55,70,55,85,F
 121,Starmie,Water,Psychic,60,75,85,100,85,115,T
-122,Mr. Mime,Psychic,Fairy,40,45,65,100,120,90,T
+122,Mr. Mime,Psychic,40,45,65,100,120,90,T
 123,Scyther,Bug,Flying,70,110,80,55,80,105,T
 124,Jynx,Ice,Psychic,65,50,35,115,95,95,T
 125,Electabuzz,Electric,65,83,57,95,85,105,T
