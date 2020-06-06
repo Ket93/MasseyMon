@@ -95,15 +95,20 @@ public class Items {
         g2d.setColor(Color.black);
         g2d.drawString("Items", 593, 165);
         g2d.setFont(itemFont);
-        g2d.drawString(itemNames[0] + "        x" + nums[0], 570, 225);
-        g2d.drawString(itemNames[1] + "  x" + nums[1], 570, 265);
-        g2d.drawString(itemNames[2] + "  x" + nums[2], 570, 305);
-        g2d.drawString(itemNames[3] + "    x" + nums[3], 570, 345);
-        g2d.drawString(itemNames[4] + "  x" + nums[4], 570, 385);
-        g2d.drawString(itemNames[5] + "        x" + nums[5], 570, 425);
-        g2d.drawString(itemNames[7] + "     x" + nums[7], 570, 465);
-        g2d.drawString(itemNames[8] + "    x" + nums[8], 570, 505);
-        g2d.drawString(itemNames[9] + "    x" + nums[9], 570, 545);
+
+        for (int i = 0; i<10;i++){
+            if (i ==6){
+                i++;
+            }
+            if (i < 7) {
+                g2d.drawString(itemNames[i], 570, 225 + i * 40);
+                g2d.drawString("x" + nums[i], 725, 225 + i * 40);
+            }
+            else{
+                g2d.drawString(itemNames[i], 570, 185 + i * 40);
+                g2d.drawString("x" + nums[i], 725, 185 + i * 40);
+            }
+        }
         g2d.drawString("Exit", 570, 585);
 
     }
