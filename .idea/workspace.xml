@@ -20,16 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Images/TItleScreen/endScreen.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Images/TItleScreen/hallOfFame.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Textbox" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Textbox" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/TextboxCharacterLength" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TextboxCharacterLength" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background0Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 0/Background0Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 0/Background0Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 6/Background4Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 6/Background4Mask.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Pokemon2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Pokemon2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -503,13 +496,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -570,30 +562,31 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="147" y="65" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1589650173108" />
-    <state x="577" y="167" key="FileChooserDialogImpl" timestamp="1586198998779">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="721" y="211" key="FileChooserDialogImpl" timestamp="1591394632023">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
-    <state width="1493" height="205" key="GridCell.Tab.0.bottom" timestamp="1591384401118">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="721" y="211" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591394632023" />
+    <state width="1877" height="200" key="GridCell.Tab.0.bottom" timestamp="1591404631209">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="205" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
-    <state width="1877" height="201" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132815" />
-    <state width="1493" height="205" key="GridCell.Tab.0.center" timestamp="1591384401118">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="200" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591404631209" />
+    <state width="1877" height="200" key="GridCell.Tab.0.center" timestamp="1591404631208">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="205" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
-    <state width="1877" height="201" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
-    <state width="1493" height="205" key="GridCell.Tab.0.left" timestamp="1591384401118">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="200" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591404631208" />
+    <state width="1877" height="200" key="GridCell.Tab.0.left" timestamp="1591404631208">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="205" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
-    <state width="1877" height="201" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
-    <state width="1493" height="205" key="GridCell.Tab.0.right" timestamp="1591384401118">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1877" height="200" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591404631208" />
+    <state width="1877" height="200" key="GridCell.Tab.0.right" timestamp="1591404631209">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="205" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591384401118" />
-    <state width="1877" height="201" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591346132814" />
+    <state width="1877" height="200" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591404631209" />
     <state width="1877" height="250" key="GridCell.Tab.1.bottom" timestamp="1591246097941">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
