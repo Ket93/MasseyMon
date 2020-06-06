@@ -77,7 +77,7 @@ public class MasseyMon extends JFrame {
 		Pokemon caterpie = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
 		Pokemon caterpieEnc = null,golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
 		Attack tackle = null,bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
-		for (int i = 0; i < 84; i++){
+		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
 				absorb = new Attack(line2);
@@ -384,11 +384,11 @@ public class MasseyMon extends JFrame {
 				kangaskhan.learnMove(karate);
 				kangaskhan.learnMove(bodySlam);
 				kangaskhan.learnMove(lick);
-				sixthEncounters.add(kangaskhanEnc);
 				kangaskhanEnc = new Pokemon(line);
 				kangaskhanEnc.learnMove(karate);
 				kangaskhanEnc.learnMove(bodySlam);
 				kangaskhanEnc.learnMove(lick);
+				sixthEncounters.add(kangaskhanEnc);
 			}
 			else if(i == 137){
 				kabuto = new Pokemon(line);
@@ -399,7 +399,7 @@ public class MasseyMon extends JFrame {
 				kabutoEnc.learnMove(rockThrow);
 				kabutoEnc.learnMove(boneClub);
 				kabutoEnc.learnMove(cut);
-				sixthEncounters.add(kabuto);
+				sixthEncounters.add(kabutoEnc);
 			}
 		}
 		allEncounters.add(firstEncounters);
@@ -792,6 +792,8 @@ class GamePanel extends JPanel {
 			for (Pokemon item: encounters){
 				item.setHP(item.getMaxHP());
 				for (Attack atk: item.getMoves()){
+					System.out.println(item.getName());
+					System.out.println(atk);
 					atk.setPP(atk.getMaxPP());
 				}
 			}
@@ -1889,7 +1891,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(20);
 							myGuy.setScreenY(398);
 						}
-						else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
+						else if (checkTrainer1(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1907,7 +1909,7 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
+						} else if (checkTrainer2(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1925,7 +1927,7 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
+						} else if (checkTrainer3(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
