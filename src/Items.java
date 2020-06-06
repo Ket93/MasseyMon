@@ -9,10 +9,10 @@ public class Items {
     private static Image bagBackground;
     private static Image bag;
     private Image[] itemPics = new Image[12];
-    private int[] nums = new int[12];
+    private static int[] nums = new int[12];
     private int [] offsets = {0,4,10,14,19,24,0,3,9,15,21,25};
     private String justUsed;
-    private String [] itemNames = {"Potion","Super Potion","Hyper Potion","Max Potion","Full Restore","Revive","Max Revive","Poke Ball","Great Ball","Ultra Ball","Master Ball","???"};
+    private static String [] itemNames = {"Potion","Super Potion","Hyper Potion","Max Potion","Full Restore","Revive","Max Revive","Poke Ball","Great Ball","Ultra Ball","Master Ball","???"};
     public Items () throws IOException {
         posX = 533;
         posY = 207;
@@ -24,13 +24,13 @@ public class Items {
             Image pic = ImageIO.read(new File(path));
             pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
             itemPics[i-1] = pic;
-            nums[i-1] = 999;
+            nums[i-1] = 0;
         }
     }
     public String getUsed(){
         return justUsed;
     }
-    public void addItem(int i){
+    public static void addItem(int i){
         if (nums[i] <999) {
             nums[i]++;
         }
@@ -87,17 +87,24 @@ public class Items {
         g.setColor(new Color(245,245,220));
         g.drawImage(bagBackground,250,110,null);
         g.drawImage(bag,280,230,null);
-        g.fillRect(530,110,220,500);
+        g.fillRect(530,110,235,500);
         g.drawImage(pointer , posX , posY, null);
         Font titleFont = new Font("Consolas", 0, 35);
-        Font itemFont = new Font("Consolas", 0, 25);
+        Font itemFont = new Font("Consolas", 0, 20);
         g2d.setFont(titleFont);
         g2d.setColor(Color.black);
         g2d.drawString("Items", 593, 165);
         g2d.setFont(itemFont);
-        g2d.drawString("PokeBall", 570, 225);
-        g2d.drawString("Potion", 570, 265);
-        g2d.drawString("Exit", 570, 305);
+        g2d.drawString(itemNames[0] + "        x" + nums[0], 570, 225);
+        g2d.drawString(itemNames[1] + "  x" + nums[1], 570, 265);
+        g2d.drawString(itemNames[2] + "  x" + nums[2], 570, 305);
+        g2d.drawString(itemNames[3] + "    x" + nums[3], 570, 345);
+        g2d.drawString(itemNames[4] + "  x" + nums[4], 570, 385);
+        g2d.drawString(itemNames[5] + "        x" + nums[5], 570, 425);
+        g2d.drawString(itemNames[7] + "     x" + nums[7], 570, 465);
+        g2d.drawString(itemNames[8] + "    x" + nums[8], 570, 505);
+        g2d.drawString(itemNames[9] + "    x" + nums[9], 570, 545);
+        g2d.drawString("Exit", 570, 585);
 
     }
     public static int getPosY(){return posY;}
@@ -105,7 +112,7 @@ public class Items {
         posY = 207;
     }
     public static void setPosY(int val){
-        if (posY + val >= 207 && posY + val <= 287) {
+        if (posY + val >= 207 && posY + val <= 567) {
             posY += val;
         }
     }

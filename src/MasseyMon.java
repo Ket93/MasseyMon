@@ -1314,7 +1314,7 @@ class GamePanel extends JPanel {
 					menu = false;
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Items.getPosY() == 287 && bag) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Items.getPosY() == 567 && bag) {
 					Menu.resetPosY();
 					bag = false;
 				}
