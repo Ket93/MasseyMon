@@ -191,6 +191,10 @@ public class MasseyMon extends JFrame {
 				caterpie2.learnMove(tackle);
 				caterpie2.learnMove(pin);
 				caterpie2.setLevel(4);
+				caterpie3 = new Pokemon(line);
+				caterpie3.learnMove(tackle);
+				caterpie3.learnMove(pin);
+				caterpie3.setLevel(4);
 			}
 			else if (i == 12){
 				weedle = new Pokemon(line);
@@ -403,6 +407,7 @@ public class MasseyMon extends JFrame {
 		allEncounters.add(thirdEncounters);
 		allEncounters.add(fourthEncounters);
 		allEncounters.add(fifthEncounters);
+		allEncounters.add(sixthEncounters);
 
 		ArrayList<Pokemon> newTrainer = new ArrayList<Pokemon> ();
 		newTrainer.add(caterpie);
@@ -440,7 +445,7 @@ public class MasseyMon extends JFrame {
 		newTrainer.add(ekans);
 		fourthTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
-		newTrainer.add(caterpie2);
+		newTrainer.add(caterpie3);
 		newTrainer.add(ekans2);
 		fifthTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
@@ -779,7 +784,7 @@ class GamePanel extends JPanel {
 				low = 11;
 				high = 14;
 			}
-			else if(picIndex == 9 && picIndex == 10){
+			else if(picIndex == 9 || picIndex == 10){
 				encounters = MasseyMon.frame.getAllEncounters().get(5);
 				low = 16;
 				high = 17;
@@ -1346,6 +1351,9 @@ class GamePanel extends JPanel {
 					else if(picIndex == 5){
 						routeIndex = 3;
 					}
+					else if(picIndex == 7){
+						routeIndex = 4;
+					}
 					inGrass = false;
 					if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
 							&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
@@ -1451,6 +1459,7 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
 						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
+							System.out.println("what good" + routeIndex);
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1510,6 +1519,7 @@ class GamePanel extends JPanel {
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
@@ -1522,12 +1532,12 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						} else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
-							System.out.println("gwge");
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
@@ -1737,45 +1747,57 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
-						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(3).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(3).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
@@ -1785,6 +1807,7 @@ class GamePanel extends JPanel {
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
@@ -1866,45 +1889,57 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(20);
 							myGuy.setScreenY(398);
 						}
-						else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
 							}
 							if (talkDone){
+								MasseyMon.frame.getBattles().get(2).set(routeIndex, true);
+								MasseyMon.frame.inBattle = true;
+								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(2).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
@@ -1982,6 +2017,7 @@ class GamePanel extends JPanel {
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
 							}
 							else{
 								talkDone = true;
