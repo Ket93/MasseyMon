@@ -30,6 +30,11 @@ public class Items {
     public String getUsed(){
         return justUsed;
     }
+    public void addItem(int i){
+        if (nums[i] <999) {
+            nums[i]++;
+        }
+    }
     public int[] getNums(){
         return nums;
     }
