@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.*;
@@ -647,10 +648,11 @@ class GamePanel extends JPanel {
 	private boolean menu;
 	private boolean oakTalked,oneTimeTalk,talkDone;
 	public static boolean inGrass;
-	private boolean spacePressed,movable,talking,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking,titleScreen;
+	private boolean spacePressed,movable,talking,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking,titleScreen,championTalking;
 	private int direction,frameEvo;
 	private boolean ready = true;
 	private static boolean mini,starter;
+	private boolean onePressed,twoPressed,threePressed,fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed;
 	private boolean[] keys;
 	private Image [] starters;
 	private Image selectBox,evoBack,prof,hallOfFame,endScreen;
@@ -708,6 +710,15 @@ class GamePanel extends JPanel {
 		oakTalked = false;
 		oneTimeTalk = false;
 		talkDone = false;
+		onePressed = false;
+		twoPressed = false;
+		threePressed = false;
+		fourPressed = false;
+		fivePressed = false;
+		sixPressed = false;
+		sevenPressed = false;
+		eightPressed = false;
+		ninePressed = false;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -720,7 +731,7 @@ class GamePanel extends JPanel {
 		myMap = (MasseyMon.getMap(picIndex));
 		started = false;
 		frame = (float)(frame);
-		myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
+		//myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
 		selectBox = ImageIO.read(new File("Images/Text/SelectBox.jpg")).getScaledInstance(300,300,Image.SCALE_SMOOTH);
 		evoBack = ImageIO.read(new File("Images/Battles/evoBack.png")).getScaledInstance(956,790,Image.SCALE_SMOOTH);
 		prof = ImageIO.read(new File("Images/TitleScreen/ProfessorOak.png"));
@@ -846,7 +857,8 @@ class GamePanel extends JPanel {
 				if (!oakTalked) {
 					if (Textbox.getTextWriting()) {
 						if (talking) {
-							Textbox.display(g, 1, spacePressed);
+							Textbox.display(g, 1, spacePressed,onePressed,twoPressed,threePressed,
+									fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 							movable = false;
 							spacePressed = false;
 						}
@@ -886,7 +898,8 @@ class GamePanel extends JPanel {
 			else if (pokeCenter()) {
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g, 2, spacePressed);
+						Textbox.display(g, 2, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 						MasseyMon.frame.healPokes();
@@ -903,7 +916,8 @@ class GamePanel extends JPanel {
 			else if (pokeShop()) {
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g, 3, spacePressed);
+						Textbox.display(g, 3, spacePressed,onePressed,twoPressed,threePressed,
+						fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -920,7 +934,8 @@ class GamePanel extends JPanel {
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						MasseyMon.frame.healPokes();
-						Textbox.display(g, 12, spacePressed);
+						Textbox.display(g, 12, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -937,7 +952,8 @@ class GamePanel extends JPanel {
 			else if (brockTalking){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g, 13, spacePressed);
+						Textbox.display(g, 13, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -953,7 +969,8 @@ class GamePanel extends JPanel {
 			else if (mistyTalking){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g, 14, spacePressed);
+						Textbox.display(g, 14, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -969,7 +986,8 @@ class GamePanel extends JPanel {
 			else if (giovanniTalking){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g, 15, spacePressed);
+						Textbox.display(g, 15, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -983,10 +1001,29 @@ class GamePanel extends JPanel {
 				}
 			}
 
+			else if (championTalking){
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 16, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
+						movable = false;
+						spacePressed = false;
+					}
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMap(14).getMap(), MasseyMon.getMap(14).getMapX(), MasseyMon.getMap(14).getMapY(), this);
+					myGuy.draw(g);
+					talking = false;
+					movable = true;
+				}
+			}
+
 			else if (trainerText){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						Textbox.display(g,trainerTextIndex, spacePressed);
+						Textbox.display(g,trainerTextIndex, spacePressed,onePressed,twoPressed,threePressed,
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -1189,6 +1226,35 @@ class GamePanel extends JPanel {
 				}
 			}
 			else {
+				if (pokeShop()){
+					if (e.getKeyCode() == KeyEvent.VK_1){
+						onePressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_2){
+						twoPressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_3){
+						threePressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_4){
+						fourPressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_5){
+						fivePressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_6){
+						sixPressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_7){
+						sevenPressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_8){
+						eightPressed = true;
+					}
+					if (e.getKeyCode() == KeyEvent.VK_9){
+						ninePressed = true;
+					}
+				}
 				if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && !movable) {
 					starterIndex -= 1;
 					if (starterIndex == -1) {
@@ -1486,7 +1552,14 @@ class GamePanel extends JPanel {
 							giovanniTalking = true;
 							talking = true;
 							Textbox.setTextWriting(true);
-						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						}
+						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
+							championTalking = true;
+							talking = true;
+							Textbox.setTextWriting(true);
+						}
+
+						else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true;
 						}
 					} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)
@@ -2362,6 +2435,21 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	private boolean checkChampion ( int x, int y, int x2,int y2){
+		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
+		int posX = MasseyMon.getMap(picIndex).getMapX();
+		int posY =  MasseyMon.getMap(picIndex).getMapY();
+
+		if (mini){
+			maskPic = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMask();
+			posX = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX();
+			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
+		}
+		int WALL = 0xFF010001;
+		int c = maskPic.getRGB(x - posX, y - posY);
+		int d = maskPic.getRGB(x2 - posX, y2 - posY);
+		return c == WALL && d==WALL;
+	}
 	private boolean checkWildEncounter ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -2417,6 +2505,7 @@ class GamePanel extends JPanel {
 		myGuy.setWorldY(280);
 		myGuy.setScreenX(286);
 		myGuy.setScreenY(280);
+		MasseyMon.frame.healPokes();
 	}
 
 	public static void setStarter(boolean temp){

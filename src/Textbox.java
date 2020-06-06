@@ -10,8 +10,8 @@ public class Textbox {
     private static int count, textX, textY,pauseCount,box,arraySize,temp;
     private static boolean boxFull,textWriting;
     private static Image textBox;
-    private static String[][] words = new String[16][2];
-    private static int [] wordLen = new int [32];
+    private static String[][] words = new String[17][2];
+    private static int [] wordLen = new int [34];
 
     public Textbox() throws IOException {
         arraySize = 0;
@@ -25,7 +25,7 @@ public class Textbox {
         textBox = ImageIO.read(new File("Images/Text/Textbox.png"));
 
         Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Textbox")));
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < 17; i++) {
             for (int k = 0; k<2; k++) {
                 String line = inFile.nextLine();
                 words[i][k] = line;
@@ -33,13 +33,14 @@ public class Textbox {
         }
 
         Scanner myFile = new Scanner(new BufferedReader(new FileReader("Data/TextboxCharacterLength")));
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 34; i++) {
             int val = myFile.nextInt();
             wordLen[i] = val;
         }
     }
 
-    public static void display(Graphics g, int index, boolean space) {
+    public static void display(Graphics g, int index, boolean space, boolean one, boolean two, boolean three, boolean four
+    ,boolean five, boolean six, boolean seven, boolean eight, boolean nine) {
         Graphics2D g2d = (Graphics2D) g;
         Font optionFont = new Font("Consolas", 0, 20);
         g2d.setFont(optionFont);
@@ -62,6 +63,38 @@ public class Textbox {
             textWriting = false;
             if (index ==1){
                 GamePanel.setStarter(true);
+            }
+        }
+        else if (index == 3 && box == arraySize -1 && space && count == wordLen[box+index*2]){
+            count = 0;
+            box = 0;
+            textWriting = false;
+            if (one){
+                Player.loseMoney(300);
+            }
+            else if (two){
+                Player.loseMoney(700);
+            }
+            else if (three){
+                Player.loseMoney(1500);
+            }
+            else if (four){
+                Player.loseMoney(2500);
+            }
+            else if (five){
+                Player.loseMoney(3000);
+            }
+            else if (six){
+                Player.loseMoney(1500);
+            }
+            else if (seven){
+                Player.loseMoney(200);
+            }
+            else if (eight){
+                Player.loseMoney(600);
+            }
+            else if (nine){
+                Player.loseMoney(1200);
             }
         }
 
