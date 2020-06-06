@@ -12,8 +12,8 @@ public class Player {
 	private int[] numItems = new int[7];
 	public Player(int gen) throws IOException {
 		money = 0;
-		worldX = 289;
-		worldY = 285;
+		worldX = 989;
+		worldY = 485;
 		screenY = 285;
 		screenX = 289;
 		frame = 6;
@@ -62,40 +62,40 @@ public class Player {
 	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) {
 		if (dir == UP) {
 			if (screenY > 398 || worldY < 398) {
-				screenY -=7;
+				screenY -=1;
 			}
-			worldY -= 7;
+			worldY -= 1;
 		} else if (dir == RIGHT) {
 			if (mini) {
 				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) {
-					screenX += 7;
+					screenX += 1;
 				}
 			}
 				else {
 					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) {
-						screenX += 7;
+						screenX += 1;
 					}
 				}
-			worldX += 7;
+			worldX += 1;
 		}
 		else if (dir == DOWN) {
 			if (mini){
 				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){
-					screenY += 7;
+					screenY += 1;
 				}
 			}
 			else {
 				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
-					screenY += 7;
+					screenY += 1;
 				}
 			}
-			worldY += 7;
+			worldY += 1;
 		}
 		else if (dir == LEFT) {
 			if (screenX > 478 || worldX < 478){
-				screenX -=7;
+				screenX -=1;
 			}
-			worldX -= 7;
+			worldX -= 1;
 		}
 
 

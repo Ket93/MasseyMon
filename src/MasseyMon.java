@@ -72,9 +72,9 @@ public class MasseyMon extends JFrame {
 		ArrayList<ArrayList<Pokemon>> sixthTrainers = new ArrayList<ArrayList<Pokemon>>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		Pokemon caterpie = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
-		Pokemon caterpieEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
-		Attack tackle = null,peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
+		Pokemon caterpie = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
+		Pokemon caterpieEnc = null,golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
+		Attack tackle = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 84; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
@@ -113,6 +113,9 @@ public class MasseyMon extends JFrame {
 			else if (i == 55){
 				pin = new Attack(line2);
 			}
+			else if(i == 58){
+				psybeam = new Attack(line2);
+			}
 			else if(i == 65){
 				rockThrow = new Attack(line2);
 			}
@@ -127,6 +130,9 @@ public class MasseyMon extends JFrame {
 			}
 			else if (i == 83){
 				tackle = new Attack(line2);
+			}
+			else if(i == 95){
+				wingAttack = new Attack(line2);
 			}
 		}
 		Scanner inFile3 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
@@ -232,6 +238,16 @@ public class MasseyMon extends JFrame {
 				vulpix.learnMove(scratch);
 				vulpix.learnMove(ember);
 			}
+			else if(i == 39){
+				golbat = new Pokemon(line);
+				golbat.learnMove(wingAttack);
+				golbat.learnMove(psybeam);
+				golbat.learnMove(scratch);
+				golbatEnc = new Pokemon(line);
+				golbatEnc.learnMove(wingAttack);
+				golbatEnc.learnMove(psybeam);
+				golbatEnc.learnMove(scratch);
+			}
 			else if(i == 40){
 				oddishEnc = new Pokemon(line);
 				oddishEnc.learnMove(tackle);
@@ -309,6 +325,9 @@ public class MasseyMon extends JFrame {
 				machop2.learnMove(karate);
 				machop2.learnMove(headbutt);
 			}
+			else if(i == 79){
+				magneton = new Pokemon(line);
+			}
 			else if(i == 92){
 				onix = new Pokemon(line);
 				onix.learnMove(rockThrow);
@@ -332,6 +351,12 @@ public class MasseyMon extends JFrame {
 				ryhornEnc.learnMove(hornAttack);
 				ryhornEnc.learnMove(rockThrow);
 				fifthEncounters.add(ryhornEnc);
+			}
+			else if(i == 112){
+				kangaskhan = new Pokemon(line);
+			}
+			else if(i == 137){
+				kabuto = new Pokemon(line);
 			}
 		}
 		allEncounters.add(firstEncounters);
@@ -367,11 +392,6 @@ public class MasseyMon extends JFrame {
 		newTrainer.add(caterpie2);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
-		newTrainer.add(growlithe);
-		firstTrainers.add(newTrainer);
-		newTrainer = new ArrayList<Pokemon>();
-
-		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(weedle2);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
@@ -388,17 +408,36 @@ public class MasseyMon extends JFrame {
 		newTrainer.add(weedle3);
 		newTrainer.add(paras2);
 		sixthTrainers.add(newTrainer);
+
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(growlithe);
+		firstTrainers.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		secondTrainers.add(null);
+		thirdTrainers.add(null);
+		fourthTrainers.add(null);
+		fifthTrainers.add(null);
+		sixthTrainers.add(null);
+
+		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(diglett);
+		newTrainer.add(ryhorn2);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(machop);
+		newTrainer.add(ryhorn);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(onix);
+		newTrainer.add(diglett2);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
-		newTrainer.add(ryhorn);
+		newTrainer.add(machop2);
+		newTrainer.add(onix2);
 		fourthTrainers.add(newTrainer);
+		fifthTrainers.add(null);
+		sixthTrainers.add(null);
+
 		trainerPokemon.add(firstTrainers);
 		trainerPokemon.add(secondTrainers);
 		trainerPokemon.add(thirdTrainers);
@@ -509,6 +548,13 @@ public class MasseyMon extends JFrame {
 			}
 		}
 	}
+
+	public void healPokes(){
+		for (Pokemon item : myPokes ){
+			item.setHP(item.getMaxHP());
+		}
+	}
+
 	public static NPC getTrainers(int n){
 		return trainers.get(n);
 	}
@@ -606,7 +652,7 @@ class GamePanel extends JPanel {
 		offsetX = 0;
 		offsetY = 0;
 		starterIndex = 0;
-		picIndex = 0;
+		picIndex = 2;
 		miniPicIndex = -1;
 		hasStarter = false;
 		spacePressed = false;
@@ -678,6 +724,16 @@ class GamePanel extends JPanel {
 				encounters = MasseyMon.frame.getAllEncounters().get(3);
 				low = 8;
 				high = 11;
+			}
+			else if(picIndex == 7){
+				encounters = MasseyMon.frame.getAllEncounters().get(4);
+				low = 11;
+				high = 14;
+			}
+			else if(picIndex == 9 && picIndex == 10){
+				encounters = MasseyMon.frame.getAllEncounters().get(5);
+				low = 16;
+				high = 17;
 			}
 			for (Pokemon item: encounters){
 				item.setHP(item.getMaxHP());
@@ -756,7 +812,8 @@ class GamePanel extends JPanel {
 							movable = false;
 							spacePressed = false;
 						}
-					} else {
+					}
+					else {
 						if (!movable) {
 							talking = false;
 							starter = false;
@@ -794,6 +851,7 @@ class GamePanel extends JPanel {
 						Textbox.display(g, 2, spacePressed);
 						movable = false;
 						spacePressed = false;
+						MasseyMon.frame.healPokes();
 					}
 				} else {
 					g.setColor(new Color(0, 0, 0));
@@ -823,6 +881,7 @@ class GamePanel extends JPanel {
 			else if (picIndex == 0 && miniPicIndex == 0){
 				if (Textbox.getTextWriting()) {
 					if (talking) {
+						MasseyMon.frame.healPokes();
 						Textbox.display(g, 12, spacePressed);
 						movable = false;
 						spacePressed = false;
@@ -848,6 +907,38 @@ class GamePanel extends JPanel {
 					g.setColor(new Color(0, 0, 0));
 					g.fillRect(0, 0, 956, 795);
 					g.drawImage(MasseyMon.getMiniMap(6, 4).getMap(), MasseyMon.getMiniMap(6, 4).getMapX(), MasseyMon.getMiniMap(6, 4).getMapY(), this);
+					myGuy.draw(g);
+					talking = false;
+					movable = true;
+				}
+			}
+			else if (mistyTalking){
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 14, spacePressed);
+						movable = false;
+						spacePressed = false;
+					}
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(12, 3).getMap(), MasseyMon.getMiniMap(12, 3).getMapX(), MasseyMon.getMiniMap(12, 3).getMapY(), this);
+					myGuy.draw(g);
+					talking = false;
+					movable = true;
+				}
+			}
+			else if (giovanniTalking){
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 15, spacePressed);
+						movable = false;
+						spacePressed = false;
+					}
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(2, 4).getMap(), MasseyMon.getMiniMap(2, 4).getMapX(), MasseyMon.getMiniMap(2, 4).getMapY(), this);
 					myGuy.draw(g);
 					talking = false;
 					movable = true;
@@ -1327,19 +1418,28 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						} else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
 							brockTalking = true;
 							talking = true;
 							Textbox.setTextWriting(true);
-						} else if (checkMisty(myGuy.getWorldX(), myGuy.getWorldY() - 10, myGuy.getWorldX() + 20, myGuy.getWorldY() - 10)) {
+						} else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10)) {
 							mistyTalking = true;
 							talking = true;
 							Textbox.setTextWriting(true);
-						} else if (checkGiovanni(myGuy.getWorldX(), myGuy.getWorldY() - 10, myGuy.getWorldX() + 20, myGuy.getWorldY() - 10)) {
+						} else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
 							giovanniTalking = true;
 							talking = true;
 							Textbox.setTextWriting(true);
@@ -1522,25 +1622,61 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
 						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true;
 						}
@@ -1612,20 +1748,47 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(398);
 						}
 						else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true;
 						}
@@ -1695,10 +1858,19 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(275);
 						}
 						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							talking = true;
-							trainerText = true;
-							Textbox.setTextWriting(true);
-							trainerTextIndex = randint(4, 10);
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								oneTimeTalk = false;
+								talkDone = false;
+							}
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true;
 						}
