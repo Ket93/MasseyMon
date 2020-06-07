@@ -21,13 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Textbox" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Textbox" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/TextboxCharacterLength" beforeDir="false" afterPath="$PROJECT_DIR$/Data/TextboxCharacterLength" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 2/Background2Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 2/Background2Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P52.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P52.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/NPC.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -501,13 +495,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

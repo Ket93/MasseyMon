@@ -65,6 +65,7 @@ public class MasseyMon extends JFrame {
 		ArrayList<Pokemon> fourthEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> fifthEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> sixthEncounters = new ArrayList<Pokemon>();
+		ArrayList<Pokemon> seventhEncounters = new ArrayList<Pokemon>();
 		ArrayList<ArrayList<Pokemon>> firstTrainers = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList<ArrayList<Pokemon>> secondTrainers = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList<ArrayList<Pokemon>> thirdTrainers = new ArrayList<ArrayList<Pokemon>>();
@@ -73,9 +74,9 @@ public class MasseyMon extends JFrame {
 		ArrayList<ArrayList<Pokemon>> sixthTrainers = new ArrayList<ArrayList<Pokemon>>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		Pokemon caterpie = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
-		Pokemon caterpieEnc = null,golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
-		Attack tackle = null,bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
+		Pokemon caterpie = null,venonat = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
+		Pokemon caterpieEnc = null,venonatEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
+		Attack tackle = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
@@ -114,7 +115,10 @@ public class MasseyMon extends JFrame {
 			else if(i == 46){
 				karate = new Attack(line2);
 			}
-			else if(i == 47){
+			else if(i ==47){
+				leechLife = new Attack(line2);
+			}
+			else if(i == 48){
 				lick = new Attack(line2);
 			}
 			else if (i == 53){
@@ -128,6 +132,9 @@ public class MasseyMon extends JFrame {
 			}
 			else if(i == 65){
 				rockThrow = new Attack(line2);
+			}
+			else if(i == 66){
+				rollingKick = new Attack(line2);
 			}
 			else if (i == 67){
 				scratch = new Attack(line2);
@@ -143,6 +150,9 @@ public class MasseyMon extends JFrame {
 			}
 			else if (i == 87){
 				thunderPunch = new Attack(line2);
+			}
+			else if(i == 91){
+				vineWhip = new Attack(line2);
 			}
 			else if(i == 95){
 				wingAttack = new Attack(line2);
@@ -289,6 +299,17 @@ public class MasseyMon extends JFrame {
 				paras2.learnMove(pin);
 				paras2.learnMove(absorb);
 				paras2.learnMove(bite);
+			}
+			else if(i == 5){
+				venonat = new Pokemon(line);
+				venonat.learnMove(tackle);
+				venonat.learnMove(confusion);
+				venonat.learnMove(leechLife);
+				venonatEnc = new Pokemon(line);
+				venonatEnc.learnMove(tackle);
+				venonatEnc.learnMove(confusion);
+				venonatEnc.learnMove(leechLife);
+				seventhEncounters.add(venonatEnc);
 			}
 			else if(i == 49){
 				meowthEnc = new Pokemon(line);
