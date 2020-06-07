@@ -70,40 +70,58 @@ public class Textbox {
             box = 0;
             textWriting = false;
             if (one){
-                Items.addItem(0);
-                Player.loseMoney(300);
+                if (Player.getMoney() >= 300) {
+                    Items.addItem(0);
+                    Player.loseMoney(300);
+                }
             }
             else if (two){
-                Items.addItem(1);
-                Player.loseMoney(700);
+                if (Player.getMoney() >= 700) {
+                    Items.addItem(1);
+                    Player.loseMoney(700);
+                }
             }
             else if (three){
-                Items.addItem(2);
-                Player.loseMoney(1500);
+                if (Player.getMoney() >= 1500) {
+                    Items.addItem(2);
+                    Player.loseMoney(1500);
+                }
             }
             else if (four){
-                Items.addItem(3);
-                Player.loseMoney(2500);
+                if (Player.getMoney() >= 2500) {
+                    Items.addItem(3);
+                    Player.loseMoney(2500);
+                }
             }
             else if (five){
-                Items.addItem(4);
-                Player.loseMoney(3000);
+                if (Player.getMoney() >= 3000) {
+                    Items.addItem(4);
+                    Player.loseMoney(3000);
+                }
             }
             else if (six){
-                Items.addItem(5);
-                Player.loseMoney(1500);
+                if (Player.getMoney() >= 1500) {
+                    Items.addItem(5);
+                    Player.loseMoney(1500);
+                }
             }
             else if (seven){
-                Items.addItem(7);
-                Player.loseMoney(200);
+                if (Player.getMoney() >= 200) {
+                    Items.addItem(7);
+                    Player.loseMoney(200);
+                }
             }
             else if (eight){
-                Items.addItem(8);
-                Player.loseMoney(600);
+                if (Player.getMoney() >= 600) {
+                    Items.addItem(8);
+                    Player.loseMoney(600);
+                }
             }
             else if (nine){
-                Items.addItem(9);
-                Player.loseMoney(1200);
+                if (Player.getMoney() >= 1200) {
+                    Items.addItem(9);
+                    Player.loseMoney(1200);
+                }
             }
         }
 

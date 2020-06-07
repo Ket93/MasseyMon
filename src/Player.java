@@ -3,21 +3,21 @@ import java.io.*;
 import java.util.ArrayList;
 import javax.imageio.*;
 
-public class Player {
-	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0;
-	public static int [] items = new int [7];
-	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY;
-	private static int money;
-	private Image[] sprites;
-	private Items myItems;
+public class Player { // class for the player
+	public static final int BOY = 0, GIRL = 1, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10, IDLE = 0; // declaring ints for sprites
+	public static int [] items = new int [7]; //
+	private int frame, dir, extra, wait, delay,worldX,worldY,screenX,screenY; // declaring ints for screen pos, world pos, etc
+	private static int money; // int for the money of the player
+	private Image[] sprites; // array of images for the sprites of the player
+	private Items myItems; // Items object
 	private int[] numItems = new int[7];
 	public Player(int gen) throws IOException {
-		money = 0;
-		worldX = 989;
-		worldY = 685;
-		screenY = 385;
-		screenX = 389;
-		frame = 6;
+		money = 0; // initializing money as 0
+		worldX = 989; // initializing the world X position of the player
+		worldY = 685; // initializing the world Y position of the player
+		screenY = 385; // initializing the screen Y position of the player
+		screenX = 389; // initializing the screen X position of the player
+		frame = 6; // frame of the sprite
 		extra = 0;
 		wait = 0;
 		delay = 30;
@@ -25,7 +25,7 @@ public class Player {
 		for (int i = 0; i < 7; i++){
 			numItems[i] = 0;
 		}
-		if (gen == BOY) {
+		if (gen == BOY) { // boy or girl
 			load(BOY);
 		} else {
 			load(GIRL);
@@ -41,82 +41,82 @@ public class Player {
 	public Items getItems(){
 		return myItems;
 	}
-	public void load(int gen) {
-		sprites = new Image[12];
-		for (int i = 0; i < 12; i++) {
-			String path = String.format("%s/%s/%s%d.png", "Sprites", "TrainerSprites", "Trainer", i + 1);
+	public void load(int gen) { // load method for the trainer sprites
+		sprites = new Image[12]; // array to load images into
+		for (int i = 0; i < 12; i++) { // for loop to load the images
+			String path = String.format("%s/%s/%s%d.png", "Sprites", "TrainerSprites", "Trainer", i + 1); // formatting the file path
 			if (gen == GIRL) {
 				path += "G";
 			}
 			try {
-				Image pic = ImageIO.read(new File(path));
-				pic = pic.getScaledInstance(30, 25, Image.SCALE_SMOOTH);
-				sprites[i] = pic;
+				Image pic = ImageIO.read(new File(path)); // getting the image from the path
+				pic = pic.getScaledInstance(30, 25, Image.SCALE_SMOOTH); // re-sizing the image
+				sprites[i] = pic; // adding the image to the array
 			} catch (IOException e) {
 			}
 		}
 	}
 	public void draw(Graphics g) {
 		g.drawImage(sprites[frame], screenX, screenY, null);
-	}
+	} // method to draw the player
 
-	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) {
-		if (dir == UP) {
-			if (screenY > 398 || worldY < 398) {
-				screenY -=5;
+	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) { // method to move the player
+		if (dir == UP) { // if the direction is up
+			if (screenY > 398 || worldY < 398) { // if the player is within boundaries of the world and screen Y
+				screenY -=5; // move the player's screen Y
 			}
-			worldY -= 5;
-		} else if (dir == RIGHT) {
-			if (mini) {
-				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) {
-					screenX += 5;
+			worldY -= 5; // move the players world Y
+		} else if (dir == RIGHT) { // if the direction is right
+			if (mini) { // if the playe is on a mini background
+				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) { // if the player is within boundries of the world and screen X
+					screenX += 5; // move the player's screen X
 				}
 			}
-				else {
-					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) {
-						screenX += 5;
+				else { // if the player is not on a mini background
+					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) { // re-check the boundaries
+						screenX += 5; // move the player's screen X is they are within it
 					}
 				}
-			worldX += 5;
+			worldX += 5; // move the player's world X
 		}
-		else if (dir == DOWN) {
-			if (mini){
-				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){
-					screenY += 5;
+		else if (dir == DOWN) { // if the direction is down
+			if (mini){ // if the player is on a mini background
+				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){ // checking the boundries to move the screen Y
+					screenY += 5; // moving the screen Y
 				}
 			}
-			else {
-				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) {
-					screenY += 5;
+			else { // if the player is not on a mini background
+				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) { // re-checking the boundries to move the screen Y
+					screenY += 5; // moving the screen Y
 				}
 			}
-			worldY += 5;
+			worldY += 5; // moving the world Y
 		}
-		else if (dir == LEFT) {
-			if (screenX > 478 || worldX < 478){
-				screenX -=5;
+		else if (dir == LEFT) { // if the direction is left
+			if (screenX > 478 || worldX < 478){ // checking the boundaries to move the screen X
+				screenX -=5; // moving the screen X
 			}
-			worldX -= 5;
+			worldX -= 5; // moving the world X
 		}
 
 
-		updateFrame();
-		frame = dir + extra;
-		wait++;
+		updateFrame(); // calling update
+		frame = dir + extra; // calculating frame
+		wait++; // adding to wait
 	}
 
-	public void idle(int direction) {
-		if (direction == UP) {
-			frame = 0;
+	public void idle(int direction) { // if the player is not moving
+		if (direction == UP) { // if direction is up
+			frame = 0; // setting the frame to idle facing up
 		}
-		else if (direction == RIGHT) {
-			frame = 3;
+		else if (direction == RIGHT) { // if the direction is right
+			frame = 3; // setting the frame to idle facing right
 		}
-		else if (direction == DOWN) {
-			frame = 6;
+		else if (direction == DOWN) { // if the direction is down
+			frame = 6; // setting the frame to idle facing down
 		}
-		else if (direction == LEFT) {
-			frame = 9;
+		else if (direction == LEFT) { // if the direction is left
+			frame = 9; // setting the frame to idle facing down
 		}
 	}
 
@@ -131,18 +131,17 @@ public class Player {
 
 	public void resetExtra() {
 		extra = 0;
-	}
-
-	public int getWorldX(){return worldX;}
-	public int getWorldY(){return worldY;}
-	public void setWorldX(int val ){worldX = val;}
-	public void setWorldY(int val){worldY = val;}
-	public int getScreenX(){return screenX;}
-	public void setScreenX(int val){screenX = val;}
-	public int getScreenY(){return screenY;}
-	public void setScreenY(int val){screenY = val;}
-	public static int getMoney(){return money;}
-	public static void addMoney(int val){money+=val;}
-	public static void loseMoney(int val){money-=val;}
+	} // method to reset extra
+	public int getWorldX(){return worldX;} // getter for world X
+	public int getWorldY(){return worldY;} // getter for world Y
+	public void setWorldX(int val ){worldX = val;} // setter for world X
+	public void setWorldY(int val){worldY = val;} // setter for world Y
+	public int getScreenX(){return screenX;} // getter for screen X
+	public void setScreenX(int val){screenX = val;} // setter for screen X
+	public int getScreenY(){return screenY;} // getter for screen Y
+	public void setScreenY(int val){screenY = val;} // setter for screen Y
+	public static int getMoney(){return money;} // getter for player money
+	public static void addMoney(int val){money+=val;} // add to player money
+	public static void loseMoney(int val){money-=val;} // subtract from player money
 }
 	

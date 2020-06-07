@@ -74,13 +74,16 @@ public class MasseyMon extends JFrame {
 		ArrayList<ArrayList<Pokemon>> sixthTrainers = new ArrayList<ArrayList<Pokemon>>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		Pokemon caterpie = null,venonat = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
-		Pokemon caterpieEnc = null,venonatEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
-		Attack tackle = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
+		Pokemon caterpie = null,weepinBell = null,poliwhirl = null,primeape = null,venomoth = null,golbat = null, magneton = null, kabuto = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
+		Pokemon caterpieEnc = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
+		Attack tackle = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
 				absorb = new Attack(line2);
+			}
+			else if(i == 1){
+				acid = new Attack(line2);
 			}
 			else if (i == 5){
 				bite = new Attack(line2);
@@ -300,16 +303,16 @@ public class MasseyMon extends JFrame {
 				paras2.learnMove(absorb);
 				paras2.learnMove(bite);
 			}
-			else if(i == 5){
-				venonat = new Pokemon(line);
-				venonat.learnMove(tackle);
-				venonat.learnMove(confusion);
-				venonat.learnMove(leechLife);
-				venonatEnc = new Pokemon(line);
-				venonatEnc.learnMove(tackle);
-				venonatEnc.learnMove(confusion);
-				venonatEnc.learnMove(leechLife);
-				seventhEncounters.add(venonatEnc);
+			else if(i == 45){
+				venomoth = new Pokemon(line);
+				venomoth.learnMove(tackle);
+				venomoth.learnMove(confusion);
+				venomoth.learnMove(leechLife);
+				venomothEnc = new Pokemon(line);
+				venomothEnc.learnMove(tackle);
+				venomothEnc.learnMove(confusion);
+				venomothEnc.learnMove(leechLife);
+				seventhEncounters.add(venomothEnc);
 			}
 			else if(i == 49){
 				meowthEnc = new Pokemon(line);
@@ -335,6 +338,18 @@ public class MasseyMon extends JFrame {
 				diglett2.learnMove(boneClub);
 				diglett2.learnMove(rockThrow);
 			}
+			else if(i == 53){
+				primeape = new Pokemon(line);
+				primeape.learnMove(scratch);
+				primeape.learnMove(karate);
+				primeape.learnMove(rollingKick);
+				primeapeEnc = new Pokemon(line);
+				primeapeEnc.learnMove(scratch);
+				primeapeEnc.learnMove(karate);
+				primeapeEnc.learnMove(rollingKick);
+				seventhEncounters.add(primeapeEnc);
+
+			}
 			else if (i == 55){
 				growlithe = new Pokemon(line);
 				growlithe.learnMove(scratch);
@@ -345,6 +360,17 @@ public class MasseyMon extends JFrame {
 				growlitheEnc.learnMove(ember);
 				growlitheEnc.learnMove(bite);
 				fourthEncounters.add(growlitheEnc);
+			}
+			else if(i == 58){
+				poliwhirl = new Pokemon(line);
+				poliwhirl.learnMove(tackle);
+				poliwhirl.learnMove(waterGun);
+				poliwhirl.learnMove(bubble);
+				poliwhirlEnc = new Pokemon(line);
+				poliwhirlEnc.learnMove(tackle);
+				poliwhirlEnc.learnMove(waterGun);
+				poliwhirlEnc.learnMove(bubble);
+				seventhEncounters.add(poliwhirlEnc);
 			}
 			else if(i == 60){
 				abraEnc = new Pokemon(line);
@@ -363,6 +389,17 @@ public class MasseyMon extends JFrame {
 				machop2 = new Pokemon(line);
 				machop2.learnMove(karate);
 				machop2.learnMove(headbutt);
+			}
+			else if(i == 67){
+				weepinBell = new Pokemon(line);
+				weepinBell.learnMove(tackle);
+				weepinBell.learnMove(acid);
+				weepinBell.learnMove(vineWhip);
+				weepinBellEnc = new Pokemon(line);
+				weepinBellEnc.learnMove(tackle);
+				weepinBellEnc.learnMove(acid);
+				weepinBellEnc.learnMove(vineWhip);
+				seventhEncounters.add(weepinBellEnc);
 			}
 			else if(i == 79){
 				magneton = new Pokemon(line);
@@ -428,6 +465,7 @@ public class MasseyMon extends JFrame {
 		allEncounters.add(fourthEncounters);
 		allEncounters.add(fifthEncounters);
 		allEncounters.add(sixthEncounters);
+		allEncounters.add(seventhEncounters);
 
 		ArrayList<Pokemon> newTrainer = new ArrayList<Pokemon> ();
 		newTrainer.add(caterpie);
@@ -695,7 +733,7 @@ class GamePanel extends JPanel {
 	private boolean started,started2,started3,doneEvo;
 	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
 	private JTextArea myArea, myArea2;
-	private Sound battleSound,evolutionMusic;
+	private Sound battleSound,evolutionMusic,overworldMusic,titleMusic;
 	public GamePanel() throws IOException{
 		setLayout(null);
 		makeNewArea();
@@ -764,6 +802,8 @@ class GamePanel extends JPanel {
 		addKeyListener(new moveListener());
 		battleSound = new Sound("Music/Battle/pokeBattleMusic.wav",75);
 		evolutionMusic = new Sound("Music/Battle/evolutionMusic.wav",75);
+		overworldMusic = new Sound("Music/OverworldMusic.wav",50);
+		titleMusic = new Sound("Music/TitleScreenMusic.wav",50);
 	}
 	public void addNotify() {
 		super.addNotify();
@@ -847,7 +887,7 @@ class GamePanel extends JPanel {
 			alpha = 0;
 		}
 		if (titleScreen) {
-			TitleScreen.draw(g);
+		//	TitleScreen.draw(g);
 		}
 		else {
 			if (!talking && !starter) {
@@ -1073,7 +1113,6 @@ class GamePanel extends JPanel {
 				}
 			}
 				if (pokeHouse()) {
-					System.out.println(Textbox.getTextWriting());
 					g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
 					g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
 					if (npcTalk) {
@@ -1129,93 +1168,100 @@ class GamePanel extends JPanel {
 		return myArea;
 	}
 	public void paintComponent(Graphics g) {
-		if (!MasseyMon.frame.inBattle) {
-			if (battleSound.isPlaying()){
-				battleSound.stop();
-			}
-			if (MasseyMon.frame.getPokeBattle() != null){
-				if (MasseyMon.frame.getPokeBattle().getEvolutions().size() == 0){
-					draw(g);
-				}
-				else{
-					if (battleSound.isPlaying()){
-						battleSound.stop();
-					}
-					g.drawImage(evoBack,0,0,this);
-					Pokemon pokeEvo = MasseyMon.frame.getPokeBattle().getEvolutions().get(0);
-					if (!started3){
-						String myString = String.format("What?\n%s is evolving!",pokeEvo.getName());
-						myArea2.setVisible(true);
-						myArea2.setText(myString);
-						progress = 0;
-						frameEvo = 1;
-						evolutionMusic.play();
-						started3 = true;
-						doneEvo = false;
-					}
-					else{
-						if (doneEvo){
-							if (!evolutionMusic.isPlaying()){
-								myArea2.setVisible(false);
-								MasseyMon.frame.getPokeBattle().getEvolutions().remove(0);
-								started3 = false;
-								evolutionMusic.stop();
-							}
-						}
-						if (!(progress ==STARTING)){
-							if (frameEvo%(STARTING-progress) == 0){
-								progress+= 3;
-								pokeEvo.drawEvoNext(g);
-								if (progress == STARTING){
-									String curName = pokeEvo.getName();
-									try { pokeEvo.evolve();}
-									catch (IOException e) {}
-									String myString = String.format("%s evolved into %s!",curName,pokeEvo.getName());
-									myArea2.setText(myString);
-								}
-							}
-							else{
-								pokeEvo.drawEvo(g);
-							}
-							frameEvo++;
-						}
-						else{
-							pokeEvo.drawEvoNext(g);
-						}
-					}
-				}
-
-			}
-			else{
-				draw(g);
+		if (titleScreen){
+			TitleScreen.draw(g);
+			if (!titleMusic.isPlaying()) {
+				titleMusic.play();
 			}
 		}
-		else{
-			if (!battleSound.isPlaying()){
-				battleSound.play();
-			}
-			if (started == false) {
-				Color myColor = new Color(0,0,0,alpha);
-				g.setColor(myColor);
-				if (alpha == 100) {
-					started = true;
-				} else {
-					alpha += 1;
-					g.fillRect(0, 0, getWidth(), getHeight());
+		else {
+			titleMusic.stop();
+			if (!MasseyMon.frame.inBattle) {
+				if (battleSound.isPlaying()) {
+					battleSound.stop();
 				}
-			}
-			else{
-				if (started2 == false){
-					try {
-						MasseyMon.frame.startBattle(g,myGuy);
-						makeNewArea();
-						started2 = true;
+				if (!overworldMusic.isPlaying()) {
+					overworldMusic.play();
+				}
+				if (MasseyMon.frame.getPokeBattle() != null) {
+					if (MasseyMon.frame.getPokeBattle().getEvolutions().size() == 0) {
+						draw(g);
+					} else {
+						if (battleSound.isPlaying()) {
+							battleSound.stop();
+						}
+						g.drawImage(evoBack, 0, 0, this);
+						Pokemon pokeEvo = MasseyMon.frame.getPokeBattle().getEvolutions().get(0);
+						if (!started3) {
+							String myString = String.format("What?\n%s is evolving!", pokeEvo.getName());
+							myArea2.setVisible(true);
+							myArea2.setText(myString);
+							progress = 0;
+							frameEvo = 1;
+							evolutionMusic.play();
+							started3 = true;
+							doneEvo = false;
+						} else {
+							if (doneEvo) {
+								if (!evolutionMusic.isPlaying()) {
+									myArea2.setVisible(false);
+									MasseyMon.frame.getPokeBattle().getEvolutions().remove(0);
+									started3 = false;
+									evolutionMusic.stop();
+								}
+							}
+							if (!(progress == STARTING)) {
+								if (frameEvo % (STARTING - progress) == 0) {
+									progress += 3;
+									pokeEvo.drawEvoNext(g);
+									if (progress == STARTING) {
+										String curName = pokeEvo.getName();
+										try {
+											pokeEvo.evolve();
+										} catch (IOException e) {
+										}
+										String myString = String.format("%s evolved into %s!", curName, pokeEvo.getName());
+										myArea2.setText(myString);
+									}
+								} else {
+									pokeEvo.drawEvo(g);
+								}
+								frameEvo++;
+							} else {
+								pokeEvo.drawEvoNext(g);
+							}
+						}
 					}
-					catch (IOException e) {}
-					started2 = true;
+
+				} else {
+					draw(g);
 				}
-				else{
-					MasseyMon.frame.getPokeBattle().Start(g);
+			} else {
+				overworldMusic.stop();
+				if (!battleSound.isPlaying()) {
+					battleSound.play();
+				}
+				if (started == false) {
+					Color myColor = new Color(0, 0, 0, alpha);
+					g.setColor(myColor);
+					if (alpha == 100) {
+						started = true;
+					} else {
+						alpha += 1;
+						g.fillRect(0, 0, getWidth(), getHeight());
+					}
+				} else {
+					if (started2 == false) {
+						try {
+							MasseyMon.frame.startBattle(g, myGuy);
+							makeNewArea();
+							started2 = true;
+						} catch (IOException e) {
+						}
+						started2 = true;
+					} else {
+						MasseyMon.frame.getPokeBattle().Start(g);
+					}
 				}
 			}
 		}
