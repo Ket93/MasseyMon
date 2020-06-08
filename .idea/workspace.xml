@@ -20,8 +20,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Music/GymBattleMusic.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Music/GymMusic.wav" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,13 +141,6 @@
       <workItem from="1590702235160" duration="54473000" />
       <workItem from="1591119497665" duration="13789000" />
       <workItem from="1591233767533" duration="8605000" />
-    </task>
-    <task id="LOCAL-00033" summary="Fixed Masks">
-      <created>1587239151584</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1587239151584</updated>
     </task>
     <task id="LOCAL-00034" summary="committed shit">
       <created>1587434192813</created>
@@ -484,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591575807720</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Added viridian gym enter text and fixed masks">
+      <created>1591576651361</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1591576651361</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -505,7 +506,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Started Textbox" />
     <MESSAGE value="tried to fix scrolling bottom" />
     <MESSAGE value="started text boxs" />
     <MESSAGE value="Added NPC class" />
@@ -530,7 +530,8 @@
     <MESSAGE value="Made a title screen" />
     <MESSAGE value="Finished buying items and items menu screen" />
     <MESSAGE value="Fixed sprites and removed unnecessary lines" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed sprites and removed unnecessary lines" />
+    <MESSAGE value="Added viridian gym enter text and fixed masks" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added viridian gym enter text and fixed masks" />
   </component>
   <component name="WindowStateProjectService">
     <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591406255114">
@@ -558,14 +559,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1591490401876" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591575806050">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1591576649338">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591575806050" />
-    <state x="147" y="65" key="DiffContextDialog" timestamp="1589650173108">
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1591576649338" />
+    <state x="147" y="65" key="DiffContextDialog" timestamp="1591576657939">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="147" y="65" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1589650173108" />
+    <state x="147" y="65" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1591576657939" />
     <state x="721" y="211" key="FileChooserDialogImpl" timestamp="1591394632023">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -615,10 +616,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586533160109" />
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1591575809651">
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1591576660905">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591575809651" />
+    <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591576660905" />
     <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1591481185984" />
     <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1589650453006">
       <screen x="0" y="0" width="1536" height="824" />
