@@ -1,6 +1,10 @@
+//Kevin Cui and Dimitrios Christopoulos
+//Player.java
+//Class for the player, contains world and screen coordinates, money, sprites, and items. Also draws the sprites for movement
+// as well as world and screen movement and draws the player
+
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
 import javax.imageio.*;
 
 public class Player { // class for the player
@@ -13,7 +17,7 @@ public class Player { // class for the player
 	private int[] numItems = new int[7];
 	public Player(int gen) throws IOException {
 		money = 0; // initializing money as 0
-		worldX = 389; // initializing the world X position of the player
+		worldX = 789; // initializing the world X position of the player
 		worldY = 365; // initializing the world Y position of the player
 		screenY = 365; // initializing the screen Y position of the player
 		screenX = 389; // initializing the screen X position of the player

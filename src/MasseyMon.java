@@ -1,4 +1,9 @@
-import jdk.swing.interop.SwingInterOpUtils;
+// Kevin Cui and Dimitrios Christopoulos
+// MasseyMon.java
+//Main class for the game. Loads files for player positions, Pokemon, and NPC's. Also creates all trainers and their Pokemon and moves.
+//Creates objects for Pokemon, Player, Items, etc. Allows the player to move and checks the coordinates against the mask to
+//perform functions such as battling, encountering, talking, etc. Displays text when the player talks to an NPC. Opens the menu
+//screen. And also draws battle screen when a battle is entered.
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,59 +15,56 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import javax.imageio.*;
 
-public class MasseyMon extends JFrame {
-	GamePanel game;
-	javax.swing.Timer myTimer;
-	public static boolean inBattle;
-	public static MasseyMon frame;
-	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>();
-	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>();
-	public static ArrayList<Image> trainers = new ArrayList<Image>();
-	private ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>();
-	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
-	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
-	private ArrayList<ArrayList<ArrayList<Pokemon>>> trainerPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
-	private ArrayList<ArrayList<ArrayList<Pokemon>>> gymPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
-	private ArrayList<ArrayList<Boolean>> battledTrainers = new ArrayList<ArrayList<Boolean>>();
+public class MasseyMon extends JFrame { // MasseyMon class to create trainers and their Pokemon, load files, and add objects
+	GamePanel game; // declaring game pannel
+	javax.swing.Timer myTimer; // declaring timer
+	public static boolean inBattle; // checks if the player is in a battle
+	public static MasseyMon frame; // MasseyMon object
+	public static ArrayList<pokeMap> maps = new ArrayList<pokeMap>(); // array list for map objects
+	public static ArrayList<ArrayList<pokeMapMini>> miniMaps = new ArrayList<ArrayList<pokeMapMini>>(); // array list for mini map objects
+	public static ArrayList<Image> trainers = new ArrayList<Image>(); // array list of trainer images
+	private ArrayList<Pokemon> myPokes = new ArrayList<Pokemon>(); // array list of player's Pokemon
+	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>(); // array list of enemy Pokemon
+	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>(); // array list of encounterable Pokemon
+	private ArrayList<ArrayList<ArrayList<Pokemon>>> trainerPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>(); // array list of trainer's Pokemon
+	private ArrayList<ArrayList<ArrayList<Pokemon>>> gymPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>(); // array list of Pokemon in a gym
+	private ArrayList<ArrayList<Boolean>> battledTrainers = new ArrayList<ArrayList<Boolean>>(); // array list of trainers you've battled
 	private ArrayList<ArrayList<Boolean>> battledGymTrainers = new ArrayList<ArrayList<Boolean>>();
-	private Pokemon bulbasaur,charmander,squirtle;
-	public static Image [] starters = new Image [3];
-	private PokemonBattle pokeBattle;
-	public MasseyMon() throws IOException{
-		super("MasseyMon");
+	private Pokemon bulbasaur,charmander,squirtle; // starter pokemon
+	public static Image [] starters = new Image [3]; // images for starter pokemon
+	private PokemonBattle pokeBattle; // PokemonBattle object
+	public MasseyMon() throws IOException{ // constructor method
+		super("MasseyMon"); // title of the window
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		myTimer = new javax.swing.Timer(10,new TickListener());
-		load();
+		myTimer = new javax.swing.Timer(10,new TickListener()); // starting timer
+		load(); // calling load
 		game = new GamePanel();
 		add(game);
 		pack();
 		setVisible(true);
 		setResizable(false);
 		start();
-		inBattle = false;
+		inBattle = false; // setting inBattle to false since player spawns in the overworld
 	}
-	public static void main(String[] args) throws IOException{
-		frame = new MasseyMon();
+	public static void main(String[] args) throws IOException{ // main method
+		frame = new MasseyMon(); // creates frame
 	}
 	public ArrayList<ArrayList<ArrayList<Pokemon>>> getGymPokemon(){return gymPokemon;}
 	public ArrayList<ArrayList<Boolean>> getBattles(){
 		return battledTrainers;
-	}
-	public ArrayList<ArrayList<Boolean>> getGymBattles(){
-		return battledGymTrainers;
-	}
+	} // getter for battled trainers
 	public ArrayList<ArrayList<ArrayList<Pokemon>>> getTrainerPokes(){
 		return trainerPokemon;
-	}
+	} // getter for trainer pokemon
 	public GamePanel getGame() {
 		return game;
-	}
+	} // getter for game
 	public ArrayList<ArrayList<Pokemon>> getAllEncounters(){
 		return allEncounters;
-	}
+	} // getter for encounters
 	public ArrayList<Pokemon> getEnemyPokes(){
 		return enemyPokes;
-	}
+	} // getter for enemy pokemon
 	public ArrayList<ArrayList<Pokemon>> makeEncounters() throws FileNotFoundException {
 		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList <ArrayList<Pokemon>> brockGym = new ArrayList<ArrayList<Pokemon>>();
@@ -851,18 +853,12 @@ public class MasseyMon extends JFrame {
 		trainerPokemon.add(sixthTrainers);
 		return allEncounters;
 	}
-	public JTextArea getTextArea2(){
+	public JTextArea getTextArea2(){ // method to create a text area
 		game.makeNewArea();
 		return game.getTextArea();
 	}
-	public void setPokeBattleNull(){
-		pokeBattle = null;
-	}
-	public void setPokeBattle(PokemonBattle battle){
-		pokeBattle = battle;
-	}
-	public void startBattle(Graphics g, Player myGuy) throws IOException {
-		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy);
+	public void startBattle(Graphics g, Player myGuy) throws IOException { // method to start a Pokemon battle
+		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy); // making a Pokemon battle object
 		for (ArrayList<Pokemon> item: allEncounters){
 			for (Pokemon item2: item){
 				if(item2 == enemyPokes.get(0)){
@@ -903,7 +899,8 @@ public class MasseyMon extends JFrame {
 		return allPokes;
 	}
 	public PokemonBattle getPokeBattle(){ return pokeBattle; }
-	public void load() throws IOException {
+	public void load() throws IOException { // load method for some Pokemon sprites, maps, mini maps, player positions, and NPCs
+		// loading the three starter Pokemon images for display and select
 		starters [0] = ImageIO.read(new File("Sprites/Pokemon/P1.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [1] = ImageIO.read(new File("Sprites/Pokemon/P4.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [2] = ImageIO.read(new File("Sprites/Pokemon/P7.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
@@ -924,115 +921,117 @@ public class MasseyMon extends JFrame {
 		}
 		battledGymTrainers.get(2).add(false);
 		myPokes.add(bulbasaur);
-		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
-		for (int i = 0; i < 15; i++) {
-			String line = inFile.nextLine();
+		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt"))); // loading the data file for where the player can spawn on each map
+		for (int i = 0; i < 15; i++) { // loop through each of the 15 routes and get positions for each of them
+			String line = inFile.nextLine(); // getting the next line of the file
+			// getting the paths for the image and mask
 			String path = String.format("%s/%s/%s%d.png", "Images", "Backgrounds", "Background", i);
 			String pathMask = String.format("%s/%s/%s%d%s.png", "Images", "Masks", "Background", i,"Mask");
 			try {
-				ArrayList<ArrayList<Pokemon>> mapTrainers = new ArrayList<ArrayList<Pokemon>>();
-				Image pic = ImageIO.read(new File(path));
-				BufferedImage picMask = ImageIO.read(new File(pathMask));
+				ArrayList<ArrayList<Pokemon>> mapTrainers = new ArrayList<>();
+				Image pic = ImageIO.read(new File(path)); // getting the image at the path
+				BufferedImage picMask = ImageIO.read(new File(pathMask)); // getting the mask at the path
 				mapTrainers = getMap1Trainers();
-				maps.add(new pokeMap(pic,picMask,line,mapTrainers));
+				maps.add(new pokeMap(pic,picMask,line,mapTrainers)); // making the map object and entering in the parameters
 			} catch (IOException e) {}
 		}
-		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions")));
-		for (int k = 0; k <15;k++) {
-			miniMaps.add(new ArrayList<pokeMapMini>());
-			for (int i = 0; i < 5; i++) {
-				String line = inFile.nextLine();
+		inFile = new Scanner(new BufferedReader(new FileReader("Data/miniPlayerPositions"))); // loading the file for possible positions the player can spawn on mini maps
+		for (int k = 0; k <15;k++) { // looping through each map
+			miniMaps.add(new ArrayList<pokeMapMini>()); // adding array for mini maps
+			for (int i = 0; i < 5; i++) { // looping through the maximum 5 mini maps
+				String line = inFile.nextLine(); // getting the next line
+				// getting image paths
 				String path = String.format("%s/%s/%s%d/%s%d.png", "Images", "MiniBackgrounds", "Town ", k, "MiniBackground", i);
 				String pathMask = String.format("%s/%s/%s%d/%s%d%s.png", "Images", "MiniMasks","Town ",k, "Background", i, "Mask");
 				try {
-					Image pic = ImageIO.read(new File(path));
-					BufferedImage picMask = ImageIO.read(new File(pathMask));
-					miniMaps.get(k).add(new pokeMapMini(pic, picMask, line));
+					Image pic = ImageIO.read(new File(path)); // getting the image
+ 					BufferedImage picMask = ImageIO.read(new File(pathMask)); // getting the mask
+					miniMaps.get(k).add(new pokeMapMini(pic, picMask, line)); // making the mini map object and entering the parameters
 				}
 				catch (IOException e) {
 				}
 			}
 		}
 
-		for (int i =0; i<18;i++){
-			String path = String.format("%s/%s/%s%d.png", "Images", "NPCs", "Trainer", i);
-			Image pic = ImageIO.read(new File(path));
+		for (int i =0; i<18;i++){ // looping through all 18 NPC images
+			String path = String.format("%s/%s/%s%d.png", "Images", "NPCs", "Trainer", i); // getting the path
+			Image pic = ImageIO.read(new File(path)); // getting the image
 			try {
-				trainers.add(pic);
+				trainers.add(pic); // adding the images to the array list
 			}
 			catch (Exception e) {
 			}
 		}
 	}
 
-	public void healPokes(){
-		for (Pokemon item : myPokes ){
-			item.setHP(item.getMaxHP());
+	public void healPokes(){ // method to heal all Pokemon
+		for (Pokemon item : myPokes ){ // going through each Pokemon
+			item.setHP(item.getMaxHP()); // setting HP to maximum
 		}
 	}
 
-	public static Image getTrainers(int n){
+	public static Image getTrainers(int n){ // getter for the trainer array list
 		return trainers.get(n);
 	}
 
-	public static pokeMap getMap(int n){
+	public static pokeMap getMap(int n){ // getter for the maps array list
 		return maps.get(n);
 	}
 
-	public static pokeMapMini getMiniMap( int n ,int k ) {
+	public static pokeMapMini getMiniMap( int n ,int k ) { // getter for the mini maps array list
 		return miniMaps.get(n).get(k);
 	}
-	public ArrayList<Pokemon> getMyPokes(){
+	public ArrayList<Pokemon> getMyPokes(){ // getter for the array list of the trainers pokemon
 		return myPokes;
 	}
-	public Pokemon getBulbasaur(){
+	public ArrayList<ArrayList<Boolean>> getGymBattles(){
+		return battledGymTrainers;
+	}
+	public Pokemon getBulbasaur(){ // getter for bulbasaur pokemon
 		return bulbasaur;
 	}
-	public Pokemon getCharmander(){
+	public Pokemon getCharmander(){ // getter for charmander pokemon
 		return charmander;
 	}
-	public Pokemon getSquirtle(){
+	public Pokemon getSquirtle(){ // getter for squirtle pokemon
 		return squirtle;
 	}
 
-	public void start(){
+	public void start(){ // method to start the timer
 		myTimer.start();
 	}
-	class TickListener implements ActionListener{
+	class TickListener implements ActionListener{ // tick listener class
 		public void actionPerformed(ActionEvent evt){
-			if(game!= null){
-				if (!inBattle) {
+			if(game!= null){ // if the game is not null
+				if (!inBattle) { // if the player is not in battle then allow the player to move
 					game.move();
 				}
 				if (game.inGrass && !inBattle){
 					game.checkGrass();
 				}
-				game.repaint();
+				game.repaint(); // re-paint the game
 			}
 		}
 	}
 }
 
-class GamePanel extends JPanel {
+class GamePanel extends JPanel { // GamePanel class which runs the game and draws the background, player, NPCs, text, allows the player to move and draws battle and menu screen
 	public static final int INTERVAL = 5, STARTING = 114;
-	private static int offsetX,offsetY;
-	private int mx,my,picIndex,miniPicIndex,npc1,npc2,starterIndex,trainerTextIndex,progress,routeIndex;
-	private boolean pokemon;
-	private boolean bag;
-	private boolean menu;
-	private boolean oakTalked,oneTimeTalk,talkDone;
-	public static boolean inGrass;
-	private boolean spacePressed,movable,talking,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking,titleScreen,championTalking;
-	private int direction,frameEvo,npcText1,npcText2,gymIndex;
+	private static int offsetX,offsetY; // offsets for backgrounds
+	private int picIndex,miniPicIndex,npc1,npc2,starterIndex,trainerTextIndex,progress,routeIndex; // ints for indexes and npc positions
+	private boolean pokemon,bag,menu; // booleans for menu
+	private boolean oakTalked,oneTimeTalk,talkDone; // booleans for text
+	public static boolean inGrass; // boolean for encounter
+	private boolean spacePressed,movable,talking,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking,titleScreen,championTalking; // booleans for talking and moving
+	private int direction,frameEvo,npcText1,npcText2,gymIndex; // ints for frame, direction and talk index
 	private boolean ready = true;
-	private static boolean mini,starter;
-	private boolean tileText, npcTalk,npcTalk2,onePressed,twoPressed,threePressed,fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed,checking;
-	private boolean[] keys;
-	private Image [] starters;
-	private Image selectBox,evoBack,prof,hallOfFame,endScreen;
-	private boolean animating;
-	private float frame;
-	private Composite var;
+	private static boolean mini,starter; // boolean for if has starter and if mini map
+	private boolean tileText, npcTalk,npcTalk2,onePressed,twoPressed,threePressed,fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed,checking; // booleans for npc and one time text and 1-9 keys pressed
+	private boolean[] keys; // keys array
+	private Image [] starters; // starters array
+	private Image selectBox,evoBack,prof,hallOfFame,endScreen; // evolution, starter pick, and end screen images
+	private float frame; // frame for Pokemon
+	//Declaring objects
 	pokeMap myMap;
 	pokeMapMini myMiniMap;
 	Textbox myTextBox;
@@ -1041,15 +1040,14 @@ class GamePanel extends JPanel {
 	Items myItem;
 	Menu myMenu;
 	Player myGuy;
-	private int x,y, dir;
-	private int DIRDOWN = 1,DIRRIGHT = 2, DIRUP = 3, DIRLEFT = 4;
-	private int alpha = 0;
-	private boolean started,started2,started3,doneEvo;
-	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10;
-	private JTextArea myArea, myArea2;
-	private Sound battleSound,evolutionMusic,overworldMusic,titleMusic;
-	public GamePanel() throws IOException{
+	private int alpha = 0; // color alpha value
+	private boolean started,started2,started3,doneEvo; // booleans for evolution
+	public static final int IDLE = 0, UP = 1, RIGHT = 4, DOWN = 7, LEFT = 10; // ints for sprite positions
+	private JTextArea myArea, myArea2; // text areas
+	private Sound battleSound,evolutionMusic,overworldMusic,titleMusic; // sound files
+	public GamePanel() throws IOException{ // consturctor method
 		setLayout(null);
+		//creating the setting text area
 		makeNewArea();
 		myArea2 = new JTextArea();
 		myArea2.setBackground(new Color(0,0,0,0));
@@ -1061,11 +1059,12 @@ class GamePanel extends JPanel {
 		myArea2.setLineWrap(true);
 		myArea2.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
 		add(myArea2);
+		// assigning starting values to all variables
 		movable = false;
 		offsetX = 0;
 		offsetY = 0;
 		starterIndex = 0;
-		picIndex = 0;
+		picIndex = 2;
 		miniPicIndex = -1;
 		hasStarter = false;
 		spacePressed = false;
@@ -1108,7 +1107,7 @@ class GamePanel extends JPanel {
 		started = false;
 		tileText = true;
 		frame = (float)(frame);
-		//myMiniMap = (MasseyMon.getMiniMap(picIndex,miniPicIndex+1));
+		// loading image, screen dimensions, mouse and key listener, and sound files
 		selectBox = ImageIO.read(new File("Images/Text/SelectBox.jpg")).getScaledInstance(300,300,Image.SCALE_SMOOTH);
 		evoBack = ImageIO.read(new File("Images/Battles/evoBack.png")).getScaledInstance(956,790,Image.SCALE_SMOOTH);
 		prof = ImageIO.read(new File("Images/TitleScreen/ProfessorOak.png"));
@@ -1127,8 +1126,8 @@ class GamePanel extends JPanel {
 		requestFocus();
 		ready = true;
 	}
-	public void checkGrass(){
-		int x = randint(1,2);
+	public void checkGrass(){ // method to check for wild encounters
+		int x = randint(1,350);
 		if (x == 1 && MasseyMon.frame.inBattle == false && movable){
 			ArrayList<Pokemon> encounters = new ArrayList<Pokemon>();
 			int low = 0;
@@ -1178,44 +1177,45 @@ class GamePanel extends JPanel {
 			MasseyMon.frame.inBattle = true;
 		}
 	}
-	public void makeNewArea(){
+	public void makeNewArea(){ // method to make a new text area
 		myArea = new JTextArea();
-		myArea.setBackground(new Color(0,0,0,0));
-		myArea.setBounds(40,635,390,125);
+		myArea.setBackground(new Color(0,0,0,0)); // setting the color
+		myArea.setBounds(40,635,390,125); // setting the bounds
 		myArea.setVisible(true);
 		myArea.setEditable(false);
 		myArea.setHighlighter(null);
 		myArea.setWrapStyleWord(true);
 		myArea.setLineWrap(true);
-		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30));
+		myArea.setFont(new Font("Font/gameFont.ttf",Font.BOLD,30)); // setting the font
 		myArea.setText("");
 		add(myArea);
 	}
-	public void draw(Graphics g) {
-		if (MasseyMon.frame.inBattle == false){
-			myArea.setVisible(false);
-			if (MasseyMon.frame.getPokeBattle() != null){
+	public void draw(Graphics g) {  // draw method for when the player is not in battle
+		if (MasseyMon.frame.inBattle == false){ // if the player is not in battle
+			myArea.setVisible(false); // set the text area to not visable
+			if (MasseyMon.frame.getPokeBattle() != null){ // if pokeBattle is not null set the text visability to false
 				MasseyMon.frame.getPokeBattle().getMyArea().setVisible(false);
 			}
 			started = false;
 			started2 = false;
-			alpha = 0;
+			alpha = 0; // set color alpha to false
 		}
-			if (!talking && !starter) {
-				movable = true;
-				g.setColor(new Color(0, 0, 0));
-				g.fillRect(0, 0, 956, 795);
-				offsetX = 0;
-				offsetY = 0;
-				if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+			if (!talking && !starter) { // if there is no one talking and the starter screen is not open
+				movable = true; // allow the player to move
+				g.setColor(new Color(0, 0, 0)); // set colour
+				g.fillRect(0, 0, 956, 795); // draw a black rect over screen
+				offsetX = 0; // reset offset X
+				offsetY = 0; // reset offset Y
+				if (MasseyMon.getMap(picIndex).getMapWidth() > 956) { // if the width of the map is greater than the screen calculate offset
 					offsetX = myGuy.getScreenX() - myGuy.getWorldX();
 				}
-				if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
+				if (MasseyMon.getMap(picIndex).getMapHeight() > 795) { // if the height of hte map is greater than the screen then calculate offset Y
 					offsetY = myGuy.getScreenY() - myGuy.getWorldY();
 				}
-				if (mini) {
+				if (mini) { // if it is a mini map do not use offsets since all mini maps are smaller than screen size
 					g.drawImage(MasseyMon.getMiniMap(picIndex, miniPicIndex).getMap(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapX(), MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapY(), this);
-				} else {
+				} else { // if it is not a mini map
+					// draw the image at either the offset position or map draw location based on if the map is larger than the screen in X and Y or not
 					if (offsetX == 0 && offsetY == 0) {
 						g.drawImage(MasseyMon.getMap(picIndex).getMap(), MasseyMon.getMap(picIndex).getMapX(), MasseyMon.getMap(picIndex).getMapY(), this);
 					} else if (offsetX != 0 && offsetY == 0) {
@@ -1226,69 +1226,71 @@ class GamePanel extends JPanel {
 						g.drawImage(MasseyMon.getMap(picIndex).getMap(), offsetX, offsetY, this);
 					}
 				}
-				myGuy.draw(g);
+				myGuy.draw(g); // drawing the player
 			}
-			if (picIndex == 0 && miniPicIndex == 1) {
-				if (!oakTalked) {
-					if (Textbox.getTextWriting()) {
-						if (talking) {
+			if (picIndex == 0 && miniPicIndex == 1) { // if the player is in Oak's lab
+				if (!oakTalked) { // only allowing oak to talk once
+					if (Textbox.getTextWriting()) { // if text is allowed to be writing
+						if (talking) { // if oak is talking
 							Textbox.display(g, 1, spacePressed,onePressed,twoPressed,threePressed,
-									fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
-							movable = false;
-							spacePressed = false;
+									fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed); // calling the textbox display method with index
+							movable = false; // don't allow player to move
+							spacePressed = false; // set space pressed false
 						}
 					}
-					else {
-						if (!movable) {
-							talking = false;
-							starter = false;
-							g.setColor(new Color(0, 0, 0));
-							g.fillRect(0, 0, 956, 795);
-							g.drawImage(MasseyMon.getMiniMap(0, 1).getMap(), MasseyMon.getMiniMap(0, 1).getMapX(), MasseyMon.getMiniMap(0, 1).getMapY(), this);
-							if (!spacePressed) {
-								starter = true;
-								g.setColor(new Color(255, 255, 255));
-								g.fillRect(350, 250, 300, 300);
-								g.drawImage(selectBox, 350, 250, this);
-								g.drawImage(starters[starterIndex], 420, 300, this);
-								movable = false;
-								hasStarter = true;
+					else { // if the professor is not talking
+						if (!movable) { // if the player is not allowed to move
+							talking = false; // setting talking to false
+							starter = false; // starter display screen false
+							g.setColor(new Color(0, 0, 0)); // setting color
+							g.fillRect(0, 0, 956, 795); // filling screen black
+							g.drawImage(MasseyMon.getMiniMap(0, 1).getMap(), MasseyMon.getMiniMap(0, 1).getMapX(), MasseyMon.getMiniMap(0, 1).getMapY(), this); // drawing the image over again
+							if (!spacePressed) { // if the user does not press space
+								starter = true; // starter display screen is active
+								g.setColor(new Color(255, 255, 255)); // setting new color
+								g.fillRect(350, 250, 300, 300); // drawing starter pick background
+								g.drawImage(selectBox, 350, 250, this); // drawing select box image
+								g.drawImage(starters[starterIndex], 420, 300, this); // drawing the starter pokemon
+								movable = false; // not allowing the player to move
+								hasStarter = true; // setting the player having a starter to true
 							}
-							if (spacePressed) {
-								Pokemon select = null;
-								if (starterIndex == 0) {
+							if (spacePressed) { // if the player presses spcae
+								Pokemon select = null; // making a select variable
+								if (starterIndex == 0) { // if the index is 0 set select to bulbasaur
 									select = MasseyMon.frame.getBulbasaur();
-								} else if (starterIndex == 1) {
+								} else if (starterIndex == 1) { // if the index is 1 set select to charmander
 									select = MasseyMon.frame.getCharmander();
-								} else if (starterIndex == 2) {
+								} else if (starterIndex == 2) { // if the index is 2 set select to squirtle
 									select = MasseyMon.frame.getSquirtle();
 								}
-								oakTalked = true;
-								MasseyMon.frame.getMyPokes().add(select);
+								oakTalked = true; // setting oak talked to true when he's done talking
+								MasseyMon.frame.getMyPokes().add(select); // adding the selected pokemon to the trainer array list
 							}
 						}
 					}
 				}
 			}
-			else if (pokeCenter()) {
-				if (Textbox.getTextWriting()) {
-					if (talking) {
+			else if (pokeCenter()) { // if the user is in a Pokemon Center
+				if (Textbox.getTextWriting()) { // if text is allowed to write
+					if (talking) { // if the user talks to the nurse
 						Textbox.display(g, 2, spacePressed,onePressed,twoPressed,threePressed,
-								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
-						movable = false;
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed); // displaying the textbox at the right index
+						movable = false; // not allowing player to move
 						spacePressed = false;
-						MasseyMon.frame.healPokes();
+						MasseyMon.frame.healPokes(); // healing all pokemon
 					}
 				} else {
+					//re-drawing background
 					g.setColor(new Color(0, 0, 0));
 					g.fillRect(0, 0, 956, 795);
 					g.drawImage(MasseyMon.getMiniMap(2, 0).getMap(), MasseyMon.getMiniMap(2, 0).getMapX(), MasseyMon.getMiniMap(2, 0).getMapY(), this);
-					talking = false;
-					movable = true;
+					talking = false; // finished talking
+					movable = true; // allowing player to move again
 				}
 			}
 
-			else if (pokeShop()) {
+			else if (pokeShop()) { // if the user is in a pokeMart
+				// same logic as PokeCenter above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 3, spacePressed,onePressed,twoPressed,threePressed,
@@ -1305,27 +1307,44 @@ class GamePanel extends JPanel {
 				}
 			}
 
-			else if (picIndex == 2 && miniPicIndex == 4){
+			else if (trainerText){ // if a trainer is talking
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
-						System.out.println("DSF");
-						Textbox.display(g, 11, spacePressed,onePressed,twoPressed,threePressed,
+						Textbox.display(g,trainerTextIndex, spacePressed,onePressed,twoPressed,threePressed,
 								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
-				} else {
-					g.setColor(new Color(0, 0, 0));
-					g.fillRect(0, 0, 956, 795);
-					g.drawImage(MasseyMon.getMiniMap(2, 4).getMap(), MasseyMon.getMiniMap(2, 4).getMapX(), MasseyMon.getMiniMap(2, 4).getMapY(), this);
-					myGuy.draw(g);
-					tileText = false;
+				}
+				else {
 					talking = false;
 					movable = true;
 				}
 			}
 
-			else if (picIndex == 0 && miniPicIndex == 0){
+			else if (picIndex == 2 && miniPicIndex == 4){ // if the user enters the viridian gym for the first time
+				// similar logic as above
+					if (Textbox.getTextWriting()) {
+						if (talking) {
+							Textbox.display(g, 11, spacePressed, onePressed, twoPressed, threePressed,
+									fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
+							movable = false;
+							spacePressed = false;
+						}
+					} else {
+						g.setColor(new Color(0, 0, 0));
+						g.fillRect(0, 0, 956, 795);
+						g.drawImage(MasseyMon.getMiniMap(2, 4).getMap(), MasseyMon.getMiniMap(2, 4).getMapX(), MasseyMon.getMiniMap(2, 4).getMapY(), this);
+						myGuy.draw(g);
+						tileText = false;
+						talking = false;
+						movable = true;
+					}
+			}
+
+			else if (picIndex == 0 && miniPicIndex == 0){ // if the user enters the house
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						MasseyMon.frame.healPokes();
@@ -1344,7 +1363,8 @@ class GamePanel extends JPanel {
 				}
 			}
 
-			else if (brockTalking){
+			else if (brockTalking){ // if brock is talking
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 13, spacePressed,onePressed,twoPressed,threePressed,
@@ -1361,7 +1381,8 @@ class GamePanel extends JPanel {
 					movable = true;
 				}
 			}
-			else if (mistyTalking){
+			else if (mistyTalking){ // if misty is talking
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 14, spacePressed,onePressed,twoPressed,threePressed,
@@ -1378,7 +1399,8 @@ class GamePanel extends JPanel {
 					movable = true;
 				}
 			}
-			else if (giovanniTalking){
+			else if (giovanniTalking){ // if giovanni is talking
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 15, spacePressed,onePressed,twoPressed,threePressed,
@@ -1396,7 +1418,8 @@ class GamePanel extends JPanel {
 				}
 			}
 
-			else if (championTalking){
+			else if (championTalking){ // if the champion is talking
+				// similar logic as above
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 16, spacePressed,onePressed,twoPressed,threePressed,
@@ -1414,40 +1437,26 @@ class GamePanel extends JPanel {
 				}
 			}
 
-			else if (trainerText){
-				if (Textbox.getTextWriting()) {
-					if (talking) {
-						Textbox.display(g,trainerTextIndex, spacePressed,onePressed,twoPressed,threePressed,
-								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
-						movable = false;
-						spacePressed = false;
-					}
+			if (movable) { // if the player can move
+				if (picIndex == 0 && miniPicIndex == 1) { // if the player is in oak's lab
+					g.drawImage(MasseyMon.getTrainers(0), 475, 300, this); // draw oak
 				}
-				else {
-					talking = false;
-					movable = true;
-					}
-				}
-
-
-			if (movable) {
-				if (picIndex == 0 && miniPicIndex == 1) {
-					g.drawImage(MasseyMon.getTrainers(0), 475, 300, this);
-				}
-				if (pokeCenter()) {
-					g.drawImage(MasseyMon.getTrainers(1), 462, 290, this);
+				if (pokeCenter()) { // if the player is in a Pokemon Center
+					g.drawImage(MasseyMon.getTrainers(1), 462, 290, this); // draw nurse joy
 					myGuy.draw(g);
 				}
-				if (pokeShop()) {
-					g.drawImage(MasseyMon.getTrainers(2), 358, 350, this);
+				if (pokeShop()) { // if the player is in a pokeShop
+					g.drawImage(MasseyMon.getTrainers(2), 358, 350, this); // draw the shop clerk
 					myGuy.draw(g);
 				}
 			}
-				if (pokeHouse()) {
+				if (pokeHouse()) { // if the player is in a NPC house
+					// drawing both NPCs
 					g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
 					g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
-					if (npcTalk) {
-						if (Textbox.getTextWriting()) {
+					if (npcTalk) { // if the NPC is talking
+						// similar logic as above for NPC 1 and NPC 2
+						if (Textbox.getTextWriting()) { //
 							if (talking) {
 								Textbox.display(g, npcText1, spacePressed, onePressed, twoPressed, threePressed,
 										fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
@@ -1484,33 +1493,33 @@ class GamePanel extends JPanel {
 					}
 					myGuy.draw(g);
 			}
-			if (menu) {
-				Menu.display(g);
-				if (bag) {
-					Items.display(g);
+			if (menu) { // if menu is true
+				Menu.display(g); // draw the menu
+				if (bag) { // if bag is true
+					Items.display(g); // draw the bag
 				}
-				if (pokemon) {
-					PokemonMenu.display(g);
+				if (pokemon) { // if pokemon is true
+ 					PokemonMenu.display(g); // draw the Pokemon screen
 				}
 		}
 	}
-	public JTextArea getTextArea(){
+	public JTextArea getTextArea(){ // getter for text area
 		return myArea;
 	}
-	public void paintComponent(Graphics g) {
-		if (titleScreen){
+	public void paintComponent(Graphics g) { // draw method for if the player is in battle
+		if (titleScreen){ // if the user is on the title screen then draw it
 			TitleScreen.draw(g);
-			if (!titleMusic.isPlaying()) {
+			if (!titleMusic.isPlaying()) { // if the title screen music ends then replay it
 				titleMusic.play();
 			}
 		}
-		else {
-			titleMusic.stop();
-			if (!MasseyMon.frame.inBattle) {
-				if (battleSound.isPlaying()) {
+		else { // if the user is not on the title screen
+			titleMusic.stop(); // stop the title music
+			if (!MasseyMon.frame.inBattle) { // if the user is not in battle
+				if (battleSound.isPlaying()) { // if the battle music is playing then stop it
 					battleSound.stop();
 				}
-				if (!overworldMusic.isPlaying()) {
+				if (!overworldMusic.isPlaying()) { // if the overworld music ends then play it again
 					overworldMusic.play();
 				}
 				if (MasseyMon.frame.getPokeBattle() != null) {
@@ -1566,9 +1575,9 @@ class GamePanel extends JPanel {
 				} else {
 					draw(g);
 				}
-			} else {
-				overworldMusic.stop();
-				if (!battleSound.isPlaying()) {
+			} else { // if the user is in battle
+				overworldMusic.stop(); // stop the overworld music
+				if (!battleSound.isPlaying()) { // if the battle music stops then replay it
 					battleSound.play();
 				}
 				if (started == false) {
@@ -1600,7 +1609,7 @@ class GamePanel extends JPanel {
 		spacePressed = false;
 	}
 
-	public void drawEndScreen(Graphics g){
+	public void drawEndScreen(Graphics g){ // method to draw the ends screen after you beat the champion
 		g.setColor(new Color(0, 0, 0));
 		g.fillRect(0,0,956,795);
 		g.drawImage(hallOfFame,0,130,null);
@@ -1609,7 +1618,7 @@ class GamePanel extends JPanel {
 
 
 	}
-	class clickListener implements MouseListener {
+	class clickListener implements MouseListener { // click listener class
 		public void mouseEntered(MouseEvent e) {
 
 		}
@@ -1623,9 +1632,7 @@ class GamePanel extends JPanel {
 
 		}
 		public void mousePressed(MouseEvent e) {
-			mx = e.getX();
-			my = e.getY();
-			if (MasseyMon.frame.inBattle){
+			if (MasseyMon.frame.inBattle){ // if the user is in battle
 				if (!MasseyMon.frame.getPokeBattle().getStopGame()){
 					MasseyMon.frame.getPokeBattle().checkCollision();
 				}
@@ -1633,8 +1640,8 @@ class GamePanel extends JPanel {
 		}
 	}
 
-	class moveListener implements KeyListener {
-		public void keyTyped(KeyEvent e) {
+	class moveListener implements KeyListener { // move listener
+		public void keyTyped(KeyEvent e) { // if a key is typed
 			if (keys[KeyEvent.VK_SPACE]){
 				if (MasseyMon.frame.inBattle) {
 					if (started2){
@@ -1651,26 +1658,27 @@ class GamePanel extends JPanel {
 				}
 			}
 		}
-		public void keyPressed(KeyEvent e) {
-			if (titleScreen) {
-				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
+		public void keyPressed(KeyEvent e) { // key pressed
+			if (titleScreen) { // if the user is on the title screen
+				if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){ // if they go down or S then move the pointer arrow
 					TitleScreen.setPosY(505);
 				}
-				else if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){
+				else if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W){ // if they go up or W then move the pointer arrow up
 					TitleScreen.setPosY(305);
 				}
-				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getInstructionMenu()){
-					TitleScreen.setInstructionMenu(false);
+				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getInstructionMenu()){ // if the user pressed spcae or enter while instructions is true
+					TitleScreen.setInstructionMenu(false); // set instructions to false
 				}
-				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getPosY() == 505){
+				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getPosY() == 505){ // if the user pressed space or enter over instructions then set it to true
 					TitleScreen.setInstructionMenu(true);
 				}
-				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getPosY() == 305){
+				else if ((e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_ENTER) && TitleScreen.getPosY() == 305){ // if the user pressed space or enter on start game then set title screen to false and start the game
 					titleScreen = false;
 				}
 			}
-			else {
-				if (pokeShop()){
+			else { // if the user isn't on the title screen
+				if (pokeShop()){ // if the user is in the shop
+					// getting which number the user pressed to buy an item and setting the corresponding variable to true
 					if (e.getKeyCode() == KeyEvent.VK_1){
 						onePressed = true;
 					}
@@ -1699,69 +1707,66 @@ class GamePanel extends JPanel {
 						ninePressed = true;
 					}
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && !movable) {
+				if ((e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) && !movable) { // if the user presses A or left and on the starter screen change the starter inex
 					starterIndex -= 1;
 					if (starterIndex == -1) {
 						starterIndex = 2;
 					}
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && !movable) {
+				if ((e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) && !movable) { // if the user presses right or D on the starter screen then change the starter index
 					starterIndex += 1;
 					if (starterIndex == 3) {
 						starterIndex = 0;
 					}
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false) {
+				if (e.getKeyCode() == KeyEvent.VK_M && keys[e.getKeyCode()] == false) { // if the user presses M on the home screen then open the menu
 					menu = true;
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
+				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) { // if the user goes down on the menu screen move the pointer arrow down
 					Menu.setPosY(40);
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) {
+				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && menu && !bag && !pokemon) { // if the user goes up on the menu screen move the pointer arrow up
 					Menu.setPosY(-40);
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && bag) {
+				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && bag) { // if the user goes up while bag is active move the bag pointer arrow down
 					Items.setPosY(40);
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && bag) {
+				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && bag) { // if the user goes up while bag is open then move the bag pointer arrow up
 					Items.setPosY(-40);
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && pokemon) {
+				if ((e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) && keys[e.getKeyCode()] == false && pokemon) { // if the user goes down while pokemon is open then set the X and Y of the outline box down
 					PokemonMenu.setPosY();
 					PokemonMenu.setPosX();
 				}
-				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && pokemon) {
+				if ((e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) && keys[e.getKeyCode()] == false && pokemon) { // if the uesr goes up while pokemon is active then set the X and Y of the outline box up
 					PokemonMenu.setPosYUP();
 					PokemonMenu.setPosX();
 				}
-
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon && menu) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 186 && !pokemon && menu) { // if the user is on the menu screen and pressed space over pokemon then reset the pointer position and open pokemon screen
 					PokemonMenu.resetPosXY();
 					pokemon = true;
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 226 && !bag) { // if the user is on the menu screen and pressed space over bag then reset the pointer position and open bag screen
 					Items.resetPosY();
 					bag = true;
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Menu.getPosY() == 266 && !bag && !pokemon) { // if the user presses space over the exit button on the menu screen then set it to false
 					Menu.resetPosY();
 					menu = false;
 				}
-
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Items.getPosY() == 567 && bag) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && Items.getPosY() == 567 && bag) { // if the user presses space over exit on the bag screen then set it to false
 					Menu.resetPosY();
 					bag = false;
 				}
-
-				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE && keys[e.getKeyCode()] == false && PokemonMenu.getDisplayButton() && pokemon) { // if the user presses space over exit on the pokemon screen then set it to false
 					Menu.resetPosY();
 					pokemon = false;
 				}
 
-				if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+				if (e.getKeyCode() == KeyEvent.VK_SPACE) { // if space is pressed then set spacePressed to true
 					spacePressed = true;
 				}
 				keys[e.getKeyCode()] = true;
@@ -1774,10 +1779,11 @@ class GamePanel extends JPanel {
 	}
 
 
-	public void move() {
-		if (!titleScreen) {
-			if (!menu) {
-				if (movable) {
+	public void move() { // method to move the player as well as check it against various things in the mask and set position when entering a new area
+		if (!titleScreen) { // if user is not in title screen
+			if (!menu) { // and menu is not open
+				if (movable) { // and the user is allowed to move
+					// setting route indexes for trainers based on picIndexs that contain trainers
 					if (picIndex == 1){
 						routeIndex = 0;
 					}
@@ -1819,23 +1825,26 @@ class GamePanel extends JPanel {
 						gymIndex = -1;
 					}
 					inGrass = false;
+
+					// if the user is going up and passes the clear checks and is not going the opposite way of a ledge
 					if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
 							&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
-						direction = UP;
-						myGuy.move(direction, picIndex, miniPicIndex, mini);
-						if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							mini = true;
-							miniPicIndex += 2;
-							npc1 = randint(3, 17);
-							npc2 = randint(3, 17);
-							npcText1 = randint(17,27);
-							npcText2 = randint(17,27);
+						direction = UP; // setting the diretion to up
+						myGuy.move(direction, picIndex, miniPicIndex, mini); // calling the method to move the player
+						if (checkBuilding(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // if the player is in the entrance to the first building in the map
+							mini = true; // set mini to true since they are entering a mini map
+							miniPicIndex += 2; // add the correct mini pic index based on the building check
+							npc1 = randint(3, 17); // getting a randint for which picture NPC 1 will be
+							npc2 = randint(3, 17); // getting a randint for which picture NPC 2 will be
+							npcText1 = randint(17,27); // getting a randint for which text NPC 1 will say
+							npcText2 = randint(17,27); // getting a randint for which text NPC 2 will say
+							// setting the world and screen positions of the player based on the data from the file and the class
 							myGuy.setWorldX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 							myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 							Textbox.setTextWriting(true);
-						} else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkBuilding2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // same logic as checkBuilding1
 							mini = true;
 							miniPicIndex += 1;
 							npc1 = randint(3, 17);
@@ -1847,7 +1856,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 							Textbox.setTextWriting(true);
-						} else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkBuilding3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // same logic as checkBuilding1
 							mini = true;
 							miniPicIndex += 3;
 							npc1 = randint(3, 17);
@@ -1858,7 +1867,7 @@ class GamePanel extends JPanel {
 							myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
-						} else if (checkBuilding4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+						} else if (checkBuilding4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // same logic as checkBuilding1
 							mini = true;
 							miniPicIndex += 4;
 							npc1 = randint(3, 17);
@@ -1869,8 +1878,8 @@ class GamePanel extends JPanel {
 							myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
-						} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							if (tileText && picIndex == 2){
+						} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // same logic as checkBuilding1
+							if (tileText && picIndex == 2){ // if the user enters the viridian gym for the first time display text for warp pannels
 								talking = true;
 							}
 							mini = true;
@@ -1883,25 +1892,25 @@ class GamePanel extends JPanel {
 							myGuy.setWorldY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
-						} else if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							if (MasseyMon.frame.getMyPokes().size() != 0) {
-								picIndex += 1;
+						} else if (checkNextRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // checking if the user has entered the next route
+							if (MasseyMon.frame.getMyPokes().size() != 0) { // if the user has gotten a pokemon
+								picIndex += 1; // add to the pixIndex
+								// set the starting world positions for spawning on the new route
 								myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 								myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
-								if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 
-									if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900 || myGuy.getWorldY() == 860) {
-										myGuy.setScreenY(398);
-									} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
-										myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
+								// calculating the screen position of the player on the new route
+								if (MasseyMon.getMap(picIndex).getMapHeight() > 795) { // if the height of the image is greater than the screen height
+									if (myGuy.getWorldY() == 397 || myGuy.getWorldY() == 900 || myGuy.getWorldY() == 860) { // checking for specific world coordinates
+										myGuy.setScreenY(398); // put player in middle of the screen
+									} else if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) { // if the user is not within 398 of the edge of the picture
+										myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY())); // calculate the players screen position based on screen size, map height, and start position
 
-									} else {
-										myGuy.setScreenY(795 - (MasseyMon.getMap(picIndex).getMapHeight() - MasseyMon.getMap(picIndex).getStartPosY()));
 									}
-								} else {
-									myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY());
+								} else { // if the image height is less than the screen height
+									myGuy.setScreenY(MasseyMon.getMap(picIndex).getStartPosY()); // draw the player at the start position
 								}
-								if (MasseyMon.getMap(picIndex).getMapWidth() > 956) {
+								if (MasseyMon.getMap(picIndex).getMapWidth() > 956) { // similar logic as for height but using 956 since it is the width of the screen and checking widths
 									if (myGuy.getWorldX() - 478 > 0 || myGuy.getWorldY() + 478 < MasseyMon.getMap(picIndex).getMapWidth()) {
 										myGuy.setScreenX(478);
 									} else {
@@ -1911,10 +1920,12 @@ class GamePanel extends JPanel {
 									myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 								}
 							}
-						} else if (checkPrevRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							picIndex -= 1;
+						} else if (checkPrevRoute(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) { // checking if the user is going back to the previous route
+							picIndex -= 1; // subtracting from picIndex
+							// setting the world coordinates based on the data file
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
+							// similar checks for screen positions as checkNextRoute
 							if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 								if (myGuy.getWorldY() == 290 || myGuy.getWorldY() == 300 || myGuy.getWorldY() == 420) {
 									myGuy.setScreenY(300);
@@ -1935,39 +1946,45 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
-							System.out.println("hi");
-							if (!oneTimeTalk) {
+						}
+						// checking if the user has entered the line of sight of the first trainer in a route and if the user has already defeated the trainer do not display text or start battle. Also same check for gym trainers
+						else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
+							if (!oneTimeTalk) { // variable to only allow the trainers to talk on one frame
+								// setting all talking variables to true and generate a number of line for the trainer to say
 								talking = true;
 								trainerText = true;
 								Textbox.setTextWriting(true);
 								trainerTextIndex = randint(4, 10);
 								oneTimeTalk = true;
 							}
-							else{
+							else{ // on the next frame allow the battle to begin
 								talkDone = true;
 							}
 							if (talkDone) {
-								if (checking){
-									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false){
-										MasseyMon.frame.getGymBattles().get(gymIndex).set(0, true);
-										MasseyMon.frame.inBattle = true;
-										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(0));
+								if (checking){ // if it is a gym trainer
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false){ // if the trainer is still battable
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(0, true); // make the trainer no longer battable
+										MasseyMon.frame.inBattle = true; // set inBattle to true
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(0)); // get the first enemy Pokemon
+										// reset text variables
 										oneTimeTalk = false;
 										talkDone = false;
 									}
 								}
-								else{
-									if (MasseyMon.frame.getBattles().get(0).get(routeIndex) == false){
-										MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
-										MasseyMon.frame.inBattle = true;
-										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
+								else{ // if it is a regular trainer
+									if (MasseyMon.frame.getBattles().get(0).get(routeIndex) == false){ // if the trainer is still battlable
+										MasseyMon.frame.getBattles().get(0).set(routeIndex, true); // make the trainer no longer battable
+										MasseyMon.frame.inBattle = true; // set inBattle to true
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex)); // get the first enemy pokemon
+										// reset text variables
 										oneTimeTalk = false;
 										talkDone = false;
 									}
 								}
 							}
-						} else if ((checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)))) {
+						}
+						// similar logic as for trainer 1
+						else if ((checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1998,7 +2015,9 @@ class GamePanel extends JPanel {
 									}
 								}
 							}
-						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
+						}
+						// similar logic as for trainer 1
+						else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2016,7 +2035,9 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
+						}
+						// similar logic as for trainer 1 without gym check
+						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2034,7 +2055,9 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
+						}
+						// similar logic as for trainer 1 without gym check
+						else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2058,7 +2081,9 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getGymBattles().get(0).get(2) == false) {
+						}
+						// checking if the user is talking to brock and then checking the same as the trainers
+						else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getGymBattles().get(0).get(2) == false) {
 							if (!oneTimeTalk) {
 								brockTalking = true;
 								oneTimeTalk = true;
@@ -2078,7 +2103,9 @@ class GamePanel extends JPanel {
 									talkDone = false;
 								}
 							}
-						} else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getGymBattles().get(1).get(2) == false) {
+						}
+						// checking if the user is talking to misty and then checking the same as the trainers
+						else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getGymBattles().get(1).get(2) == false) {
 							if (!oneTimeTalk) {
 								mistyTalking = true;
 								oneTimeTalk = true;
@@ -2098,7 +2125,9 @@ class GamePanel extends JPanel {
 									talkDone = false;
 								}
 							}
-						} else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
+						}
+						// checking if the user is talking to giovanni and then checking the same as the trainers
+						else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
 							if (!oneTimeTalk) {
 								giovanniTalking = true;
 								oneTimeTalk = true;
@@ -2119,28 +2148,35 @@ class GamePanel extends JPanel {
 								}
 							}
 						}
+						// checking if the user is talking to the champion and then checking the same as the trainers
 						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
 							championTalking = true;
 							talking = true;
 							Textbox.setTextWriting(true);
 						}
-
+						// checking if the user is within a spot that can encouter a wild pokemon
 						else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
+							inGrass = true; // if they are then set inGrass to true
 						}
-					} else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)
+					}
+					// if the user is going down and passes the clear checks and is not going the opposite way of a ledge
+					else if ((keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]) && clear(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27)
 							&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() + 27, myGuy.getWorldX() + 19, myGuy.getWorldY() + 27))) {
-						direction = DOWN;
-						myGuy.move(direction, picIndex, miniPicIndex, mini);
+						direction = DOWN; // setting the direction to down
+						myGuy.move(direction, picIndex, miniPicIndex, mini); // moving the player
 
+						// if the user is within an exit check
 						if (checkExit1(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+							// don't allow the NPCs to talk
 							npcTalk = false;
 							npcTalk2 = false;
-							mini = false;
-							miniPicIndex -= 2;
+							mini = false; // set mini to false since they are leaving the mini map
+							miniPicIndex -= 2; // reset miniPicIndex to the default position
+							// setting world coordinates based on the data file
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX3());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY3());
 
+							// setting the screen coordinates based on a similar check to checkNextRoute in the up section
 							if (MasseyMon.getMap(picIndex).getMapHeight() > 795) {
 								if (myGuy.getWorldY() - 398 > 0 || myGuy.getWorldY() + 398 < MasseyMon.getMap(picIndex).getMapHeight()) {
 									myGuy.setScreenY(398);
@@ -2159,7 +2195,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX3());
 							}
-						} else if (checkExit2(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkExit1
+						else if (checkExit2(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							npcTalk = false;
 							npcTalk2 = false;
 							mini = false;
@@ -2184,7 +2222,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX2());
 							}
-						} else if (checkExit3(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkExit1
+						else if (checkExit3(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							npcTalk = false;
 							npcTalk2 = false;
 							mini = false;
@@ -2213,7 +2253,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX4());
 							}
-						} else if (checkExit4(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkExit1
+						else if (checkExit4(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							npcTalk = false;
 							npcTalk2 = false;
 							mini = false;
@@ -2238,7 +2280,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX5());
 							}
-						} else if (checkExit5(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkExit1
+						else if (checkExit5(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							npcTalk = false;
 							npcTalk2 = false;
 							mini = false;
@@ -2263,7 +2307,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX6());
 							}
-						} else if (checkPrevRoute(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkPrevRoute in up
+						else if (checkPrevRoute(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							picIndex -= 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY7());
@@ -2287,7 +2333,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if (checkNextRoute(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
+						}
+						// similar logic to checkNextRoute in up
+						else if (checkNextRoute(myGuy.getWorldX() - 1, myGuy.getWorldY() + 27, myGuy.getWorldX() + 20, myGuy.getWorldY() + 27)) {
 							picIndex += 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
@@ -2313,7 +2361,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
-						} else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
+						}
+						// similar logic to checkTrainer1 in up
+						else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2344,7 +2394,9 @@ class GamePanel extends JPanel {
 									}
 								}
 							}
-						}else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) {
+						}
+						// similar logic to checkTrainer1
+						else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2361,8 +2413,10 @@ class GamePanel extends JPanel {
 								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
+
 							}
 						}
+						// similar logic to checkTrainer1
 						else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2381,6 +2435,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
+						// similar logic to checkTrainer1 without the gym trainer check
 						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2400,6 +2455,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
+						// similar logic to checkTrainer1 without the gym trainer check
 						else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2419,6 +2475,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
+						// similar logic to checkTrainer1 without the gym trainer check
 							else if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(5).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2437,15 +2494,20 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
 						}
+							// checking for wild encounters a
+							else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+							inGrass = true; // setting inGrass to true if there is an encounter
+						}
+					}
 
-					} else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)
+					// if the user is going right and passes the clear checks and is not going in the opposite direction of a ledge
+					else if ((keys[KeyEvent.VK_RIGHT] || keys[KeyEvent.VK_D]) && clear(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20)
 							&& checkLedgeLeft(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && checkLedgeRight(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 20))) {
-						direction = RIGHT;
-						myGuy.move(direction, picIndex, miniPicIndex, mini);
+						direction = RIGHT; // set direction to right
+						myGuy.move(direction, picIndex, miniPicIndex, mini); // move the player
 
+						// similar logic to checkNextRoute in up
 						if (checkNextRoute(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
 							picIndex += 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
@@ -2473,6 +2535,7 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
 						}
+						// similar logic to checkPrevRoute in up
 						else if (checkPrevRoute(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
 							picIndex -= 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
@@ -2500,13 +2563,16 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
 						}
+						// special check if the player is going backwards from the final route
 						else if (checkChampRouteBack(myGuy.getWorldX() + 20, myGuy.getWorldY(), myGuy.getWorldX() + 20, myGuy.getWorldY() + 26)) {
-							picIndex -= 11;
+							picIndex -= 11; // set picIndex to the correct position
+							// spawn the player at the exit on the route
 							myGuy.setWorldX(20);
 							myGuy.setWorldY(555);
 							myGuy.setScreenX(20);
 							myGuy.setScreenY(398);
 						}
+						// similar logic to checkTrainer1 in up
 						else if (checkTrainer1(myGuy.getWorldX() + 26, myGuy.getWorldY() , myGuy.getWorldX() + 26, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2525,7 +2591,9 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if ((checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY(), myGuy.getWorldX() + 26, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY() , myGuy.getWorldX() + 26, myGuy.getWorldY() + 19)))) {
+						}
+						// similar logic to checkTrainer1 in up
+						else if ((checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY(), myGuy.getWorldX() + 26, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY() , myGuy.getWorldX() + 26, myGuy.getWorldY() + 19)))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2556,7 +2624,9 @@ class GamePanel extends JPanel {
 									}
 								}
 							}
-						}  else if (checkTrainer3(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
+						}
+						// similar logic to checkTrainer1 in up
+						else if (checkTrainer3(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2577,11 +2647,13 @@ class GamePanel extends JPanel {
 						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true;
 						}
-					} else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)
+					}
+					// if the user is going left and passes the clear checks and is not going the opposite direction of a ledge
+					else if ((keys[KeyEvent.VK_LEFT] || keys[KeyEvent.VK_A]) && clear(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26) && (checkLedge(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20)
 							&& checkLedgeLeft(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20) && checkLedgeRight(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 20))) {
-						direction = LEFT;
-						myGuy.move(direction, picIndex, miniPicIndex, mini);
-
+						direction = LEFT; // settind direction toe left
+						myGuy.move(direction, picIndex, miniPicIndex, mini); // moving the player
+						// similar logic to checkPrevRoute in up
 						if (checkPrevRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
 							picIndex -= 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX7());
@@ -2608,7 +2680,9 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if (checkNextRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
+						}
+						// similar logic to checkNextRoute in up
+						else if (checkNextRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
 							picIndex += 1;
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
@@ -2635,13 +2709,16 @@ class GamePanel extends JPanel {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
 						}
+						// special check for going to the route that leads to the champion
 						else if (checkChampRoute(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 26)) {
-							picIndex += 11;
+							picIndex += 11; // setting the picIndex to the correct route
+							// getting the world positions from the data file and custom setting the screen positions
 							myGuy.setWorldX(MasseyMon.getMap(picIndex).getStartPosX());
 							myGuy.setWorldY(MasseyMon.getMap(picIndex).getStartPosY());
 							myGuy.setScreenX(800);
 							myGuy.setScreenY(275);
 						}
+						// similar logic to checkTriainer1 in up
 						else if ((checkTrainer1(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19))) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2674,6 +2751,7 @@ class GamePanel extends JPanel {
 								}
 							}
 						}
+						// similar logic to checkTriainer1 in up
 						else if ((checkTrainer2(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19)))) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2706,6 +2784,7 @@ class GamePanel extends JPanel {
 								}
 							}
 						}
+						// similar logic to checkTriainer1 in up
 						else if ((checkTrainer3(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(2) == false && (checkTrainer3(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19)))) {
 							if (!oneTimeTalk) {
 								talking = true;
@@ -2737,7 +2816,9 @@ class GamePanel extends JPanel {
 									}
 								}
 							}
-						}else if (checkTrainer4(myGuy.getWorldX() -1 , myGuy.getWorldY() , myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
+						}
+						// similar logic to checkTriainer1 in up without gym trainer checks
+						else if (checkTrainer4(myGuy.getWorldX() -1 , myGuy.getWorldY() , myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2749,44 +2830,57 @@ class GamePanel extends JPanel {
 								talkDone = true;
 							}
 							if (talkDone){
-								System.out.println("HIHIFSJHFJIHF");
 								MasseyMon.frame.getBattles().get(3).set(routeIndex, true);
 								MasseyMon.frame.inBattle = true;
 								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(3).get(routeIndex));
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							inGrass = true;
 						}
-					} else {
-						myGuy.resetExtra();
-						myGuy.idle(direction);
+						// checking for wild encounters
+						else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
+							inGrass = true; // if the user can encounter wild pokemon set inGrass to true
+						}
+					}
+					else { // if the user is not moving
+						myGuy.resetExtra(); // reset extra in the player class
+						myGuy.idle(direction); // set the direction to idle
 
-						if (direction == UP && (hasStarter || mini)) {
-							if (checkTalk(myGuy.getWorldX() + 7, myGuy.getWorldY() - 20, myGuy.getWorldX() + 14, myGuy.getWorldY() - 20)) {
+						if (direction == UP && (hasStarter || mini)) { // if the direction is up and the player has a starter or is in a mini map
+							if (checkTalk(myGuy.getWorldX() + 7, myGuy.getWorldY() - 20, myGuy.getWorldX() + 14, myGuy.getWorldY() - 20)) { // if the user talks to someone
+								// setting talking variables to true
 								talking = true;
 								npcTalk = true;
 							}
+							// checking if the user talked to an NPC in a house
 							else if (checkNpcTalk(myGuy.getWorldX() + 7, myGuy.getWorldY() - 20, myGuy.getWorldX() + 14, myGuy.getWorldY() - 20)) {
 								npcTalk2 = true;
 								talking = true;
 							}
 						}
+						// if the direction is down and player is idle
 						if (direction == DOWN) {
+							// if the user is within the talking check of someone
 							if (checkTalk(myGuy.getWorldX(), myGuy.getWorldY() + 37, myGuy.getWorldX() + 20, myGuy.getWorldY() + 37)) {
+								// setting talking variables to true
 								talking = true;
 								npcTalk = true;
 							}
 						}
+						// if the direction is right and player is idle
 						if (direction == RIGHT) {
+							// if the user is within the talking check of someone
 							if (checkTalk(myGuy.getWorldX() + 35, myGuy.getWorldY() + 8, myGuy.getWorldX() + 35, myGuy.getWorldY() + 18)) {
+								// setting talking variables to true
 								talking = true;
 								npcTalk = true;
 							}
 						}
+						// if the direction is left and the player is idle
 						if (direction == LEFT) {
+							// if the user is within the talking check of someone
 							if (checkTalk(myGuy.getWorldX() - 10, myGuy.getWorldY(), myGuy.getWorldX() - 10, myGuy.getWorldY() + 26)) {
+								// setting talking to true
 								talking = true;
 							}
 						}
@@ -2796,27 +2890,32 @@ class GamePanel extends JPanel {
 		}
 	}
 
-	private boolean clear ( int x, int y, int x2, int y2){
+	// method to check if the area in the specified direction of the user is clear or if it is a wall
+	private boolean clear ( int x, int y, int x2, int y2){ // passing in both sides of the player
 
+		// getting the mask and map drawing coordinates
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
 		int posY = MasseyMon.getMap(picIndex).getMapY();
 
-		if (mini){
+		if (mini){ // re-calculating the coordinates and getting the correct mask if it is a mini map
 			maskPic = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMask();
 			posX = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX();
 			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
 		}
 
-		int WALL = 0xFF0000FF;
+		int WALL = 0xFF0000FF; // getting the color of the wall
 		if (x < (0 + posX) || x >=  (maskPic.getWidth(null) + posX) || y < (0 + posY) || y >= (maskPic.getHeight(null) + posY)) {
-			return false;
+			return false; // if the player is not on the picture return false
 		}
+		// checking both positions against the mask and returning if there is a collision or not
 		int c = maskPic.getRGB(x - posX, y - posY);
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c != WALL && d!=WALL;
 	}
 
+	// checking if the player is colliding with a building check
+	// similar logic to clear but with a different color
 	private boolean checkBuilding ( int x, int y,int x2,int y2){
 		if (!mini) {
 			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2831,6 +2930,8 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
+	// checking if the player is colliding with a building exit
+	// similar logic to clear but with a different color
 	private boolean checkExit1 ( int x, int y,int x2, int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -2847,6 +2948,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// similar logic as checkExit1
 	private boolean checkExit2 ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2865,6 +2967,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// similar logic as checkBuilding1
 	private boolean checkBuilding2 ( int x, int y, int x2, int y2) {
 		if (!mini) {
 			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2879,6 +2982,8 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
+	// checking if the user is colliding with a check to go to the next route
+	// similar logic to clear but with a different colour
 	private boolean checkNextRoute ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -2890,6 +2995,8 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// checking if the user is colliding with a check to go back to the previous route
+	// similar logic to clear but with a different colour
 	private boolean checkPrevRoute ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2901,7 +3008,9 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// checking if the player is colliding with a ledge check and only allowing them to go through if they are oging down
 	private boolean checkLedge(int x, int y, int x2, int y2){
+		// similar logic to clear
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
 		int posY =  MasseyMon.getMap(picIndex).getMapY();
@@ -2916,6 +3025,7 @@ class GamePanel extends JPanel {
 			return true;
 		}
 		else{
+			// if the direction is any direction other than down return false
 			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_LEFT]|| keys[KeyEvent.VK_A] || keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
 				return false;
 			}
@@ -2923,6 +3033,7 @@ class GamePanel extends JPanel {
 		return true;
 	}
 
+	// similar logic to checkLedge but going left instead
 	private boolean checkLedgeLeft(int x, int y, int x2, int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -2938,6 +3049,7 @@ class GamePanel extends JPanel {
 			return true;
 		}
 		else{
+			// if the direction is any direction other than left return false
 			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_DOWN]|| keys[KeyEvent.VK_S] || keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
 				return false;
 			}
@@ -2945,6 +3057,7 @@ class GamePanel extends JPanel {
 		return true;
 	}
 
+	// similar logic to checKLedge but going right instead
 	private boolean checkLedgeRight(int x, int y, int x2, int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -2960,6 +3073,7 @@ class GamePanel extends JPanel {
 			return true;
 		}
 		else{
+			// if the direction is any direction other than right then return false
 			if (keys[KeyEvent.VK_UP]|| keys[KeyEvent.VK_W] || keys[KeyEvent.VK_LEFT]|| keys[KeyEvent.VK_A] || keys[KeyEvent.VK_DOWN] || keys[KeyEvent.VK_S]){
 				return false;
 			}
@@ -2967,6 +3081,7 @@ class GamePanel extends JPanel {
 		return true;
 	}
 
+	// similar logic to checkBuilding1
 	private boolean checkBuilding3 ( int x, int y, int x2,int y2) {
 		if (!mini) {
 			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2980,6 +3095,7 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
+	// similar logic to checkExit1
 	private boolean checkExit3 ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -2998,6 +3114,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// similar logic to checkBuilding1
 	private boolean checkBuilding4 ( int x, int y, int x2,int y2){
 		if (!mini) {
 			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3011,6 +3128,7 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
+	//similar logic to checkExit1
 	private boolean checkExit4 ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3029,6 +3147,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// similar logic to checkBuilding1
 	private boolean checkBuilding5 ( int x, int y, int x2,int y2) {
 		if (!mini) {
 			BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3042,6 +3161,7 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
+	// similar logic to checkExit1
 	private boolean checkExit5 ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3060,6 +3180,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// checking if the user is colliding with a check specially to go to the champions route
 	private boolean checkChampRoute ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3072,6 +3193,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// checking if the user is colldiing with a check to go backwards from the champions route
 	private boolean checkChampRouteBack ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3084,6 +3206,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
+	// checking if the user is talking to someone and only returning true if they alos press space
 	private boolean checkTalk ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3102,6 +3225,8 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL && spacePressed;
 	}
 
+
+	// checking if the user is talking to an NPC inside on of the houses and only returning true is spcae is pressed too
 	private boolean checkNpcTalk ( int x, int y, int x2,int y2){
 
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
@@ -3120,6 +3245,7 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL && spacePressed;
 	}
 
+	// checking if the user is within the line of sight of trainer 1
 	private boolean checkTrainer1 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3134,6 +3260,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is within the line of sight of trainer 2
 	private boolean checkTrainer2 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3148,6 +3275,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is within the line of sight of trainer 3
 	private boolean checkTrainer3 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3162,6 +3290,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is within the line of sight of trainer 4
 	private boolean checkTrainer4 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3172,6 +3301,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is within the line of sight of trainer 5
 	private boolean checkTrainer5 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3182,6 +3312,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is within the line of sight of trainer 6
 	private boolean checkTrainer6 ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3192,6 +3323,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	//checking if the user is standing in front of brock
 	private boolean checkBrock ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3207,6 +3339,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	//checking if the user is standing in front of misty
 	private boolean checkMisty ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3222,6 +3355,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is standing in front of giovanni
 	private boolean checkGiovanni ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3237,6 +3371,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is standing in front of the champion
 	private boolean checkChampion ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3252,6 +3387,7 @@ class GamePanel extends JPanel {
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
 		return c == WALL && d==WALL;
 	}
+	// checking if the user is in grass or a cave and can encounter wile pokemon
 	private boolean checkWildEncounter ( int x, int y, int x2,int y2){
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
@@ -3263,30 +3399,25 @@ class GamePanel extends JPanel {
 		return c == WALL && d==WALL;
 	}
 
-
-	public boolean getMenu () {
-		return menu;
-	}
-
-	public static int randint(int low, int high){
+	public static int randint(int low, int high){ // randint method
 		return (int)(Math.random()*(high-low+1)+low);
 	}
 
-	public boolean pokeCenter (){
+	public boolean pokeCenter (){ // method to check if the player is in a Pokemon Center
 		if (picIndex == 2 && miniPicIndex == 0 || picIndex == 6 && miniPicIndex == 0 || picIndex == 8 && miniPicIndex == 0 || picIndex == 12 && miniPicIndex == 0){
 			return true;
 		}
 		return false;
 	}
 
-	public boolean pokeShop(){
+	public boolean pokeShop(){ // method to check if the player is in a PokeMart
 		if (picIndex == 2 && miniPicIndex == 1 || picIndex == 6 && miniPicIndex == 1 || picIndex == 12 && miniPicIndex == 1){
 			return true;
 		}
 		return false;
 	}
 
-	public boolean pokeHouse(){
+	public boolean pokeHouse(){ // method to check if the player is in an NPCs house
 		if (picIndex == 2){
 			if (miniPicIndex == 2 || miniPicIndex == 3){
 				return true;
@@ -3300,7 +3431,7 @@ class GamePanel extends JPanel {
 		return false;
 	}
 
-	public void dieInBattle(){
+	public void dieInBattle(){ // method to reset the players position if all of their pokemon faint in battle
 		picIndex = 0;
 		miniPicIndex = -1;
 		myGuy.setWorldX(286);
@@ -3310,7 +3441,7 @@ class GamePanel extends JPanel {
 		MasseyMon.frame.healPokes();
 	}
 
-	public static void setStarter(boolean temp){
+	public static void setStarter(boolean temp){ // setter method for starter
 		starter = temp;
 	}
 

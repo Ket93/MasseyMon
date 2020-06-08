@@ -1,8 +1,7 @@
 //Kevin Cui
 //TitleScreen.java
 //Class for the title page of the game. This will display the opening screen as well as buttons to start the game and
-//open an instructions screen/
-
+//open an instructions screen
 
 import javax.imageio.ImageIO;
 import java.awt.*;

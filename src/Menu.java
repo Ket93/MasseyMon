@@ -7,7 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
 
-public class Menu { // class for the home meny screen
+public class Menu { // class for the home menu screen
     private static Image pointer; // declaring pointer image
     private static int posX,posY; // declaring X and Y positions for the pointer
 
