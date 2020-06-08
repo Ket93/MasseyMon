@@ -1418,15 +1418,19 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 		add(myArea);
 	}
 	public void draw(Graphics g) {  // draw method for when the player is not in battle
-		if (MasseyMon.frame.inBattle == false){ // if the player is not in battle
-			myArea.setVisible(false); // set the text area to not visable
-			if (MasseyMon.frame.getPokeBattle() != null){ // if pokeBattle is not null set the text visability to false
-				MasseyMon.frame.getPokeBattle().getMyArea().setVisible(false);
-			}
-			started = false;
-			started2 = false;
-			alpha = 0; // set color alpha to false
+		if (MasseyMon.frame.getBeatChamp()){
+			drawEndScreen(g);
 		}
+		else{
+			if (MasseyMon.frame.inBattle == false){ // if the player is not in battle
+				myArea.setVisible(false); // set the text area to not visable
+				if (MasseyMon.frame.getPokeBattle() != null){ // if pokeBattle is not null set the text visability to false
+					MasseyMon.frame.getPokeBattle().getMyArea().setVisible(false);
+				}
+				started = false;
+				started2 = false;
+				alpha = 0; // set color alpha to false
+			}
 			if (!talking && !starter) { // if there is no one talking and the starter screen is not open
 				movable = true; // allow the player to move
 				g.setColor(new Color(0, 0, 0)); // set colour
@@ -1521,7 +1525,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 				if (Textbox.getTextWriting()) {
 					if (talking) {
 						Textbox.display(g, 3, spacePressed,onePressed,twoPressed,threePressed,
-						fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
+								fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed);
 						movable = false;
 						spacePressed = false;
 					}
@@ -1552,22 +1556,22 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 
 			else if (picIndex == 2 && miniPicIndex == 4){ // if the user enters the viridian gym for the first time
 				// similar logic as above
-					if (Textbox.getTextWriting()) {
-						if (talking) {
-							Textbox.display(g, 11, spacePressed, onePressed, twoPressed, threePressed,
-									fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
-							movable = false;
-							spacePressed = false;
-						}
-					} else {
-						g.setColor(new Color(0, 0, 0));
-						g.fillRect(0, 0, 956, 795);
-						g.drawImage(MasseyMon.getMiniMap(2, 4).getMap(), MasseyMon.getMiniMap(2, 4).getMapX(), MasseyMon.getMiniMap(2, 4).getMapY(), this);
-						myGuy.draw(g);
-						tileText = false;
-						talking = false;
-						movable = true;
+				if (Textbox.getTextWriting()) {
+					if (talking) {
+						Textbox.display(g, 11, spacePressed, onePressed, twoPressed, threePressed,
+								fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
+						movable = false;
+						spacePressed = false;
 					}
+				} else {
+					g.setColor(new Color(0, 0, 0));
+					g.fillRect(0, 0, 956, 795);
+					g.drawImage(MasseyMon.getMiniMap(2, 4).getMap(), MasseyMon.getMiniMap(2, 4).getMapX(), MasseyMon.getMiniMap(2, 4).getMapY(), this);
+					myGuy.draw(g);
+					tileText = false;
+					talking = false;
+					movable = true;
+				}
 			}
 
 			else if (picIndex == 0 && miniPicIndex == 0){ // if the user enters the house
@@ -1677,48 +1681,48 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 					myGuy.draw(g);
 				}
 			}
-				if (pokeHouse()) { // if the player is in a NPC house
-					// drawing both NPCs
-					g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
-					g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
-					if (npcTalk) { // if the NPC is talking
-						// similar logic as above for NPC 1 and NPC 2
-						if (Textbox.getTextWriting()) { //
-							if (talking) {
-								Textbox.display(g, npcText1, spacePressed, onePressed, twoPressed, threePressed,
-										fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
-								movable = false;
-								spacePressed = false;
-							}
-						} else {
-							g.setColor(new Color(0, 0, 0));
-							g.fillRect(0, 0, 956, 795);
-							g.drawImage(MasseyMon.getMiniMap(2, 3).getMap(), MasseyMon.getMiniMap(2, 3).getMapX(), MasseyMon.getMiniMap(2, 3).getMapY(), this);
-							g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
-							g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
-							talking = false;
-							movable = true;
+			if (pokeHouse()) { // if the player is in a NPC house
+				// drawing both NPCs
+				g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
+				g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
+				if (npcTalk) { // if the NPC is talking
+					// similar logic as above for NPC 1 and NPC 2
+					if (Textbox.getTextWriting()) { //
+						if (talking) {
+							Textbox.display(g, npcText1, spacePressed, onePressed, twoPressed, threePressed,
+									fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
+							movable = false;
+							spacePressed = false;
 						}
+					} else {
+						g.setColor(new Color(0, 0, 0));
+						g.fillRect(0, 0, 956, 795);
+						g.drawImage(MasseyMon.getMiniMap(2, 3).getMap(), MasseyMon.getMiniMap(2, 3).getMapX(), MasseyMon.getMiniMap(2, 3).getMapY(), this);
+						g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
+						g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
+						talking = false;
+						movable = true;
 					}
-					else if (npcTalk2) {
-						if (Textbox.getTextWriting()) {
-							if (talking) {
-								Textbox.display(g, npcText2, spacePressed, onePressed, twoPressed, threePressed,
-										fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
-								movable = false;
-								spacePressed = false;
-							}
-						} else {
-							g.setColor(new Color(0, 0, 0));
-							g.fillRect(0, 0, 956, 795);
-							g.drawImage(MasseyMon.getMiniMap(2, 3).getMap(), MasseyMon.getMiniMap(2, 3).getMapX(), MasseyMon.getMiniMap(2, 3).getMapY(), this);
-							g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
-							g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
-							talking = false;
-							movable = true;
+				}
+				else if (npcTalk2) {
+					if (Textbox.getTextWriting()) {
+						if (talking) {
+							Textbox.display(g, npcText2, spacePressed, onePressed, twoPressed, threePressed,
+									fourPressed, fivePressed, sixPressed, sevenPressed, eightPressed, ninePressed);
+							movable = false;
+							spacePressed = false;
 						}
+					} else {
+						g.setColor(new Color(0, 0, 0));
+						g.fillRect(0, 0, 956, 795);
+						g.drawImage(MasseyMon.getMiniMap(2, 3).getMap(), MasseyMon.getMiniMap(2, 3).getMapX(), MasseyMon.getMiniMap(2, 3).getMapY(), this);
+						g.drawImage(MasseyMon.getTrainers(npc1), 407, 385, this);
+						g.drawImage(MasseyMon.getTrainers(npc2), 612, 360, this);
+						talking = false;
+						movable = true;
 					}
-					myGuy.draw(g);
+				}
+				myGuy.draw(g);
 			}
 			if (menu) { // if menu is true
 				Menu.display(g); // draw the menu
@@ -1726,8 +1730,9 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 					Items.display(g); // draw the bag
 				}
 				if (pokemon) { // if pokemon is true
- 					PokemonMenu.display(g); // draw the Pokemon screen
+					PokemonMenu.display(g); // draw the Pokemon screen
 				}
+			}
 		}
 	}
 	public JTextArea getTextArea(){ // getter for text area
@@ -2332,7 +2337,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to misty and then checking the same as the trainers
-						else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getBeatMisty() == false && MasseyMon.frame.getBattlingMisty() == false) {
+						else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getBeatBrock() == true && MasseyMon.frame.getBeatMisty() == false && MasseyMon.frame.getBattlingMisty() == false) {
 							if (!oneTimeTalk) {
 								mistyTalking = true;
 								oneTimeTalk = true;
@@ -2354,7 +2359,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to giovanni and then checking the same as the trainers
-						else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatGiov() == false && MasseyMon.frame.getBattlingGiov() == false) {
+						else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatMisty() == true && MasseyMon.frame.getBeatGiov() == false && MasseyMon.frame.getBattlingGiov() == false) {
 							if (!oneTimeTalk) {
 								giovanniTalking = true;
 								oneTimeTalk = true;
@@ -2376,7 +2381,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to the champion and then checking the same as the trainers
-						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatChamp() == false && MasseyMon.frame.getBattlingChamp() == false) {
+						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatGiov() == true && MasseyMon.frame.getBeatChamp() == false && MasseyMon.frame.getBattlingChamp() == false) {
 							if (!oneTimeTalk) {
 								championTalking = true;
 								oneTimeTalk = true;
