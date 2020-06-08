@@ -59,6 +59,7 @@ public class MasseyMon extends JFrame {
 	}
 	public ArrayList<ArrayList<Pokemon>> makeEncounters() throws FileNotFoundException {
 		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
+		ArrayList <ArrayList<Pokemon>> brockGym = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList<Pokemon> firstEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> secondEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> thirdEncounters = new ArrayList<Pokemon>();
@@ -76,8 +77,8 @@ public class MasseyMon extends JFrame {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
 		Pokemon caterpie = null,weepinBell = null,weepinBell2 = null,poliwhirl = null,poliwhirl2 = null,primeape = null,primeape2 = null,venomoth2 = null,venomoth = null,kabuto5 = null,magneton5 = null,kangaskhan5 = null,golbat4 = null,golbat3 = null,golbat = null,magneton3 = null,magneton4 = null, magneton = null, kabuto = null,magneton2 = null,kabuto2 = null,kabuto3 = null,kabuto4 = null, golbat2 = null,kangaskhan2 = null,kangaskhan3 = null,kangaskhan4 = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
-		Pokemon caterpieEnc = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
-		Attack tackle = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
+		Pokemon caterpieEnc = null,BrockGeodude = null, BrockOnix = null, gymRyhorn = null, gymOmanyte = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
+		Attack tackle = null,earthquake = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
@@ -103,6 +104,9 @@ public class MasseyMon extends JFrame {
 			}
 			else if (i == 17){
 				cut = new Attack(line2);
+			}
+			else if(i == 26){
+				earthquake = new Attack(line2);
 			}
 			else if (i == 27){
 				ember = new Attack(line2);
@@ -431,6 +435,11 @@ public class MasseyMon extends JFrame {
 				weepinBellEnc.learnMove(vineWhip);
 				eighthEncounters.add(weepinBellEnc);
 			}
+			else if(i == 71){
+				BrockGeodude = new Pokemon(line);
+				BrockGeodude.learnMove(tackle);
+				BrockGeodude.learnMove(rockThrow);
+			}
 			else if(i == 79){
 				magneton = new Pokemon(line);
 				magneton.learnMove(thunderPunch);
@@ -470,6 +479,10 @@ public class MasseyMon extends JFrame {
 				onixEnc.learnMove(rockThrow);
 				onixEnc.learnMove(firePunch);
 				fifthEncounters.add(onixEnc);
+				BrockOnix = new Pokemon(line);
+				BrockOnix.learnMove(headbutt);
+				BrockGeodude.learnMove(rockThrow);
+				BrockGeodude.learnMove(boneClub);
 			}
 			else if(i == 108){
 				ryhorn = new Pokemon(line);
@@ -482,6 +495,9 @@ public class MasseyMon extends JFrame {
 				ryhornEnc.learnMove(hornAttack);
 				ryhornEnc.learnMove(rockThrow);
 				fifthEncounters.add(ryhornEnc);
+				gymRyhorn = new Pokemon(line);
+				gymRyhorn.learnMove(headbutt);
+				gymRyhorn.learnMove(rockThrow);
 			}
 			else if(i == 112){
 				kangaskhan = new Pokemon(line);
@@ -510,6 +526,12 @@ public class MasseyMon extends JFrame {
 				kangaskhanEnc.learnMove(lick);
 				sixthEncounters.add(kangaskhanEnc);
 				seventhEncounters.add(kangaskhanEnc);
+			}
+			else if(i == 135){
+				gymOmanyte = new Pokemon(line);
+				gymOmanyte.learnMove(tackle);
+				gymOmanyte.learnMove(rockThrow);
+				gymOmanyte.learnMove(earthquake);
 			}
 			else if(i == 137){
 				kabuto = new Pokemon(line);
@@ -679,6 +701,17 @@ public class MasseyMon extends JFrame {
 		newTrainer.add(venomoth);
 		newTrainer.add(weepinBell2);
 		fourthTrainers.add(newTrainer);
+
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymOmanyte);
+		brockGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymRyhorn);
+		brockGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(BrockGeodude);
+		newTrainer.add(BrockOnix);
+		brockGym.add(newTrainer);
 
 		trainerPokemon.add(firstTrainers);
 		trainerPokemon.add(secondTrainers);
@@ -1674,7 +1707,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							if (tileText && picIndex == 2){
+							if (tileText){
 								talking = true;
 							}
 							mini = true;

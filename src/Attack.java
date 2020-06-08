@@ -1,3 +1,8 @@
+//Dimitrios Christopoulos
+//Attack.java
+//Object class for Pokemon attacks. This class stores the name, damage, type, damage type, and power points of the attack.
+//Also allows you to draw attack buttons in a battle
+
 import java.awt.*;
 
 public class Attack{ // class for Pokemon attacks

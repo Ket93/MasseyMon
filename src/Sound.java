@@ -1,17 +1,21 @@
+//Dimitrios Christopoulos
+//Sound.java
+//Class for sound effects and game music. THis will create a Clip object and allow the clip to be paused, played, muted,
+//and for the volume of the clip to be adjusted.
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Sound {
-    private static ArrayList<Sound> madeSounds = new ArrayList<>();
-    private static boolean isMuted;
-    private AudioInputStream inputStream;
-    private Clip clip;
-    private String filePath;
-    FloatControl volume;
-    private boolean wasPaused;
-    private float originalGain;
+public class Sound { // Class for game sound and sound effects
+    private static ArrayList<Sound> madeSounds = new ArrayList<>(); // array list of sounds
+    private static boolean isMuted; // if the sound is muted
+    private AudioInputStream inputStream; // audio input object
+    private Clip clip; // clip object
+    private String filePath; // file path of the clip
+    FloatControl volume; // volume of clip
+    private boolean wasPaused; // if the sound was paused
     public Sound(String filePath, int volumeLevel){
         this.filePath = filePath;
         try {
@@ -66,10 +70,7 @@ public class Sound {
     public float getGain(){
         return volume.getValue();
     }
-    public void forceMute(){
-        originalGain = getGain();
-        setVolume(0);
-    }
+
     // Static methods
     public static void pauseAll(){
         for(Sound sound: madeSounds){
@@ -85,21 +86,6 @@ public class Sound {
                 sound.resume();
                 sound.wasPaused = false;
             }
-        }
-    }
-    public static void toggleVolume(){
-        if(!isMuted){
-            for(Sound sound: madeSounds){
-                sound.originalGain = sound.getGain();
-                sound.setVolume(0);
-            }
-            isMuted = true;
-        }
-        else{
-            for(Sound sound: madeSounds){
-                sound.setGain(sound.originalGain);
-            }
-            isMuted = false;
         }
     }
     public static boolean isMuted(){
