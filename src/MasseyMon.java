@@ -24,6 +24,7 @@ public class MasseyMon extends JFrame {
 	private ArrayList<ArrayList<ArrayList<Pokemon>>> trainerPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
 	private ArrayList<ArrayList<ArrayList<Pokemon>>> gymPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
 	private ArrayList<ArrayList<Boolean>> battledTrainers = new ArrayList<ArrayList<Boolean>>();
+	private ArrayList<ArrayList<Boolean>> battledGymTrainers = new ArrayList<ArrayList<Boolean>>();
 	private Pokemon bulbasaur,charmander,squirtle;
 	public static Image [] starters = new Image [3];
 	private PokemonBattle pokeBattle;
@@ -43,8 +44,12 @@ public class MasseyMon extends JFrame {
 	public static void main(String[] args) throws IOException{
 		frame = new MasseyMon();
 	}
+	public ArrayList<ArrayList<ArrayList<Pokemon>>> getGymPokemon(){return gymPokemon;}
 	public ArrayList<ArrayList<Boolean>> getBattles(){
 		return battledTrainers;
+	}
+	public ArrayList<ArrayList<Boolean>> getGymBattles(){
+		return battledGymTrainers;
 	}
 	public ArrayList<ArrayList<ArrayList<Pokemon>>> getTrainerPokes(){
 		return trainerPokemon;
@@ -910,6 +915,14 @@ public class MasseyMon extends JFrame {
 			}
 			battledTrainers.add(newBooleans);
 		}
+		for (int j = 0; j < 3; j++){
+			ArrayList<Boolean> newBooleans = new ArrayList<Boolean>();
+			for (int i = 0; i < 3; i++){
+				newBooleans.add(false);
+			}
+			battledGymTrainers.add(newBooleans);
+		}
+		battledGymTrainers.get(2).add(false);
 		myPokes.add(bulbasaur);
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/PlayerPositions.txt")));
 		for (int i = 0; i < 15; i++) {
@@ -1010,10 +1023,10 @@ class GamePanel extends JPanel {
 	private boolean oakTalked,oneTimeTalk,talkDone;
 	public static boolean inGrass;
 	private boolean spacePressed,movable,talking,hasStarter,trainerText,brockTalking,mistyTalking,giovanniTalking,titleScreen,championTalking;
-	private int direction,frameEvo,npcText1,npcText2;
+	private int direction,frameEvo,npcText1,npcText2,gymIndex;
 	private boolean ready = true;
 	private static boolean mini,starter;
-	private boolean tileText, npcTalk,npcTalk2,onePressed,twoPressed,threePressed,fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed;
+	private boolean tileText, npcTalk,npcTalk2,onePressed,twoPressed,threePressed,fourPressed,fivePressed,sixPressed,sevenPressed,eightPressed,ninePressed,checking;
 	private boolean[] keys;
 	private Image [] starters;
 	private Image selectBox,evoBack,prof,hallOfFame,endScreen;
@@ -1052,7 +1065,7 @@ class GamePanel extends JPanel {
 		offsetX = 0;
 		offsetY = 0;
 		starterIndex = 0;
-		picIndex = 6;
+		picIndex = 0;
 		miniPicIndex = -1;
 		hasStarter = false;
 		spacePressed = false;
@@ -1074,6 +1087,7 @@ class GamePanel extends JPanel {
 		twoPressed = false;
 		threePressed = false;
 		fourPressed = false;
+		checking = false;
 		fivePressed = false;
 		sixPressed = false;
 		sevenPressed = false;
@@ -1081,6 +1095,7 @@ class GamePanel extends JPanel {
 		ninePressed = false;
 		npcTalk = false;
 		npcTalk2 = false;
+		gymIndex = -1;
 		starters = MasseyMon.starters;
 		keys = new boolean[KeyEvent.KEY_LAST + 1];
 		myGuy = new Player(0);
@@ -1780,6 +1795,22 @@ class GamePanel extends JPanel {
 					else if(picIndex == 11){
 						routeIndex = 7;
 					}
+					if (picIndex == 2 && miniPicIndex == 4){
+						gymIndex = 2;
+						checking = true;
+					}
+					else if(picIndex == 6 && miniPicIndex == 4){
+						gymIndex = 0;
+						checking = true;
+					}
+					else if((picIndex == 12 && miniPicIndex == 3)){
+						gymIndex = 1;
+						checking = true;
+					}
+					else{
+						checking = false;
+						gymIndex = -1;
+					}
 					inGrass = false;
 					if ((keys[KeyEvent.VK_UP] || keys[KeyEvent.VK_W]) && clear(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 19, myGuy.getWorldY() - 1) && (checkLedge(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2)
 							&& checkLedgeLeft(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2) && checkLedgeRight(myGuy.getWorldX(), myGuy.getWorldY() - 2, myGuy.getWorldX() + 19, myGuy.getWorldY() - 2))) {
@@ -1832,7 +1863,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							if (tileText){
+							if (tileText && picIndex == 2){
 								talking = true;
 							}
 							mini = true;
@@ -1897,8 +1928,8 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX7());
 							}
-						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
-							System.out.println("what good" + routeIndex);
+						} else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
+							System.out.println("hi");
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1910,13 +1941,26 @@ class GamePanel extends JPanel {
 								talkDone = true;
 							}
 							if (talkDone) {
-								MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
-								MasseyMon.frame.inBattle = true;
-								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
-								oneTimeTalk = false;
-								talkDone = false;
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false){
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(0, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(0));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(0).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
 							}
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
+						} else if ((checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -1928,11 +1972,24 @@ class GamePanel extends JPanel {
 								talkDone = true;
 							}
 							if (talkDone) {
-								MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
-								MasseyMon.frame.inBattle = true;
-								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
-								oneTimeTalk = false;
-								talkDone = false;
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false) {
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(1, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(1));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(1).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
 							}
 						} else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
@@ -1982,7 +2039,6 @@ class GamePanel extends JPanel {
 								talkDone = true;
 							}
 							if (talkDone){
-								System.out.println("hi");
 								MasseyMon.frame.getBattles().get(4).set(routeIndex, true);
 								MasseyMon.frame.inBattle = true;
 								System.out.println(MasseyMon.frame.getTrainerPokes().get(4));
@@ -1995,18 +2051,66 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
-							brockTalking = true;
-							talking = true;
-							Textbox.setTextWriting(true);
-						} else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10)) {
-							mistyTalking = true;
-							talking = true;
-							Textbox.setTextWriting(true);
+						} else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getGymBattles().get(0).get(2) == false) {
+							if (!oneTimeTalk) {
+								brockTalking = true;
+								oneTimeTalk = true;
+								talking = true;
+								Textbox.setTextWriting(true);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								brockTalking = false;
+								if (MasseyMon.frame.getGymBattles().get(0).get(2) == false){
+									MasseyMon.frame.getGymBattles().get(0).set(2, true);
+									MasseyMon.frame.inBattle = true;
+									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(0).get(2));
+									oneTimeTalk = false;
+									talkDone = false;
+								}
+							}
+						} else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getGymBattles().get(1).get(2) == false) {
+							if (!oneTimeTalk) {
+								mistyTalking = true;
+								oneTimeTalk = true;
+								talking = true;
+								Textbox.setTextWriting(true);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								mistyTalking = false;
+								if (MasseyMon.frame.getGymBattles().get(1).get(2) == false){
+									MasseyMon.frame.getGymBattles().get(1).set(2, true);
+									MasseyMon.frame.inBattle = true;
+									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(1).get(2));
+									oneTimeTalk = false;
+									talkDone = false;
+								}
+							}
 						} else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
-							giovanniTalking = true;
-							talking = true;
-							Textbox.setTextWriting(true);
+							if (!oneTimeTalk) {
+								giovanniTalking = true;
+								oneTimeTalk = true;
+								talking = true;
+								Textbox.setTextWriting(true);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								giovanniTalking = false;
+								if (MasseyMon.frame.getGymBattles().get(2).get(3) == false){
+									MasseyMon.frame.getGymBattles().get(2).set(3, true);
+									MasseyMon.frame.inBattle = true;
+									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(2).get(3));
+									oneTimeTalk = false;
+									talkDone = false;
+								}
+							}
 						}
 						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
 							championTalking = true;
@@ -2202,7 +2306,7 @@ class GamePanel extends JPanel {
 							} else {
 								myGuy.setScreenX(MasseyMon.getMap(picIndex).getStartPosX());
 							}
-						} else if (checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
+						} else if ((checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2213,14 +2317,27 @@ class GamePanel extends JPanel {
 							else{
 								talkDone = true;
 							}
-							if (talkDone){
-								MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
-								MasseyMon.frame.inBattle = true;
-								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
-								oneTimeTalk = false;
-								talkDone = false;
+							if (talkDone) {
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false){
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(0, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(0));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(0).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
 							}
-						} else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
+						}else if (checkTrainer2(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2239,7 +2356,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
-						else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
+						else if (checkTrainer3(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2257,7 +2374,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
-						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
+						else if (checkTrainer4(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2276,7 +2393,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
-						else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
+						else if (checkTrainer5(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(4).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2295,7 +2412,7 @@ class GamePanel extends JPanel {
 								talkDone = false;
 							}
 						}
-							else if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(5).get(routeIndex) == false) {
+							else if (checkTrainer6(myGuy.getWorldX(), myGuy.getWorldY() + 20, myGuy.getWorldX() + 20, myGuy.getWorldY() + 20) && MasseyMon.frame.getBattles().get(5).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2383,7 +2500,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(20);
 							myGuy.setScreenY(398);
 						}
-						else if (checkTrainer1(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
+						else if (checkTrainer1(myGuy.getWorldX() + 26, myGuy.getWorldY() , myGuy.getWorldX() + 26, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(0).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2401,7 +2518,7 @@ class GamePanel extends JPanel {
 								oneTimeTalk = false;
 								talkDone = false;
 							}
-						} else if (checkTrainer2(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false) {
+						} else if ((checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY(), myGuy.getWorldX() + 26, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX() + 26, myGuy.getWorldY() , myGuy.getWorldX() + 26, myGuy.getWorldY() + 19)))) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2412,14 +2529,27 @@ class GamePanel extends JPanel {
 							else{
 								talkDone = true;
 							}
-							if (talkDone){
-								MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
-								MasseyMon.frame.inBattle = true;
-								MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
-								oneTimeTalk = false;
-								talkDone = false;
+							if (talkDone) {
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false) {
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(1, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(1));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(1).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
 							}
-						} else if (checkTrainer3(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
+						}  else if (checkTrainer3(myGuy.getWorldX() + 20, myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2505,7 +2635,102 @@ class GamePanel extends JPanel {
 							myGuy.setScreenX(800);
 							myGuy.setScreenY(275);
 						}
-						else if (checkTrainer4(myGuy.getWorldX() -1 , myGuy.getWorldY() - 1, myGuy.getWorldX() - 1, myGuy.getWorldY() - 1) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
+						else if ((checkTrainer1(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false && checkTrainer1(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19))) {
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone) {
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(0) == false){
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(0, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(0));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(0).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(0).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(0).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+							}
+						}
+						else if ((checkTrainer2(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(1).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false && (checkTrainer2(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19)))) {
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone) {
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(1) == false) {
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(1, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(1));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(1).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(1).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(1).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+							}
+						}
+						else if ((checkTrainer3(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(2).get(routeIndex) == false && !checking) || (checking && MasseyMon.frame.getGymBattles().get(gymIndex).get(2) == false && (checkTrainer3(myGuy.getWorldX() - 1, myGuy.getWorldY(), myGuy.getWorldX() - 1, myGuy.getWorldY() + 19)))) {
+							if (!oneTimeTalk) {
+								talking = true;
+								trainerText = true;
+								Textbox.setTextWriting(true);
+								trainerTextIndex = randint(4, 10);
+								oneTimeTalk = true;
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone) {
+								if (checking){
+									if (MasseyMon.frame.getGymBattles().get(gymIndex).get(2) == false) {
+										MasseyMon.frame.getGymBattles().get(gymIndex).set(2, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(gymIndex).get(2));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+								else{
+									if (MasseyMon.frame.getBattles().get(2).get(routeIndex) == false){
+										MasseyMon.frame.getBattles().get(2).set(routeIndex, true);
+										MasseyMon.frame.inBattle = true;
+										MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getTrainerPokes().get(2).get(routeIndex));
+										oneTimeTalk = false;
+										talkDone = false;
+									}
+								}
+							}
+						}else if (checkTrainer4(myGuy.getWorldX() -1 , myGuy.getWorldY() , myGuy.getWorldX() - 1, myGuy.getWorldY() + 19) && MasseyMon.frame.getBattles().get(3).get(routeIndex) == false) {
 							if (!oneTimeTalk) {
 								talking = true;
 								trainerText = true;
@@ -2892,7 +3117,11 @@ class GamePanel extends JPanel {
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
 		int posY =  MasseyMon.getMap(picIndex).getMapY();
-
+		if (mini){
+			maskPic = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMask();
+			posX = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX();
+			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
+		}
 		int WALL = 0xFFFF80FF;
 		int c = maskPic.getRGB(x - posX, y - posY);
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
@@ -2902,7 +3131,11 @@ class GamePanel extends JPanel {
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
 		int posY =  MasseyMon.getMap(picIndex).getMapY();
-
+		if (mini){
+			maskPic = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMask();
+			posX = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX();
+			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
+		}
 		int WALL = 0xFFFFFF80;
 		int c = maskPic.getRGB(x - posX, y - posY);
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);
@@ -2912,7 +3145,11 @@ class GamePanel extends JPanel {
 		BufferedImage maskPic = MasseyMon.getMap(picIndex).getMask();
 		int posX = MasseyMon.getMap(picIndex).getMapX();
 		int posY =  MasseyMon.getMap(picIndex).getMapY();
-
+		if (mini){
+			maskPic = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMask();
+			posX = MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapX();
+			posY =  MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapY();
+		}
 		int WALL = 0xFF0080FF;
 		int c = maskPic.getRGB(x - posX, y - posY);
 		int d = maskPic.getRGB(x2 - posX, y2 - posY);

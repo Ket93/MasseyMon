@@ -275,21 +275,23 @@ public class PokemonBattle {
             for (int i = 0; i < 6; i++) {
                 if (switchPokeRects[i].contains(mouse)) {
                     if (i != 0) {
-                        if (getMyPokes().get(i).getHP() > 0) {
-                            indexC = i;
-                            if (getDead()){
-                                pokeSwitch(indexC);
-                                String text = String.format("What will %s do?",myCurPoke.getName());
-                                fillTextArray(text);
-                                textIndex++;
-                                myArea.setText(myTexts.get(textIndex));
+                        if (getMyPokes().size() > i){
+                            if (getMyPokes().get(i).getHP() > 0) {
+                                indexC = i;
+                                if (getDead()){
+                                    pokeSwitch(indexC);
+                                    String text = String.format("What will %s do?",myCurPoke.getName());
+                                    fillTextArray(text);
+                                    textIndex++;
+                                    myArea.setText(myTexts.get(textIndex));
+                                }
+                                else{
+                                    cPokes = true;
+                                    setChoice("none");
+                                    doneTurn = true;
+                                }
+                                pressingSound.play();
                             }
-                            else{
-                                cPokes = true;
-                                setChoice("none");
-                                doneTurn = true;
-                            }
-                            pressingSound.play();
                         }
                     }
                 }
@@ -314,8 +316,7 @@ public class PokemonBattle {
                                 if (fleeable){
                                     cBag = true;
                                     setChoice("none");
-                                    pokeC = myCurPoke;
-                                    doneTurn = false;
+                                    pokeC = myCurPoke;doneTurn = false;
                                     pressingSound.play();
                                 }
                             }
@@ -349,27 +350,29 @@ public class PokemonBattle {
             else{
                 for (int i = 0; i < 6; i++) {
                     if (switchPokeRects[i].contains(mouse)) {
-                        Pokemon myPoke = getMyPokes().get(i);
-                        int myPokeHP = getMyPokes().get(i).getHP();
-                        int myPokeMaxHP = getMyPokes().get(i).getMaxHP();
-                        if (itemC >= 0 && itemC <= 4){
-                            if (myPokeHP > 0 && myPokeHP < myPokeMaxHP){
-                                pokeC = myPoke;
-                                cBag = true;
-                                doneTurn = true;
-                                setChoice("none");
-                                setChoosing(false);
-                                pressingSound.play();
+                        if (getMyPokes().size() > i){
+                            Pokemon myPoke = getMyPokes().get(i);
+                            int myPokeHP = getMyPokes().get(i).getHP();
+                            int myPokeMaxHP = getMyPokes().get(i).getMaxHP();
+                            if (itemC >= 0 && itemC <= 4){
+                                if (myPokeHP > 0 && myPokeHP < myPokeMaxHP){
+                                    pokeC = myPoke;
+                                    cBag = true;
+                                    doneTurn = true;
+                                    setChoice("none");
+                                    setChoosing(false);
+                                    pressingSound.play();
+                                }
                             }
-                        }
-                        else if(itemC == 5 || itemC == 6){
-                            if (myPokeHP <= 0){
-                                pokeC = myPoke;
-                                cBag = true;
-                                doneTurn = true;
-                                setChoice("none");
-                                setChoosing(false);
-                                pressingSound.play();
+                            else if(itemC == 5 || itemC == 6){
+                                if (myPokeHP <= 0){
+                                    pokeC = myPoke;
+                                    cBag = true;
+                                    doneTurn = true;
+                                    setChoice("none");
+                                    setChoosing(false);
+                                    pressingSound.play();
+                                }
                             }
                         }
                     }
