@@ -1674,7 +1674,7 @@ class GamePanel extends JPanel {
 							myGuy.setScreenY(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosY());
 							myGuy.setScreenX(MasseyMon.getMiniMap(picIndex, miniPicIndex).getStartPosX());
 						} else if (checkBuilding5(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
-							if (tileText){
+							if (tileText && picIndex == 2){
 								talking = true;
 							}
 							mini = true;
