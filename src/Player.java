@@ -63,40 +63,40 @@ public class Player { // class for the player
 	public void move(int dir,int picIndex,int miniPicIndex,boolean mini) { // method to move the player
 		if (dir == UP) { // if the direction is up
 			if (screenY > 398 || worldY < 398) { // if the player is within boundaries of the world and screen Y
-				screenY -=5; // move the player's screen Y
+				screenY -=1; // move the player's screen Y
 			}
-			worldY -= 5; // move the players world Y
+			worldY -= 1; // move the players world Y
 		} else if (dir == RIGHT) { // if the direction is right
 			if (mini) { // if the playe is on a mini background
 				if (screenX < 478 || worldX > MasseyMon.getMiniMap(picIndex, miniPicIndex).getMapWidth() - 478) { // if the player is within boundries of the world and screen X
-					screenX += 5; // move the player's screen X
+					screenX += 1; // move the player's screen X
 				}
 			}
 				else { // if the player is not on a mini background
 					if (screenX < 478 || worldX > MasseyMon.getMap(picIndex).getMapWidth() - 478) { // re-check the boundaries
-						screenX += 5; // move the player's screen X is they are within it
+						screenX += 1; // move the player's screen X is they are within it
 					}
 				}
-			worldX += 5; // move the player's world X
+			worldX += 1; // move the player's world X
 		}
 		else if (dir == DOWN) { // if the direction is down
 			if (mini){ // if the player is on a mini background
 				if (screenY < 398 || worldY > MasseyMon.getMiniMap(picIndex,miniPicIndex).getMapHeight() - 398){ // checking the boundries to move the screen Y
-					screenY += 5; // moving the screen Y
+					screenY += 1; // moving the screen Y
 				}
 			}
 			else { // if the player is not on a mini background
 				if (screenY < 398 || worldY > MasseyMon.getMap(picIndex).getMapHeight() - 398) { // re-checking the boundries to move the screen Y
-					screenY += 5; // moving the screen Y
+					screenY += 1; // moving the screen Y
 				}
 			}
-			worldY += 5; // moving the world Y
+			worldY += 1; // moving the world Y
 		}
 		else if (dir == LEFT) { // if the direction is left
 			if (screenX > 478 || worldX < 478){ // checking the boundaries to move the screen X
-				screenX -=5; // moving the screen X
+				screenX -=1; // moving the screen X
 			}
-			worldX -= 5; // moving the world X
+			worldX -= 1; // moving the world X
 		}
 
 

@@ -894,7 +894,7 @@ class GamePanel extends JPanel {
 		offsetX = 0;
 		offsetY = 0;
 		starterIndex = 0;
-		picIndex = 2;
+		picIndex = 6;
 		miniPicIndex = -1;
 		hasStarter = false;
 		spacePressed = false;
