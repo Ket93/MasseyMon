@@ -16,79 +16,52 @@ public class Sound { // Class for game sound and sound effects
     private String filePath; // file path of the clip
     FloatControl volume; // volume of clip
     private boolean wasPaused; // if the sound was paused
-    public Sound(String filePath, int volumeLevel){
-        this.filePath = filePath;
+    public Sound(String filePath, int volumeLevel){ // sound class, takes in a file path and a volume level for the sound
+        this.filePath = filePath; // assigning the path
         try {
-            clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip(); // getting the clip
         }
-        catch (LineUnavailableException e) {
+        catch (LineUnavailableException e) { // if the clip isn't there print error
             e.printStackTrace();
         }
-        loadClip();
-        volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        setVolume(volumeLevel);
-        madeSounds.add(this);
+        loadClip(); // loading the clip
+        volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN); // declaring volume
+        setVolume(volumeLevel); // setting volume
+        madeSounds.add(this); // add the sound to the sound array list
     }
-    private void loadClip(){
+    private void loadClip(){ // method to load the clip
         try{
-            inputStream = AudioSystem.getAudioInputStream(new File(filePath));
-            clip.open(inputStream);
+            inputStream = AudioSystem.getAudioInputStream(new File(filePath)); // get the clip at the file path
+            clip.open(inputStream); // open the clip
         }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+        catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) { // otherwise catch the error
             System.out.println("Sound error");
             e.printStackTrace();
         }
     }
-    public void play(){
-        clip.setMicrosecondPosition(0);
-        clip.start();
+    public void play(){ // method to play the clip
+        clip.setMicrosecondPosition(0); // setting the clip position
+        clip.start(); // start the clip
     }
     public void resume(){
         clip.start();
-    }
+    } // method to resume  the clip if it was stopped
     public void stop(){
         clip.stop();
-    }
-    public void closeSound(){
-        clip.close();
-        madeSounds.remove(this);
+    } // method to stop the clip
+    public void closeSound(){ // method to close the clip
+        clip.close(); // close the clip
+        madeSounds.remove(this); // remove the sound from the array list
     }
     public boolean hasStarted(){
         return clip.isOpen();
-    }
+    } // method to check if the clip is open
     public boolean isPlaying(){
         return clip.isActive();
-    }
-    public void setVolume(int volumeLevel){
-        float range = volume.getMaximum() - volume.getMinimum();
-        float gain = (float) (range * (volumeLevel/100.0)) + volume.getMinimum();
-        volume.setValue(gain);
-    }
-    public void setGain(float gain){
-        volume.setValue(gain);
-    }
-    public float getGain(){
-        return volume.getValue();
-    }
-
-    // Static methods
-    public static void pauseAll(){
-        for(Sound sound: madeSounds){
-            if(sound.isPlaying()){
-                sound.stop();
-                sound.wasPaused = true;
-            }
-        }
-    }
-    public static void resumeAll(){
-        for(Sound sound: madeSounds){
-            if(sound.wasPaused){
-                sound.resume();
-                sound.wasPaused = false;
-            }
-        }
-    }
-    public static boolean isMuted(){
-        return isMuted;
+    } // method to check if the clip is currently playing
+    public void setVolume(int volumeLevel){ // method to set the volume of the clip
+        float range = volume.getMaximum() - volume.getMinimum(); // getting the range between the min and max volume
+        float gain = (float) (range * (volumeLevel/100.0)) + volume.getMinimum(); // getting the gain in volume
+        volume.setValue(gain); // setting the volume gain
     }
 }

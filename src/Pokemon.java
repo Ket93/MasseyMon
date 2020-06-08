@@ -1,3 +1,8 @@
+//Dimitrios Christopoulos
+//Pokemon.java
+//Object class for Pokemon. Contains the Pokemon name, type, stats, evolutions, and number.
+// Also draws attacks, pokemon switching, evolution and damage calculations.
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;

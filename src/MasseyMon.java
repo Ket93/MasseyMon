@@ -22,6 +22,7 @@ public class MasseyMon extends JFrame {
 	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>();
 	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 	private ArrayList<ArrayList<ArrayList<Pokemon>>> trainerPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
+	private ArrayList<ArrayList<ArrayList<Pokemon>>> gymPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>();
 	private ArrayList<ArrayList<Boolean>> battledTrainers = new ArrayList<ArrayList<Boolean>>();
 	private Pokemon bulbasaur,charmander,squirtle;
 	public static Image [] starters = new Image [3];
@@ -60,6 +61,8 @@ public class MasseyMon extends JFrame {
 	public ArrayList<ArrayList<Pokemon>> makeEncounters() throws FileNotFoundException {
 		ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList <ArrayList<Pokemon>> brockGym = new ArrayList<ArrayList<Pokemon>>();
+		ArrayList<ArrayList<Pokemon>> mistyGym = new ArrayList<ArrayList<Pokemon>>();
+		ArrayList<ArrayList<Pokemon>> giovanniGym = new ArrayList<ArrayList<Pokemon>>();
 		ArrayList<Pokemon> firstEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> secondEncounters = new ArrayList<Pokemon>();
 		ArrayList<Pokemon> thirdEncounters = new ArrayList<Pokemon>();
@@ -77,7 +80,7 @@ public class MasseyMon extends JFrame {
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
 		Pokemon caterpie = null,weepinBell = null,weepinBell2 = null,poliwhirl = null,poliwhirl2 = null,primeape = null,primeape2 = null,venomoth2 = null,venomoth = null,kabuto5 = null,magneton5 = null,kangaskhan5 = null,golbat4 = null,golbat3 = null,golbat = null,magneton3 = null,magneton4 = null, magneton = null, kabuto = null,magneton2 = null,kabuto2 = null,kabuto3 = null,kabuto4 = null, golbat2 = null,kangaskhan2 = null,kangaskhan3 = null,kangaskhan4 = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
-		Pokemon caterpieEnc = null,BrockGeodude = null, BrockOnix = null, gymRyhorn = null, gymOmanyte = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
+		Pokemon caterpieEnc = null,gymRyhorn2 = null, gymGolem = null, gymGraveler = null, gymGolem2 = null, gymCubone = null, gymOnix = null,giovRhyhorn = null, giovRhydon = null, goivRhyhorn = null, giovGolem = null, giovGraveler = null,MistyStaryu = null, MistyStarmie = null, MistyPsyduck = null, gymTentacool = null,gymStaryu = null, gymSeel = null, gymKrabby = null,BrockGeodude = null, BrockOnix = null, gymRyhorn = null, gymOmanyte = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
 		Attack tackle = null,earthquake = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
@@ -360,6 +363,12 @@ public class MasseyMon extends JFrame {
 				diglett2.learnMove(boneClub);
 				diglett2.learnMove(rockThrow);
 			}
+			else if(i == 51){
+				MistyPsyduck = new Pokemon(line);
+				MistyPsyduck.learnMove(scratch);
+				MistyPsyduck.learnMove(waterGun);
+				MistyPsyduck.learnMove(psybeam);
+			}
 			else if(i == 54){
 				primeape = new Pokemon(line);
 				primeape.learnMove(scratch);
@@ -435,10 +444,40 @@ public class MasseyMon extends JFrame {
 				weepinBellEnc.learnMove(vineWhip);
 				eighthEncounters.add(weepinBellEnc);
 			}
+			else if(i == 69){
+				gymTentacool = new Pokemon(line);
+				gymTentacool.learnMove(waterPulse);
+				gymTentacool.learnMove(acid);
+				gymTentacool.learnMove(tackle);
+			}
 			else if(i == 71){
 				BrockGeodude = new Pokemon(line);
 				BrockGeodude.learnMove(tackle);
 				BrockGeodude.learnMove(rockThrow);
+			}
+			else if(i == 72){
+				gymGraveler = new Pokemon(line);
+				gymGraveler.learnMove(earthquake);
+				gymGraveler.learnMove(scratch);
+				gymGraveler.learnMove(rockThrow);
+				giovGraveler = new Pokemon(line);
+				giovGraveler.learnMove(headbutt);
+				giovGraveler.learnMove(earthquake);
+				giovGraveler.learnMove(rockThrow);
+			}
+			else if(i == 73){
+				gymGolem = new Pokemon(line);
+				gymGolem.learnMove(earthquake);
+				gymGolem.learnMove(headbutt);
+				gymGolem.learnMove(rockThrow);
+				gymGolem2 = new Pokemon(line);
+				gymGolem2.learnMove(earthquake);
+				gymGolem2.learnMove(headbutt);
+				gymGolem2.learnMove(rockThrow);
+				giovGolem = new Pokemon(line);
+				giovGolem.learnMove(headbutt);
+				giovGolem.learnMove(earthquake);
+				giovGolem.learnMove(rockThrow);
 			}
 			else if(i == 79){
 				magneton = new Pokemon(line);
@@ -468,6 +507,11 @@ public class MasseyMon extends JFrame {
 				sixthEncounters.add(magnetonEnc);
 				seventhEncounters.add(magnetonEnc);
 			}
+			else if(i == 83){
+				gymSeel = new Pokemon(line);
+				gymSeel.learnMove(waterPulse);
+				gymSeel.learnMove(scratch);
+			}
 			else if(i == 92){
 				onix = new Pokemon(line);
 				onix.learnMove(rockThrow);
@@ -483,6 +527,22 @@ public class MasseyMon extends JFrame {
 				BrockOnix.learnMove(headbutt);
 				BrockGeodude.learnMove(rockThrow);
 				BrockGeodude.learnMove(boneClub);
+				gymOnix = new Pokemon(line);
+				gymOnix.learnMove(tackle);
+				gymOnix.learnMove(earthquake);
+				gymOnix.learnMove(rockThrow);
+			}
+			else if(i == 95){
+				gymKrabby = new Pokemon(line);
+				gymKrabby.learnMove(scratch);
+				gymKrabby.learnMove(waterPulse);
+				gymKrabby.learnMove(bite);
+			}
+			else if(i == 101){
+				gymCubone = new Pokemon(line);
+				gymCubone.learnMove(boneClub);
+				gymCubone.learnMove(headbutt);
+				gymCubone.learnMove(rockThrow);
 			}
 			else if(i == 108){
 				ryhorn = new Pokemon(line);
@@ -498,6 +558,20 @@ public class MasseyMon extends JFrame {
 				gymRyhorn = new Pokemon(line);
 				gymRyhorn.learnMove(headbutt);
 				gymRyhorn.learnMove(rockThrow);
+				gymRyhorn2 = new Pokemon(line);
+				gymRyhorn2.learnMove(headbutt);
+				gymRyhorn2.learnMove(rockThrow);
+				gymRyhorn2.learnMove(earthquake);
+				giovRhyhorn = new Pokemon(line);
+				giovRhyhorn.learnMove(headbutt);
+				giovRhyhorn.learnMove(earthquake);
+				giovRhyhorn.learnMove(rockThrow);
+			}
+			else if(i == 109){
+				giovRhydon = new Pokemon(line);
+				giovRhydon.learnMove(headbutt);
+				giovRhydon.learnMove(earthquake);
+				giovRhydon.learnMove(rockThrow);
 			}
 			else if(i == 112){
 				kangaskhan = new Pokemon(line);
@@ -526,6 +600,20 @@ public class MasseyMon extends JFrame {
 				kangaskhanEnc.learnMove(lick);
 				sixthEncounters.add(kangaskhanEnc);
 				seventhEncounters.add(kangaskhanEnc);
+			}
+			else if(i == 117){
+				MistyStaryu = new Pokemon(line);
+				MistyStaryu.learnMove(tackle);
+				MistyStaryu.learnMove(waterPulse);
+				gymStaryu = new Pokemon(line);
+				gymStaryu.learnMove(tackle);
+				gymStaryu.learnMove(waterGun);
+			}
+			else if(i == 118){
+				MistyStaryu = new Pokemon(line);
+				MistyStaryu.learnMove(tackle);
+				MistyStaryu.learnMove(waterPulse);
+				MistyStaryu.learnMove(psybeam);
 			}
 			else if(i == 135){
 				gymOmanyte = new Pokemon(line);
@@ -712,6 +800,43 @@ public class MasseyMon extends JFrame {
 		newTrainer.add(BrockGeodude);
 		newTrainer.add(BrockOnix);
 		brockGym.add(newTrainer);
+
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymSeel);
+		newTrainer.add(gymKrabby);
+		mistyGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymTentacool);
+		newTrainer.add(gymStaryu);
+		mistyGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(MistyStarmie);
+		newTrainer.add(MistyPsyduck);
+		newTrainer.add(MistyStaryu);
+		brockGym.add(newTrainer);
+
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymCubone);
+		newTrainer.add(gymOnix);
+		giovanniGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymGraveler);
+		newTrainer.add(gymGolem);
+		giovanniGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(gymRyhorn);
+		newTrainer.add(gymGolem);
+		giovanniGym.add(newTrainer);
+		newTrainer = new ArrayList<Pokemon>();
+		newTrainer.add(giovGolem);
+		newTrainer.add(giovGraveler);
+		newTrainer.add(giovRhydon);
+		newTrainer.add(giovRhyhorn);
+		giovanniGym.add(newTrainer);
+
+		gymPokemon.add(brockGym);
+		gymPokemon.add(mistyGym);
+		gymPokemon.add(giovanniGym);
 
 		trainerPokemon.add(firstTrainers);
 		trainerPokemon.add(secondTrainers);
