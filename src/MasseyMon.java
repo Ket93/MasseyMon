@@ -1131,7 +1131,6 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		starters [1] = ImageIO.read(new File("Sprites/Pokemon/P4.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [2] = ImageIO.read(new File("Sprites/Pokemon/P7.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		allEncounters = makeEncounters();
-		enc = false;
 		for (int j = 0; j < 8; j++){
 			ArrayList<Boolean> newBooleans = new ArrayList<Boolean>();
 			for (int i = 0; i < 14; i++){

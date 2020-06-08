@@ -19,15 +19,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
+    <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="commenting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Pokemon2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Pokemon2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Attack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Attack.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Items.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Pokemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pokemon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/PokemonBattle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonBattle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TypeChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TypeChart.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,20 +143,6 @@
       <workItem from="1590702235160" duration="54473000" />
       <workItem from="1591119497665" duration="13789000" />
       <workItem from="1591233767533" duration="8605000" />
-    </task>
-    <task id="LOCAL-00037" summary="got alot of progress on pokemon battle. Need to use dmg formula, take away hp, and do  ai turn. Should be able to finish it before we hand in progress check tmrw.">
-      <created>1587706699596</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1587706699596</updated>
-    </task>
-    <task id="LOCAL-00038" summary="got alot of progress on pokemon battle. Need to use dmg formula, take away hp, and do  ai turn. Should be able to finish it before we hand in progress check tmrw.">
-      <created>1587786943946</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1587786943947</updated>
     </task>
     <task id="LOCAL-00039" summary="got alot of progress on pokemon battle. Need to use dmg formula, take away hp, and do  ai turn. Should be able to finish it before we hand in progress check tmrw.">
       <created>1587861033948</created>
@@ -490,7 +473,21 @@
       <option name="project" value="LOCAL" />
       <updated>1591596711143</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="commenting">
+      <created>1591614457299</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1591614457299</updated>
+    </task>
+    <task id="LOCAL-00087" summary="commenting">
+      <created>1591614688160</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1591614688160</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -576,26 +573,26 @@
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
     <state x="721" y="211" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591394632023" />
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1591614308408">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1591614663078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
-    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1591614308408">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591614663078" />
+    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1591614663078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
-    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1591614308408">
+    <state width="1877" height="197" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591614663078" />
+    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1591614663077">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
-    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1591614308408">
+    <state width="1877" height="197" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591614663077" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1591614663078">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591614663078" />
     <state width="1877" height="250" key="GridCell.Tab.1.bottom" timestamp="1591603619224">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -620,11 +617,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="277" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1586533160109" />
-    <state x="451" y="183" key="Vcs.Push.Dialog.v2" timestamp="1591596718411">
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2" timestamp="1591614692545">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="361" y="145" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1591586227723" />
-    <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1591596718411" />
+    <state x="451" y="183" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1591614692545" />
     <state x="93" y="93" width="1350" height="638" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1589650453006">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -124,10 +124,10 @@ public class Player { // class for the player
 		}
 	}
 
-	public void updateFrame() {
-		if (wait % delay == 0) {
+	public void updateFrame() {//this method determines which frame will be shown
+		if (wait % delay == 0) {//every time "wait" frames pass, the picture is updated, so extra increases to update the frame
 			extra++;
-			if (extra > 1) {
+			if (extra > 1) {//this makes sure that the variable doesnt become too big, and resets it when neccesary
 				extra = 0;
 			}
 		}
