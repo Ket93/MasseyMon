@@ -1005,7 +1005,7 @@ public class MasseyMon extends JFrame {
 					game.move();
 				}
 				if (game.inGrass && !inBattle){
-					//game.checkGrass();
+					game.checkGrass();
 				}
 				game.repaint();
 			}
@@ -1128,7 +1128,7 @@ class GamePanel extends JPanel {
 		ready = true;
 	}
 	public void checkGrass(){
-		int x = randint(1,350);
+		int x = randint(1,2);
 		if (x == 1 && MasseyMon.frame.inBattle == false && movable){
 			ArrayList<Pokemon> encounters = new ArrayList<Pokemon>();
 			int low = 0;
@@ -1590,7 +1590,9 @@ class GamePanel extends JPanel {
 						}
 						started2 = true;
 					} else {
-						MasseyMon.frame.getPokeBattle().Start(g);
+						try {
+							MasseyMon.frame.getPokeBattle().Start(g);
+						} catch (FileNotFoundException e) { }
 					}
 				}
 			}
@@ -1641,6 +1643,11 @@ class GamePanel extends JPanel {
 				}
 				if (!evolutionMusic.isPlaying()){
 					doneEvo = true;
+				}
+			}
+			if (keys[KeyEvent.VK_BACK_SPACE]){
+				if (MasseyMon.frame.inBattle){
+					MasseyMon.frame.getPokeBattle().dontLearnMove();
 				}
 			}
 		}

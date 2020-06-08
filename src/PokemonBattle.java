@@ -21,7 +21,7 @@ public class PokemonBattle {
     private Attack attackC;
     private int indexC,itemC,level;
     private String choice, text;
-    private boolean dead;
+    private boolean dead,learningNewMove;
     private Player curGuy;
     private Pokemon myCurPoke, enemyCurPoke;
     private ArrayList <Pokemon> allPokemon = new ArrayList<Pokemon>();
@@ -31,8 +31,8 @@ public class PokemonBattle {
     private int[] numItems = new int[7];
     private Items myItems;
     private JTextArea myArea;
-    private boolean stopGame;
-    private Attack attackUsed;
+    private boolean stopGame,battleOver2;
+    private Attack attackUsed, moveLearning;
     private boolean choosing, waiting;
     private Pokemon pokeC;
     private Sound pressingSound;
@@ -86,7 +86,9 @@ public class PokemonBattle {
         stopGame = true;
         choice = "none";
         fleeable = true;
+        battleOver2 = false;
         waiting = false;
+        learningNewMove = false;
         for (int i = 0; i < 6; i++) {
             bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
             switchPokeRects[i] = new Rectangle(143, 20 + 105 * i, 650, 105);
@@ -258,15 +260,25 @@ public class PokemonBattle {
         if (getChoice().equals("fight")) {
             for (Rectangle item : rectButtons) {
                 if (item.contains(mouse)) {
-                    if (rectButtons.indexOf(item) < myPokes.get(0).getMoves().size()) {
-                        Pokemon atker = myPokes.get(0);
-                        attackC = atker.getMoves().get(rectButtons.indexOf(item));
-                        if (attackC.getPP() > 0){
-                            cFight = true;
-                            setChoice("none");
-                            doneTurn = true;
-                            pressingSound.play();
+                    if (!learningNewMove){
+                        if (rectButtons.indexOf(item) < myPokes.get(0).getMoves().size()) {
+                            Pokemon atker = myPokes.get(0);
+                            attackC = atker.getMoves().get(rectButtons.indexOf(item));
+                            if (attackC.getPP() > 0){
+                                cFight = true;
+                                setChoice("none");
+                                doneTurn = true;
+                                pressingSound.play();
+                            }
                         }
+                    }
+                    else{
+                        ArrayList<Attack> curAttacks = new ArrayList<Attack>();
+                        curAttacks = myCurPoke.getMoves();
+                        curAttacks.set(rectButtons.indexOf(item),moveLearning);
+                        learningNewMove = false;
+                        String text = String.format("%s learned %s",myCurPoke.getName(),moveLearning.getName());
+                        fillTextArray(text);
                     }
                 }
             }
@@ -422,9 +434,22 @@ public class PokemonBattle {
         }
         return last;
     }
+    public void dontLearnMove(){
+        setChoice("none");
+        learningNewMove = false;
+    }
     public void fillTextArray(String s){
+        if (learningNewMove == false){
+            myTexts.add(s);
+            stopGame = true;
+        }
+    }
+    public void fillTextArraySpecial(String s){
         myTexts.add(s);
         stopGame = true;
+    }
+    public void setMoveLearning(Attack atk){
+        moveLearning = atk;
     }
     public void setFleeable(boolean b){
         fleeable = b;
@@ -500,7 +525,7 @@ public class PokemonBattle {
         Point mouse = getMousePosition2();
         g.drawImage(pokeArenaBack, 0, -5, null);
         myCurPoke.drawGood(g);
-        if (!waiting){
+        if (!waiting && !learningNewMove){
             enemyCurPoke.drawBad(g);
         }
         g.setColor(Color.BLACK);
@@ -646,10 +671,10 @@ public class PokemonBattle {
         String text = String.format("You used a %s on %s!",curGuy.getItems().getUsed(),pokeC.getName());
         fillTextArray(text);
     }
-    public void Start(Graphics g){
+    public void Start(Graphics g) throws FileNotFoundException {
         enemyCurPoke = enemyPokes.get(0);
         myCurPoke = myPokes.get(0);
-        if (doneTurn) {
+        if (doneTurn && learningNewMove == false) {
             if (enemyCurPoke.getSpeed() > myCurPoke.getSpeed() && cBag == false && cPokes == false && cRun == false) {
                 AITurn(enemyCurPoke);
                 draw(g);
@@ -671,68 +696,84 @@ public class PokemonBattle {
                 }
             }
             else {
-                if (cFight) {
-                    myTurnAttack();
-                    cFight = false;
-                } else if (cPokes) {
-                    myTurnSwitch();
-                    cPokes = false;
-                } else if (cRun) {
-                    myTurnRun();
-                    cRun = false;
-                }
-                else if(cBag){
-                    myTurnBag();
-                    cBag = false;
-                }
-                if (enemyCurPoke.getHP() > 0){
-                    AITurn(enemyCurPoke);
+                if (learningNewMove == false){
+                    if (cFight) {
+                        myTurnAttack();
+                        cFight = false;
+                    } else if (cPokes) {
+                        myTurnSwitch();
+                        cPokes = false;
+                    } else if (cRun) {
+                        myTurnRun();
+                        cRun = false;
+                    }
+                    else if(cBag){
+                        myTurnBag();
+                        cBag = false;
+                    }
+                    if (enemyCurPoke.getHP() > 0){
+                        AITurn(enemyCurPoke);
+                    }
                 }
             }
-            if (myCurPoke.getHP() <= 0){
-                setDead(true);
-                String text = String.format("%s fainted!",myCurPoke.getName());
-                fillTextArray(text);
-            }
-            if (enemyCurPoke.getHP() <= 0){
-                upgradeTeam();
-                String text = String.format("The enemy %s fainted!",enemyCurPoke.getName());
-                fillTextArray(text);
-                AISwitch();
-                String text2 = String.format("The enemy trainer sent out %s!",enemyCurPoke.getName());
-                fillTextArray(text2);
-                waiting = true;
-            }
-            doneTurn = false;
-            if (myCurPoke.getHP() > 0){
-                String text = String.format("What will %s do?",myCurPoke.getName());
-                fillTextArray(text);
-                textIndex++;
-                myArea.setText(myTexts.get(textIndex));
+            if (!battleOver2 && learningNewMove == false){
+                if (myCurPoke.getHP() <= 0){
+                    setDead(true);
+                    String text = String.format("%s fainted!",myCurPoke.getName());
+                    fillTextArray(text);
+                }
+                if (enemyCurPoke.getHP() <= 0){
+                    upgradeTeam();
+                    String text = String.format("The enemy %s fainted!",enemyCurPoke.getName());
+                    fillTextArray(text);
+                    AISwitch();
+                    String text2 = String.format("The enemy trainer sent out %s!",enemyCurPoke.getName());
+                    fillTextArray(text2);
+                    waiting = true;
+                }
+                doneTurn = false;
+                if (myCurPoke.getHP() > 0){
+                    String text = String.format("What will %s do?",myCurPoke.getName());
+                    fillTextArray(text);
+                    textIndex++;
+                    myArea.setText(myTexts.get(textIndex));
+                }
             }
         }
         draw(g);
         update();
-        if (battleOver().equals("") == false){
+        if (battleOver().equals("") == false && learningNewMove == false){
             for (Pokemon item: myPokes){
                 if (item.getEvolveAtEnd()){
                     evolutions.add(item);
                 }
             }
+            if (battleOver().equals("win")){
+                int x = randint(500,1000);
+                curGuy.addMoney(x);
+            }
+            else{
+                MasseyMon.frame.getGame().dieInBattle();
+            }
             MasseyMon.frame.inBattle = false;
         }
+    }
+    public static int randint(int low, int high){
+        return (int)(Math.random()*(high-low+1)+low);
+    }
+    public void pokeLearningMove(Attack atk){
+        setChoice("fight");
+        learningNewMove = true;
+        myArea.setFont(smallerGameFont);
+        String text = String.format("%s would like to learn the new move %s, which move will he forget? Press backspace to not learn the move.",myCurPoke.getName(),atk.getName());
+        fillTextArraySpecial(text);
     }
     public JTextArea getMyArea(){
         return myArea;
     }
-    public void upgradeTeam(){
+    public void upgradeTeam() throws FileNotFoundException {
+        myCurPoke.gainXP(enemyCurPoke.getLevel());
         for (Pokemon item: myPokes){
-            if (item == myCurPoke){
-                item.gainXP(enemyCurPoke.getLevel());
-            }
-            else{
-                item.gainXP(enemyCurPoke.getLevel()/2);
-            }
             if (item.getLevel() == 15){
                 if (item.shouldEvolve()){
                     item.setEvolveAtEnd(true);
