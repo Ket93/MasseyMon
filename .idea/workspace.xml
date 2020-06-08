@@ -19,13 +19,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="Added title and overworld Music">
       <change beforePath="$PROJECT_DIR$/Data/Moves.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Moves.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Pokemon2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Pokemon2.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Items.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TypeChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TypeChart.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P115.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P115.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P34.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P34.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P41M.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P41M.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P42.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P42.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P9.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Attack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Attack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PokemonMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Textbox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Textbox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pokeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pokeMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pokeMapMini.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pokeMapMini.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -499,12 +505,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

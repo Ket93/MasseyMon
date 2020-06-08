@@ -1,3 +1,8 @@
+//Kevin Cui
+//pokeMapMini.java
+//Class for mini backgrounds. Each background contains some mini backgrounds that you can enter from the background.
+//Contains the image, mask, where it should be drawn, dimensions, and where the player will spawn on the image.
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

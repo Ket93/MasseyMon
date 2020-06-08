@@ -1,3 +1,8 @@
+//Kevin Cui
+//Menu.java
+//Class for the menu screen. This class allows the user to select and go into the item or Pokemon menu classes.
+//It will display a box with the options for those menus and an exit
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;

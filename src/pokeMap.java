@@ -1,3 +1,9 @@
+//Kevin Cui
+//pokeMap.java
+//Object class for background maps. The class contains the image, the mask, where it should be drawn, the dimensions of the map
+//and where the player will be spawned on each map.
+
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;

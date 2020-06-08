@@ -1,3 +1,9 @@
+//Kevin Cui
+//PokemonMenu.java
+//Class that displays the Pokemon screen on the menu. It displays the Pokemons image, name, types, HP, and moves.
+//Also has a pointer that allows you to scroll through Pokemon and exit the screen.
+
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
