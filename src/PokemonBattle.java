@@ -33,7 +33,7 @@ public class PokemonBattle {
     private JTextArea myArea;
     private boolean stopGame,battleOver2;
     private Attack attackUsed, moveLearning;
-    private boolean choosing, waiting;
+    private boolean choosing, waiting, waitingEnd;
     private Pokemon pokeC;
     private Sound pressingSound;
     public PokemonBattle(ArrayList <Pokemon> myPokes2, ArrayList <Pokemon> enemyPokes2, Player curGuy2) throws IOException {
@@ -60,16 +60,6 @@ public class PokemonBattle {
             allAttacks.add(newAtk);
         }
         inFile.close();
-        textIndex = 0;
-        myTexts = new ArrayList<String>();
-        fillTextArray("You are battling PKMN Trainer Ronald!");
-        String text = String.format("The enemy trainer sent out %s!",enemyPokes.get(0).getName());
-        fillTextArray(text);
-        String text2 = String.format("You sent out %s!",myPokes.get(0).getName());
-        fillTextArray(text2);
-        String text3 = String.format("What will %s do?",myPokes.get(0).getName());
-        fillTextArray(text3);
-        myArea.setText(myTexts.get(0));
         fightButton = new Rectangle(471, 608, 238, 90);
         bagButton = new Rectangle(710, 608, 238, 90);
         pokeButton = new Rectangle(471, 699, 238, 90);
@@ -84,10 +74,27 @@ public class PokemonBattle {
         rectButtons.add(runButton);
         pressingSound = new Sound("Music/Battle/pressingSound.wav",75);
         stopGame = true;
+        fleeable = MasseyMon.frame.getFleeable();
+        textIndex = 0;
+        myTexts = new ArrayList<String>();
+        if (!fleeable){
+            fillTextArray("You have been challenged by an enemy PKMN Trainer!");
+            String text = String.format("The enemy trainer sent out %s!",enemyPokes.get(0).getName());
+            fillTextArray(text);
+        }
+        else{
+            String text = String.format("A wild %s appeared!",enemyPokes.get(0).getName());
+            fillTextArray(text);
+        }
+        String text2 = String.format("You sent out %s!",myPokes.get(0).getName());
+        fillTextArray(text2);
+        String text3 = String.format("What will %s do?",myPokes.get(0).getName());
+        fillTextArray(text3);
+        myArea.setText(myTexts.get(0));
         choice = "none";
-        fleeable = true;
         battleOver2 = false;
         waiting = false;
+        waitingEnd = false;
         learningNewMove = false;
         for (int i = 0; i < 6; i++) {
             bagRects[i] = new Rectangle(392, 57+80*i, 510, 55);
@@ -324,11 +331,12 @@ public class PokemonBattle {
                     if (bagRects[i].contains(mouse)){
                         if (numItems[i] > 0){
                             itemC = i+6*level;
-                            if (itemC > 6){
+                            if (itemC > 6 && itemC != 11){
                                 if (fleeable){
                                     cBag = true;
                                     setChoice("none");
-                                    pokeC = myCurPoke;doneTurn = false;
+                                    pokeC = myCurPoke;
+                                    doneTurn = true;
                                     pressingSound.play();
                                 }
                             }
@@ -420,6 +428,9 @@ public class PokemonBattle {
                 MasseyMon.frame.inBattle = false;
             }
         }
+    }
+    public void setWaitingEnd(boolean b){
+        waitingEnd = b;
     }
     public boolean isLastAlive(){
         boolean last = false;
@@ -666,10 +677,17 @@ public class PokemonBattle {
         String text = String.format("You switched out into %s!",myCurPoke.getName());
         fillTextArray(text);
     }
-    public void myTurnBag(){
+    public void myTurnBag() throws FileNotFoundException {
+        if (itemC <=10 && itemC >= 7){
+            pokeC = enemyPokes.get(0);
+            myItems.use(pokeC,itemC);
+        }
         myItems.use(pokeC,itemC);
         String text = String.format("You used a %s on %s!",curGuy.getItems().getUsed(),pokeC.getName());
         fillTextArray(text);
+        if (waitingEnd){
+            fillTextArray("And it worked! You captured the wild Pokemon!");
+        }
     }
     public void Start(Graphics g) throws FileNotFoundException {
         enemyCurPoke = enemyPokes.get(0);
@@ -708,10 +726,11 @@ public class PokemonBattle {
                         cRun = false;
                     }
                     else if(cBag){
+                        System.out.println("did turn");
                         myTurnBag();
                         cBag = false;
                     }
-                    if (enemyCurPoke.getHP() > 0){
+                    if (enemyCurPoke.getHP() > 0 && waitingEnd == false){
                         AITurn(enemyCurPoke);
                     }
                 }
@@ -742,17 +761,35 @@ public class PokemonBattle {
         }
         draw(g);
         update();
-        if (battleOver().equals("") == false && learningNewMove == false){
+        if ((battleOver().equals("") == false && learningNewMove == false || waitingEnd && textIndex+1 == myTexts.size())){
             for (Pokemon item: myPokes){
                 if (item.getEvolveAtEnd()){
                     evolutions.add(item);
                 }
             }
-            if (battleOver().equals("win")){
-                int x = randint(500,1000);
-                curGuy.addMoney(x);
+            if (battleOver().equals("win") || waitingEnd){
+                if (MasseyMon.frame.getBattlingBrock()){
+                    MasseyMon.frame.setBeatBrock(true);
+                }
+                else if (MasseyMon.frame.getBattlingMisty()){
+                    MasseyMon.frame.setBeatMisty(true);
+                }
+                else if (MasseyMon.frame.getBattlingGiov()){
+                    MasseyMon.frame.setBeatBrock(true);
+                }
+                else if (MasseyMon.frame.getBattlingChamp()){
+                    MasseyMon.frame.setBeatBrock(true);
+                }
+                if (fleeable == false){
+                    int x = randint(500,1000);
+                    curGuy.addMoney(x);
+                }
             }
             else{
+                if (fleeable == false){
+                    int x = randint(500,1000);
+                    curGuy.addMoney(-1*x);
+                }
                 MasseyMon.frame.getGame().dieInBattle();
             }
             MasseyMon.frame.inBattle = false;

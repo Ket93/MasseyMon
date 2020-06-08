@@ -15,7 +15,6 @@ public class Attack{ // class for Pokemon attacks
 
     public Attack(String line){ // constructor method
         stats = line.split(","); // splitting up the stats array at the commas
-        System.out.println(stats[0]);
         name = stats[0]; // setting the name of the attack
         type = stats[1]; // setting the type of the attack
         dmgType = stats[2]; // setting the damage type of the attack (physical, special)

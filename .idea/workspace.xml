@@ -20,17 +20,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="245dfed2-e3aa-4f41-ac6b-614e618bfc55" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Images/Masks/Background2Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/Masks/Background2Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Images/MiniMasks/Town 2/Background4Mask.png" beforeDir="false" afterPath="$PROJECT_DIR$/Images/MiniMasks/Town 2/Background4Mask.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P111.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P111.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P112.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P112.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P138.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P138.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P75.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P75.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Sprites/Pokemon/P76.png" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/Pokemon/P76.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Pokemon2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Pokemon2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Attack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Attack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Items.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/MasseyMon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/MasseyMon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Menu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TitleScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TitleScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Pokemon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Pokemon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PokemonBattle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PokemonBattle.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -504,13 +501,12 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
@@ -580,26 +576,26 @@
     </state>
     <state x="577" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1586198998779" />
     <state x="721" y="211" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1591394632023" />
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1591604321334">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom" timestamp="1591614308408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591604321334" />
-    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1591604321333">
+    <state width="1877" height="197" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
+    <state width="1877" height="197" key="GridCell.Tab.0.center" timestamp="1591614308408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591604321333" />
-    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1591604321333">
+    <state width="1877" height="197" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
+    <state width="1877" height="197" key="GridCell.Tab.0.left" timestamp="1591614308408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591604321333" />
-    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1591604321334">
+    <state width="1877" height="197" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right" timestamp="1591614308408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="203" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591585542010" />
-    <state width="1877" height="197" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591604321334" />
+    <state width="1877" height="197" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591614308408" />
     <state width="1877" height="250" key="GridCell.Tab.1.bottom" timestamp="1591603619224">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

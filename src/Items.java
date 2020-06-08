@@ -6,6 +6,7 @@
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Items { // Class for making, using and displaying items
@@ -56,12 +57,32 @@ public class Items { // Class for making, using and displaying items
         g.drawString(text,500,105+75*i+offset); // writing the name of the item
         g.drawString(text2,825,110+75*i+offset); // writing the amount of each item
     }
+
     public static int randint(int low, int high){
         return (int)(Math.random()*(high-low+1)+low);
     } // randint method
-    public void use(Pokemon poke, int i){ // method for item functionality when it is used
-        if (i == 7){
-                int x = randint(1,4);
+    public void use(Pokemon poke, int i) throws FileNotFoundException { // method for item functionality when it is used
+        if (i == 10){
+            System.out.println("used master ball");
+            MasseyMon.frame.captureEnemy();
+        }
+        else if(i == 9){
+            int x = randint(1,4);
+            if (x != 4){
+                MasseyMon.frame.captureEnemy();
+            }
+        }
+        else if(i == 8){
+            int x = randint(1,2);
+            if (x == 1){
+                MasseyMon.frame.captureEnemy();
+            }
+        }
+        else if(i == 7){
+            int x = randint(1,4);
+            if (x == 1){
+                MasseyMon.frame.captureEnemy();
+            }
         }
         if (i == 6){ // for max revive
             if (poke.getHP() <= 0){ // if the pokemon is fainted

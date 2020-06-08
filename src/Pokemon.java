@@ -52,7 +52,7 @@ class Pokemon{
 			finalEvo = true;
 		}
 		level = 5;
-		levelProg = 4*level - 1;
+		levelProg = 0;
 		levelGoal = 4*level;
 		healed = false;
 		try{
@@ -418,7 +418,7 @@ class Pokemon{
 			level++;
 			levelProg -= levelGoal;
 			levelGoal = 4*level;
-			if (moves.get(level-1) != -1){
+			if (moves.get(level) != -1){
 				String line = "";
 				Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 				for (int i = 0; i < moves.get(level); i++){

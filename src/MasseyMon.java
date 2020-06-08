@@ -27,12 +27,14 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 	private ArrayList<Pokemon> enemyPokes = new ArrayList<Pokemon>(); // array list of enemy Pokemon
 	private ArrayList<ArrayList<Pokemon>> allEncounters = new ArrayList<ArrayList<Pokemon>>(); // array list of encounterable Pokemon
 	private ArrayList<ArrayList<ArrayList<Pokemon>>> trainerPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>(); // array list of trainer's Pokemon
+	private ArrayList<Pokemon> champPokes = new ArrayList<Pokemon>();
 	private ArrayList<ArrayList<ArrayList<Pokemon>>> gymPokemon = new ArrayList<ArrayList<ArrayList<Pokemon>>>(); // array list of Pokemon in a gym
 	private ArrayList<ArrayList<Boolean>> battledTrainers = new ArrayList<ArrayList<Boolean>>(); // array list of trainers you've battled
 	private ArrayList<ArrayList<Boolean>> battledGymTrainers = new ArrayList<ArrayList<Boolean>>();
 	private Pokemon bulbasaur,charmander,squirtle; // starter pokemon
 	public static Image [] starters = new Image [3]; // images for starter pokemon
 	private PokemonBattle pokeBattle; // PokemonBattle object
+	private boolean enc,beatBrock,beatMisty,beatGiov,beatChamp,battlingBrock,battlingMisty,battlingGiov,battlingChamp;
 	public MasseyMon() throws IOException{ // constructor method
 		super("MasseyMon"); // title of the window
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,6 +51,57 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 	public static void main(String[] args) throws IOException{ // main method
 		frame = new MasseyMon(); // creates frame
 	}
+	public boolean getBeatChamp(){
+		return beatChamp;
+	}
+	public boolean getBeatBrock(){
+		return beatBrock;
+	}
+	public boolean getBeatMisty(){
+		return beatMisty;
+	}
+	public boolean getBeatGiov(){
+		return beatGiov;
+	}
+	public boolean getBattlingChamp(){
+		return battlingChamp;
+	}
+	public boolean getBattlingBrock(){
+		return battlingBrock;
+	}
+	public boolean getBattlingMisty(){
+		return battlingMisty;
+	}
+	public boolean getBattlingGiov(){
+		return battlingGiov;
+	}
+	public void setBeatChamp(boolean b){
+		beatChamp = b;
+	}
+	public void setBeatBrock(boolean b){
+		beatBrock = b;
+	}
+	public void setBeatMisty(boolean b){
+		beatMisty = b;
+	}
+	public void setBeatGiov(boolean b){
+		beatGiov = b;
+	}
+	public void setBattlingChamp(boolean b){
+		battlingChamp = b;
+	}
+	public void setBattlingBrock(boolean b){
+		battlingBrock = b;
+	}
+	public void setBattlingMisty(boolean b){
+		battlingMisty = b;
+	}
+	public void setBattlingGiov(boolean b){
+		battlingGiov = b;
+	}
+	public ArrayList<Pokemon> getChampPokes(){
+		return champPokes;
+	}
 	public ArrayList<ArrayList<ArrayList<Pokemon>>> getGymPokemon(){return gymPokemon;}
 	public ArrayList<ArrayList<Boolean>> getBattles(){
 		return battledTrainers;
@@ -56,12 +109,46 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 	public ArrayList<ArrayList<ArrayList<Pokemon>>> getTrainerPokes(){
 		return trainerPokemon;
 	} // getter for trainer pokemon
+	public void captureEnemy() throws FileNotFoundException {
+		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
+		Scanner inFile3 = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
+		String line = "";
+		Pokemon newPoke = null;
+		while (inFile2.hasNext()){
+			line = inFile2.nextLine();
+			if (line.split(",")[1].equals(enemyPokes.get(0).getName())){
+				newPoke = new Pokemon(line);
+				break;
+			}
+		}
+		for (Attack item: enemyPokes.get(0).getMoves()){
+			String line2 = "";
+			while (inFile3.hasNext()){
+				if (line2.split(",")[0].equals(item.getName())){
+					Attack newAtk = new Attack(line2);
+					newPoke.learnMove(newAtk);
+				}
+				line2 = inFile3.nextLine();
+			}
+		}
+		getMyPokes().add(newPoke);
+		pokeBattle.setWaitingEnd(true);
+	}
 	public GamePanel getGame() {
 		return game;
 	} // getter for game
+	public boolean getFleeable(){
+		return enc;
+	}
 	public ArrayList<ArrayList<Pokemon>> getAllEncounters(){
 		return allEncounters;
 	} // getter for encounters
+	public boolean readyForChamp(){
+		if (beatBrock && beatMisty && beatGiov){
+			return true;
+		}
+		return false;
+	}
 	public ArrayList<Pokemon> getEnemyPokes(){
 		return enemyPokes;
 	} // getter for enemy pokemon
@@ -86,9 +173,9 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		ArrayList<ArrayList<Pokemon>> sixthTrainers = new ArrayList<ArrayList<Pokemon>>();
 		Scanner inFile = new Scanner(new BufferedReader(new FileReader("Data/Moves.txt")));
 		Scanner inFile2 = new Scanner(new BufferedReader(new FileReader("Data/Pokemon2.txt")));
-		Pokemon caterpie = null,weepinBell = null,weepinBell2 = null,poliwhirl = null,poliwhirl2 = null,primeape = null,primeape2 = null,venomoth2 = null,venomoth = null,kabuto5 = null,magneton5 = null,kangaskhan5 = null,golbat4 = null,golbat3 = null,golbat = null,magneton3 = null,magneton4 = null, magneton = null, kabuto = null,magneton2 = null,kabuto2 = null,kabuto3 = null,kabuto4 = null, golbat2 = null,kangaskhan2 = null,kangaskhan3 = null,kangaskhan4 = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
+		Pokemon caterpie = null, champDragonite = null, champPikachu = null, champGengar = null, champSnorlax = null, champMachamp = null,weepinBell = null,weepinBell2 = null,poliwhirl = null,poliwhirl2 = null,primeape = null,primeape2 = null,venomoth2 = null,venomoth = null,kabuto5 = null,magneton5 = null,kangaskhan5 = null,golbat4 = null,golbat3 = null,golbat = null,magneton3 = null,magneton4 = null, magneton = null, kabuto = null,magneton2 = null,kabuto2 = null,kabuto3 = null,kabuto4 = null, golbat2 = null,kangaskhan2 = null,kangaskhan3 = null,kangaskhan4 = null, kangaskhan = null,growlithe = null, weedle = null, ekans2 = null,vulpix = null, oddish = null, meowth = null, caterpie2= null, weedle2 = null, paras = null, ekans = null, caterpie3 = null, paras2 = null,weedle3 = null, rattata = null,diglett2 = null,diglett = null,machop2 = null, machop = null, onix = null, onix2 = null,ryhorn2 = null,ryhorn = null;
 		Pokemon caterpieEnc = null,gymRyhorn2 = null, gymGolem = null, gymGraveler = null, gymGolem2 = null, gymCubone = null, gymOnix = null,giovRhyhorn = null, giovRhydon = null, goivRhyhorn = null, giovGolem = null, giovGraveler = null,MistyStaryu = null, MistyStarmie = null, MistyPsyduck = null, gymTentacool = null,gymStaryu = null, gymSeel = null, gymKrabby = null,BrockGeodude = null, BrockOnix = null, gymRyhorn = null, gymOmanyte = null,weepinBellEnc = null,poliwhirlEnc = null,primeapeEnc = null,venomothEnc = null, golbatEnc = null, magnetonEnc = null, kabutoEnc = null, kangaskhanEnc = null,caterpieEnc2 = null,growlitheEnc = null,weedleEnc = null,weedleEnc2 = null,pidgeyEnc = null,rattataEnc = null,parasEnc = null,ekansEnc = null,vulpixEnc = null, oddishEnc = null,meowthEnc = null,abraEnc = null, ekansEnc2 = null,diglettEnc = null, machopEnc = null, onixEnc = null, ryhornEnc = null;
-		Attack tackle = null,earthquake = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
+		Attack tackle = null,submission = null, jumpKick = null, highJumpKick = null,sludge = null,dreamEater = null,quickAttack = null, thunder = null, swift = null,slam = null, viseGrip = null, rockSlide = null,thunderBolt = null,icePunch = null,megaPunch = null,earthquake = null,acid = null,leechLife = null,rollingKick = null, vineWhip = null, waterPulse = null, waterGun = null, bodySlam = null,lick = null,cut = null, thunderPunch = null,psybeam = null, wingAttack = null, peck = null,pin = null, smog = null, bite = null, headbutt = null, karate = null, firePunch = null, hornAttack = null, rockThrow = null, boneClub = null,absorb = null, ember = null, bubble = null,scratch = null,stomp = null,confusion = null;
 		for (int i = 0; i < 96; i++){
 			String line2 = inFile.nextLine();
 			if (i == 0){
@@ -115,6 +202,9 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 			else if (i == 17){
 				cut = new Attack(line2);
 			}
+			else if (i == 23){
+				dreamEater = new Attack(line2);
+			}
 			else if(i == 26){
 				earthquake = new Attack(line2);
 			}
@@ -127,8 +217,17 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 			else if(i == 37){
 				headbutt = new Attack(line2);
 			}
+			else if (i == 38){
+				highJumpKick = new Attack(line2);
+			}
 			else if(i == 39){
 				hornAttack = new Attack(line2);
+			}
+			else if (i ==44){
+				icePunch = new Attack (line2);
+			}
+			else if (i==45){
+				jumpKick = new Attack (line2);
 			}
 			else if(i == 46){
 				karate = new Attack(line2);
@@ -139,6 +238,9 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 			else if(i == 48){
 				lick = new Attack(line2);
 			}
+			else if ( i == 51){
+				megaPunch = new Attack (line2);
+			}
 			else if (i == 53){
 				peck = new Attack(line2);
 			}
@@ -147,32 +249,41 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 			}
 			else if(i == 58){
 				psybeam = new Attack(line2);
-			}
-			else if(i == 65){
+			} else if (i == 60) {
+				quickAttack = new Attack(line2);
+			} else if (i == 64) {
+				rockSlide = new Attack(line2);
+			} else if (i == 65) {
 				rockThrow = new Attack(line2);
-			}
-			else if(i == 66){
+			} else if (i == 66) {
 				rollingKick = new Attack(line2);
-			}
-			else if (i == 67){
+			} else if (i == 67) {
 				scratch = new Attack(line2);
-			}
-			else if(i == 74){
+			} else if (i == 71) {
+				slam = new Attack(line2);
+			}else if (i == 73){
+				sludge = new Attack(line2);
+			} else if (i == 74) {
 				smog = new Attack(line2);
-			}
-			else if(i == 77){
+			} else if (i == 77) {
 				stomp = new Attack(line2);
-			}
-			else if (i == 83){
+			}else if (i==80) {
+				submission = new Attack(line2);
+			} else if (i == 82) {
+				swift = new Attack(line2);
+			} else if (i == 83) {
 				tackle = new Attack(line2);
-			}
-			else if (i == 87){
+			} else if (i == 86) {
+				thunder = new Attack(line2);
+			} else if (i == 87) {
 				thunderPunch = new Attack(line2);
-			}
-			else if(i == 91){
+			} else if (i == 88) {
+				thunderBolt = new Attack(line2);
+			} else if (i == 91) {
 				vineWhip = new Attack(line2);
-			}
-			else if(i == 95){
+			} else if (i == 92) {
+				viseGrip = new Attack(line2);
+			} else if (i == 95) {
 				wingAttack = new Attack(line2);
 			}
 		}
@@ -273,6 +384,13 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 				ekans2 = new Pokemon(line);
 				ekans2.learnMove(smog);
 				ekans2.learnMove(bite);
+			}
+			else if ( i == 24){
+				champPikachu = new Pokemon (line);
+				champPikachu.learnMove(thunderBolt);
+				champPikachu.learnMove(thunder);
+				champPikachu.learnMove(quickAttack);
+				champPikachu.learnMove(swift);
 			}
 			else if(i == 34){
 				vulpixEnc = new Pokemon(line);
@@ -436,6 +554,13 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 				machop2.learnMove(karate);
 				machop2.learnMove(headbutt);
 			}
+			else if ( i ==65){
+				champMachamp = new Pokemon (line);
+				champMachamp.learnMove(karate);
+				champMachamp.learnMove(submission);
+				champMachamp.learnMove(highJumpKick);
+				champMachamp.learnMove(jumpKick);
+			}
 			else if(i == 67){
 				weepinBell = new Pokemon(line);
 				weepinBell.learnMove(tackle);
@@ -539,6 +664,13 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 				gymOnix.learnMove(earthquake);
 				gymOnix.learnMove(rockThrow);
 			}
+			else if (i == 93){
+				champGengar = new Pokemon (line);
+				champGengar.learnMove(sludge);
+				champGengar.learnMove(psybeam);
+				champGengar.learnMove(dreamEater);
+				champGengar.learnMove(lick);
+			}
 			else if(i == 95){
 				gymKrabby = new Pokemon(line);
 				gymKrabby.learnMove(scratch);
@@ -622,6 +754,12 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 				MistyStaryu.learnMove(waterPulse);
 				MistyStaryu.learnMove(psybeam);
 			}
+			else if(i == 119){
+				MistyStarmie = new Pokemon(line);
+				MistyStarmie.learnMove(tackle);
+				MistyStarmie.learnMove(waterPulse);
+				MistyStarmie.learnMove(psybeam);
+			}
 			else if(i == 135){
 				gymOmanyte = new Pokemon(line);
 				gymOmanyte.learnMove(tackle);
@@ -656,6 +794,20 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 				sixthEncounters.add(kabutoEnc);
 				seventhEncounters.add(kabutoEnc);
 			}
+			else if ( i== 142){
+				champSnorlax = new Pokemon (line);
+				champSnorlax.learnMove(bodySlam);
+				champSnorlax.learnMove(rockSlide);
+				champSnorlax.learnMove(viseGrip);
+				champSnorlax.learnMove(slam);
+			}
+			else if (i == 148) {
+				champDragonite = new Pokemon(line);
+				champDragonite.learnMove(stomp);
+				champDragonite.learnMove(thunderBolt);
+				champDragonite.learnMove(icePunch);
+				champDragonite.learnMove(megaPunch);
+			}
 		}
 		allEncounters.add(firstEncounters);
 		allEncounters.add(secondEncounters);
@@ -668,9 +820,11 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 
 		ArrayList<Pokemon> newTrainer = new ArrayList<Pokemon> ();
 		newTrainer.add(caterpie);
+		caterpie.setLevel(3);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(weedle);
+		weedle.setLevel(4);
 		secondTrainers.add(newTrainer);
 		thirdTrainers.add(null);
 		fourthTrainers.add(null);
@@ -679,10 +833,13 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(vulpix);
+		vulpix.setLevel(5);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(oddish);
+		oddish.setLevel(4);
 		newTrainer.add(meowth);
+		meowth.setLevel(5);
 		secondTrainers.add(newTrainer);
 		thirdTrainers.add(null);
 		fourthTrainers.add(null);
@@ -691,27 +848,36 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(caterpie2);
+		caterpie2.setLevel(6);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(weedle2);
+		weedle2.setLevel(6);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(paras);
+		paras.setLevel(7);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(ekans);
+		ekans.setLevel(7);
 		fourthTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(caterpie3);
+		caterpie3.setLevel(7);
 		newTrainer.add(ekans2);
+		ekans2.setLevel(7);
 		fifthTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(weedle3);
 		newTrainer.add(paras2);
+		weedle3.setLevel(7);
+		paras2.setLevel(8);
 		sixthTrainers.add(newTrainer);
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(growlithe);
+		growlithe.setLevel(9);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		secondTrainers.add(null);
@@ -723,18 +889,26 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(diglett);
 		newTrainer.add(ryhorn2);
+		diglett.setLevel(11);
+		ryhorn.setLevel(11);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(machop);
 		newTrainer.add(ryhorn);
+		machop.setLevel(11);
+		ryhorn.setLevel(12);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(onix);
 		newTrainer.add(diglett2);
+		onix.setLevel(12);
+		diglett2.setLevel(12);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(machop2);
 		newTrainer.add(onix2);
+		machop2.setLevel(12);
+		onix2.setLevel(13);
 		fourthTrainers.add(newTrainer);
 		fifthTrainers.add(null);
 		sixthTrainers.add(null);
@@ -742,40 +916,58 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(magneton);
 		newTrainer.add(golbat);
+		magneton.setLevel(13);
+		golbat.setLevel(13);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(kabuto);
 		newTrainer.add(kangaskhan);
+		kabuto.setLevel(13);
+		kangaskhan.setLevel(14);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(magneton2);
 		newTrainer.add(kangaskhan2);
+		magneton2.setLevel(14);
+		kangaskhan2.setLevel(14);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(kabuto2);
 		newTrainer.add(golbat2);
+		kabuto.setLevel(14);
+		golbat2.setLevel(15);
 		fourthTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(magneton5);
 		newTrainer.add(kangaskhan5);
+		magneton5.setLevel(15);
+		kangaskhan5.setLevel(15);
 		fifthTrainers.add(newTrainer);
 		sixthTrainers.add(null);
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(kangaskhan3);
 		newTrainer.add(golbat3);
+		kangaskhan3.setLevel(16);
+		golbat3.setLevel(15);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(kabuto3);
 		newTrainer.add(magneton3);
+		kabuto3.setLevel(16);
+		magneton3.setLevel(16);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(golbat4);
 		newTrainer.add(magneton4);
+		golbat4.setLevel(16);
+		magneton4.setLevel(16);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(kabuto4);
 		newTrainer.add(kangaskhan4);
+		kabuto4.setLevel(16);
+		kangaskhan4.setLevel(17);
 		fourthTrainers.add(newTrainer);
 		fifthTrainers.add(null);
 		sixthTrainers.add(null);
@@ -783,67 +975,102 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(venomoth);
 		newTrainer.add(primeape);
+		venomoth.setLevel(17);
+		primeape.setLevel(18);
 		firstTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(poliwhirl);
 		newTrainer.add(weepinBell);
+		poliwhirl.setLevel(18);
+		weepinBell.setLevel(18);
 		secondTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(poliwhirl2);
-		newTrainer.add(primeape);
+		newTrainer.add(primeape2);
+		poliwhirl2.setLevel(18);
+		primeape2.setLevel(18);
 		thirdTrainers.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
-		newTrainer.add(venomoth);
+		newTrainer.add(venomoth2);
 		newTrainer.add(weepinBell2);
+		venomoth2.setLevel(19);
+		weepinBell2.setLevel(19);
 		fourthTrainers.add(newTrainer);
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymOmanyte);
+		gymOmanyte.setLevel(9);
 		brockGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymRyhorn);
+		gymRyhorn.setLevel(10);
 		brockGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(BrockGeodude);
 		newTrainer.add(BrockOnix);
+		BrockGeodude.setLevel(12);
+		BrockOnix.setLevel(13);
 		brockGym.add(newTrainer);
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymSeel);
 		newTrainer.add(gymKrabby);
+		gymSeel.setLevel(17);
+		gymKrabby.setLevel(18);
 		mistyGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymTentacool);
 		newTrainer.add(gymStaryu);
+		gymTentacool.setLevel(18);
+		gymStaryu.setLevel(19);
 		mistyGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(MistyStarmie);
 		newTrainer.add(MistyPsyduck);
 		newTrainer.add(MistyStaryu);
+		MistyStarmie.setLevel(22);
+		MistyPsyduck.setLevel(19);
+		MistyStaryu.setLevel(20);
 		brockGym.add(newTrainer);
 
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymCubone);
 		newTrainer.add(gymOnix);
+		gymCubone.setLevel(20);
+		gymOnix.setLevel(20);
 		giovanniGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymGraveler);
 		newTrainer.add(gymGolem);
+		gymGraveler.setLevel(20);
+		gymGolem.setLevel(22);
 		giovanniGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(gymRyhorn);
-		newTrainer.add(gymGolem);
+		newTrainer.add(gymGolem2);
+		gymRyhorn.setLevel(21);
+		gymGolem2.setLevel(23);
 		giovanniGym.add(newTrainer);
 		newTrainer = new ArrayList<Pokemon>();
 		newTrainer.add(giovGolem);
 		newTrainer.add(giovGraveler);
 		newTrainer.add(giovRhydon);
 		newTrainer.add(giovRhyhorn);
+		giovGolem.setLevel(26);
+		giovGolem.setLevel(24);
+		giovRhydon.setLevel(26);
+		giovRhyhorn.setLevel(24);
 		giovanniGym.add(newTrainer);
 
 		gymPokemon.add(brockGym);
 		gymPokemon.add(mistyGym);
 		gymPokemon.add(giovanniGym);
+
+		champPokes.add(champMachamp);
+		champPokes.add(champGengar);
+		champPokes.add(champPikachu);
+		champPokes.add(champSnorlax);
+		champPokes.add(champDragonite);
 
 		trainerPokemon.add(firstTrainers);
 		trainerPokemon.add(secondTrainers);
@@ -858,17 +1085,16 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		return game.getTextArea();
 	}
 	public void startBattle(Graphics g, Player myGuy) throws IOException { // method to start a Pokemon battle
-		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy); // making a Pokemon battle object
+		enc = false;
 		for (ArrayList<Pokemon> item: allEncounters){
 			for (Pokemon item2: item){
 				if(item2 == enemyPokes.get(0)){
-					pokeBattle.setFleeable(true);
-				}
-				else{
-					pokeBattle.setFleeable(false);
+					enc = true;
 				}
 			}
 		}
+		System.out.println(getFleeable());
+		pokeBattle = new PokemonBattle(myPokes, enemyPokes, myGuy); // making a Pokemon battle object
 		pokeBattle.Start(g);
 	}
 	public void setEnemyPokes(ArrayList<Pokemon> newPokes){
@@ -905,6 +1131,7 @@ public class MasseyMon extends JFrame { // MasseyMon class to create trainers an
 		starters [1] = ImageIO.read(new File("Sprites/Pokemon/P4.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		starters [2] = ImageIO.read(new File("Sprites/Pokemon/P7.png")).getScaledInstance(200,200,Image.SCALE_SMOOTH);
 		allEncounters = makeEncounters();
+		enc = false;
 		for (int j = 0; j < 8; j++){
 			ArrayList<Boolean> newBooleans = new ArrayList<Boolean>();
 			for (int i = 0; i < 14; i++){
@@ -1064,7 +1291,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 		offsetX = 0;
 		offsetY = 0;
 		starterIndex = 0;
-		picIndex = 2;
+		picIndex = 0;
 		miniPicIndex = -1;
 		hasStarter = false;
 		spacePressed = false;
@@ -1127,7 +1354,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 		ready = true;
 	}
 	public void checkGrass(){ // method to check for wild encounters
-		int x = randint(1,350);
+		int x = randint(1,250);
 		if (x == 1 && MasseyMon.frame.inBattle == false && movable){
 			ArrayList<Pokemon> encounters = new ArrayList<Pokemon>();
 			int low = 0;
@@ -2083,7 +2310,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to brock and then checking the same as the trainers
-						else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getGymBattles().get(0).get(2) == false) {
+						else if (checkBrock(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatBrock() == false && MasseyMon.frame.getBattlingBrock() == false) {
 							if (!oneTimeTalk) {
 								brockTalking = true;
 								oneTimeTalk = true;
@@ -2095,8 +2322,8 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 							if (talkDone){
 								brockTalking = false;
-								if (MasseyMon.frame.getGymBattles().get(0).get(2) == false){
-									MasseyMon.frame.getGymBattles().get(0).set(2, true);
+								if (MasseyMon.frame.getBeatBrock() == false){
+									MasseyMon.frame.setBattlingBrock(true);
 									MasseyMon.frame.inBattle = true;
 									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(0).get(2));
 									oneTimeTalk = false;
@@ -2105,7 +2332,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to misty and then checking the same as the trainers
-						else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getGymBattles().get(1).get(2) == false) {
+						else if (checkMisty(myGuy.getWorldX()+10, myGuy.getWorldY() - 10, myGuy.getWorldX() + 10, myGuy.getWorldY() - 10) && MasseyMon.frame.getBeatMisty() == false && MasseyMon.frame.getBattlingMisty() == false) {
 							if (!oneTimeTalk) {
 								mistyTalking = true;
 								oneTimeTalk = true;
@@ -2117,8 +2344,8 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 							if (talkDone){
 								mistyTalking = false;
-								if (MasseyMon.frame.getGymBattles().get(1).get(2) == false){
-									MasseyMon.frame.getGymBattles().get(1).set(2, true);
+								if (MasseyMon.frame.getBeatMisty() == false && MasseyMon.frame.getBeatBrock() == true){
+									MasseyMon.frame.setBattlingMisty(true);
 									MasseyMon.frame.inBattle = true;
 									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(1).get(2));
 									oneTimeTalk = false;
@@ -2127,7 +2354,7 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to giovanni and then checking the same as the trainers
-						else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
+						else if (checkGiovanni(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatGiov() == false && MasseyMon.frame.getBattlingGiov() == false) {
 							if (!oneTimeTalk) {
 								giovanniTalking = true;
 								oneTimeTalk = true;
@@ -2139,8 +2366,8 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 							if (talkDone){
 								giovanniTalking = false;
-								if (MasseyMon.frame.getGymBattles().get(2).get(3) == false){
-									MasseyMon.frame.getGymBattles().get(2).set(3, true);
+								if (MasseyMon.frame.getBeatGiov() == false && MasseyMon.frame.getBeatMisty()){
+									MasseyMon.frame.setBattlingGiov(true);
 									MasseyMon.frame.inBattle = true;
 									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getGymPokemon().get(2).get(3));
 									oneTimeTalk = false;
@@ -2149,11 +2376,28 @@ class GamePanel extends JPanel { // GamePanel class which runs the game and draw
 							}
 						}
 						// checking if the user is talking to the champion and then checking the same as the trainers
-						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5)) {
-							championTalking = true;
-							talking = true;
-							Textbox.setTextWriting(true);
+						else if (checkChampion(myGuy.getWorldX()+10, myGuy.getWorldY() - 5, myGuy.getWorldX() + 10, myGuy.getWorldY() - 5) && MasseyMon.frame.getBeatChamp() == false && MasseyMon.frame.getBattlingChamp() == false) {
+							if (!oneTimeTalk) {
+								championTalking = true;
+								oneTimeTalk = true;
+								talking = true;
+								Textbox.setTextWriting(true);
+							}
+							else{
+								talkDone = true;
+							}
+							if (talkDone){
+								championTalking = false;
+								if (MasseyMon.frame.getBeatChamp() == false && MasseyMon.frame.readyForChamp()){
+									MasseyMon.frame.setBattlingChamp(true);
+									MasseyMon.frame.inBattle = true;
+									MasseyMon.frame.setEnemyPokes(MasseyMon.frame.getChampPokes());
+									oneTimeTalk = false;
+									talkDone = false;
+								}
+							}
 						}
+
 						// checking if the user is within a spot that can encouter a wild pokemon
 						else if (checkWildEncounter(myGuy.getWorldX(), myGuy.getWorldY() - 1, myGuy.getWorldX() + 20, myGuy.getWorldY() - 1)) {
 							inGrass = true; // if they are then set inGrass to true
