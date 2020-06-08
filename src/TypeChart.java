@@ -33,6 +33,7 @@ public class TypeChart{
         tot = types[index1][index2];
         if (def.getType2().equals("N/A") == false){
             int index3 = typeVals.indexOf(def.getType2());
+            System.out.println(def.getType2());
             tot *= types[index3][index1];
         }
         return tot;

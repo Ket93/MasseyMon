@@ -77,8 +77,8 @@
 78,Rapidash,Fire,65,100,70,80,80,105,T
 79,Slowpoke,Water,Psychic,90,65,65,40,40,15,F
 80,Slowbro,Water,Psychic,105,80,110,100,80,30,T
-81,Magnemite,Electric,Steel,25,35,70,95,55,45,F
-82,Magneton,Electric,Steel,50,60,95,120,70,70,T
+81,Magnemite,Electric,25,35,70,95,55,45,F
+82,Magneton,Electric,50,60,95,120,70,70,T
 83,Farfetch'd,Normal,Flying,52,65,55,58,62,60,T
 84,Doduo,Normal,Flying,35,85,45,35,35,75,F
 85,Dodrio,Normal,Flying,60,110,70,60,60,100,T

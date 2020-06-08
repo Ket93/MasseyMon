@@ -24,7 +24,7 @@ public class Items {
             Image pic = ImageIO.read(new File(path));
             pic = pic.getScaledInstance(50,50,Image.SCALE_SMOOTH);
             itemPics[i-1] = pic;
-            nums[i-1] = 0;
+            nums[i-1] = 10;
         }
     }
     public String getUsed(){
